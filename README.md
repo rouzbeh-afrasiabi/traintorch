@@ -1,7 +1,7 @@
 # Traintorch (Alpha Release)
  Package for live visualization of metrics during training of a machine learning model
  
- # Installation
+ ## Installation
  
  ```
  pip install traintorch
@@ -11,11 +11,8 @@ or
  ```
  pip install git+https://github.com/rouzbeh-afrasiabi/traintorch.git
  ```
- <p align='center'>
- <img src='./images/dash.png'></img>
- 
- </p>
- 
+
+## Example 
 ```
 from traintorch import *
 
@@ -35,3 +32,7 @@ for i in range(0,5000,1):
         third.update(result=np.sin(i%3))
         tracker.create(custom_metrics=[first,second,third])
 ```
+ <p align='center'>
+ <img src='./images/dash.png'></img>
+ 
+ </p>
