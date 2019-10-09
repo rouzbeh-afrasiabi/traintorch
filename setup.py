@@ -18,7 +18,7 @@ setuptools.setup(
     'pandas',
     'matplotlib',
     'ipython' 
-    ]
+    ],
     keywords = ['training', 'visualization', 'loss','plot','live','jupyter notebook', 'matplotlib'],
     packages=setuptools.find_packages(),
     classifiers=[
