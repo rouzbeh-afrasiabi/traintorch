@@ -1,7 +1,5 @@
 # Traintorch 
-```diff
-- (Alpha Release)
-```
+### (Alpha Release)
 Package for live visualization of metrics during training of a machine learning model in jupyter notebooks.
  
  ## Installation
