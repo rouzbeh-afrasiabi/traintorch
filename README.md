@@ -2,6 +2,7 @@
 ```
 alpha release
 ```
+<span style="color:blue">some <em>blue</em> text</span>
 
 Package for live visualization of metrics during training of a machine learning model in jupyter notebooks.
  
