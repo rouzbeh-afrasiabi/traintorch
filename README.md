@@ -1,5 +1,7 @@
 # Traintorch 
-### (Alpha Release)
+```sh
+(alpha Release)
+```
 Package for live visualization of metrics during training of a machine learning model in jupyter notebooks.
  
  ## Installation
