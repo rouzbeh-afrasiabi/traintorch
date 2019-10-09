@@ -5,7 +5,10 @@
  
  ```
  pip install traintorch
- or 
+  ```
+or
+
+ ```
  pip install git+https://github.com/rouzbeh-afrasiabi/traintorch.git
  ```
  <p align='center'>
