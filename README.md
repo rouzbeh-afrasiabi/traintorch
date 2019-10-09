@@ -1,7 +1,7 @@
 # Traintorch (alpha)
 
 
-Package for live visualization of metrics during training of a machine learning model in jupyter notebooks.
+Package for live visualization of model validation metrics during training of a machine learning model in jupyter notebooks.
  
 
 ## Requirements:
