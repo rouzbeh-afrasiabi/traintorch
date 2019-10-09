@@ -21,7 +21,7 @@ second=metric('second',w_size=100)
 third=metric('third',w_size=5)
 
 tracker=traintorch(n_custom_plots=3,main_grid_hspace=.1,
-              custom_window=[20,5,10],window=5,figsize=(15,15))
+              window=10,figsize=(15,15))
 
 for i in range(0,5000,1):
 
