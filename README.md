@@ -1,4 +1,4 @@
-# traintorch
+# Traintorch
  Live Visualization for Training Metrics
  
  <p align='center'>
