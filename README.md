@@ -1,4 +1,4 @@
-# Traintorch
+# Traintorch (Alpha Release)
  Package for live visualization of metrics during training of a machine learning model
  
  # Installation
