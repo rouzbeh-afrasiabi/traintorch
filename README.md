@@ -3,7 +3,7 @@
 
 Package for live visualization of metrics during training of a machine learning model in jupyter notebooks.
  
- ## Installation
+ ## Installation:
  
  ```
  pip install traintorch
@@ -13,6 +13,14 @@ or
  ```
  pip install git+https://github.com/rouzbeh-afrasiabi/traintorch.git
  ```
+## Requirements:
+
+```
+pandas==0.25.1
+matplotlib==3.1.1
+ipython==7.8.0
+numpy==1.17.2
+```
 
 ## Example 
 ```python
