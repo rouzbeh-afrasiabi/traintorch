@@ -1,5 +1,8 @@
 # Traintorch 
-alpha Release)
+<div class="text-red">
+  alpha release
+</div>
+
 
 Package for live visualization of metrics during training of a machine learning model in jupyter notebooks.
  
