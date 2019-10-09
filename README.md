@@ -16,7 +16,7 @@ or
  ```
 
 ## Example 
-```
+```python
 from traintorch import *
 
 first=metric('first',w_size=100)
