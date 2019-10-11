@@ -310,7 +310,7 @@ class metric:
         return self.frame().iloc[(-1*self.w_size):,:]
     
 class pycmMetrics():
-    def __init__(self,overall_metrics,class_metrics,name,w_size=10):
+    def __init__(self,overall_metrics=[],class_metrics=[],name='',w_size=10):
         
         self._overall_metrics=['ACC Macro', 'AUNP', 'AUNU', 'Bennett S', 'CBA', 'Chi-Squared',
                         'Chi-Squared DF', 'Conditional Entropy', 'Cramer V',
