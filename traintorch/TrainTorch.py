@@ -404,11 +404,11 @@ class pycmMetrics():
         self._to_dict(_cm)
         if(self.metrics_oa):
             for k,v in self.cm_dict_overall.items():
-                self.metrics_oa[k].update(**{self.name+str(k):v})
+                self.metrics_oa[k].update(**{self.name+'_'+str(k):v})
         if(self.metrics_cls):
             for k,v in self.cm_dict_class.items():
                 if(isinstance(v,dict)):
-                    self.metrics_cls[k].update(**{self.name+str(k)+'_'+str(k_1):v_1 for k_1,v_1 in v.items()})        
+                    self.metrics_cls[k].update(**{self.name+'_'+str(k)+'_'+str(k_1):v_1 for k_1,v_1 in v.items()})        
                 else:
                     self.metrics_cls[k].update(**{k:v})
         self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
