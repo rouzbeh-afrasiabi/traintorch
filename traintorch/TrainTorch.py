@@ -338,8 +338,8 @@ class pycmMetrics():
         self.cm_df_class=pd.DataFrame()
         self.w_size=w_size
         self.metrics={}
-        self.metrics_oa={}
-        self.metrics_cls={}
+        self.metrics_oa={'None'}
+        self.metrics_cls={'None}
         self.overall_metrics=[]
         self.class_metrics=[]      
         self.overall_metrics=overall_metrics
@@ -406,5 +406,5 @@ class pycmMetrics():
                     self.metrics_cls[k].update(**{str(k)+'_'+str(k_1):v_1 for k_1,v_1 in v.items()})        
                 else:
                     self.metrics_cls[k].update(**{k:v})
-            self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
+        self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
         gc.collect()
