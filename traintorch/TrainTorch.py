@@ -310,7 +310,7 @@ class metric:
         return self.frame().iloc[(-1*self.w_size):,:]
     
 class pycmMetrics():
-    def __init__(self,overall_metrics,class_metrics,w_size=10):
+    def __init__(self,overall_metrics,class_metrics,name,w_size=10):
         
         self._overall_metrics=['ACC Macro', 'AUNP', 'AUNU', 'Bennett S', 'CBA', 'Chi-Squared',
                         'Chi-Squared DF', 'Conditional Entropy', 'Cramer V',
@@ -331,6 +331,11 @@ class pycmMetrics():
                         'Y', 'PLRI', 'DPI', 'AUCI', 'GI', 'LS', 'AM', 'BCD', 'OP', 'IBA', 'GM',
                         'Q', 'AGM', 'NLRI', 'MCCI']
         
+        
+        if(not name):
+            raise Exception('please provide a name for the group metrics.')
+        else:
+            self.name=name
         self._all_metrics=self._overall_metrics+self._class_metrics
         self.cm_dict_overall={}
         self.cm_dict_class={}
@@ -399,11 +404,11 @@ class pycmMetrics():
         self._to_dict(_cm)
         if(self.metrics_oa):
             for k,v in self.cm_dict_overall.items():
-                self.metrics_oa[k].update(**{k:v})
+                self.metrics_oa[k].update(**{self.name+str(k):v})
         if(self.metrics_cls):
             for k,v in self.cm_dict_class.items():
                 if(isinstance(v,dict)):
-                    self.metrics_cls[k].update(**{str(k)+'_'+str(k_1):v_1 for k_1,v_1 in v.items()})        
+                    self.metrics_cls[k].update(**{self.name+str(k)+'_'+str(k_1):v_1 for k_1,v_1 in v.items()})        
                 else:
                     self.metrics_cls[k].update(**{k:v})
         self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
