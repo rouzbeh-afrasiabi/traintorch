@@ -1,5 +1,7 @@
 from pycm import *
 import gc
+import pandas as pd
+import numpy as np
 
 class pycmMetrics():
     def __init__(self,overall_metrics,class_metrics,w_size=10):
