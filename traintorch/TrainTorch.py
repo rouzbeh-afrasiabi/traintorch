@@ -344,17 +344,18 @@ class pycmMetrics():
         self.class_metrics=[]      
         self.overall_metrics=overall_metrics
         self.class_metrics=class_metrics 
-        if(self.overall_metrics and self.class_metrics):
+        if(self.overall_metrics):
             for i,key in enumerate(self.overall_metrics):
                 if(key in self._overall_metrics):
                     _key=str(key).replace(' ','_')
                     self.metrics_oa[_key]=metric(name=_key,w_size=self.w_size)
+                    
+        if(self.class_metrics):
             for i,key in enumerate(self.class_metrics):
                 if(key in self._class_metrics):
                     _key=str(key).replace(' ','_')
                     self.metrics_cls[_key]=metric(name=_key,w_size=self.w_size) 
-        else:
-            raise Exception("Please provide metric names.")
+
         gc.collect()
     def _in_list(self,target,main):
         return set(target)<set(main)
@@ -396,16 +397,14 @@ class pycmMetrics():
     def update(self,actual,predicted):
         _cm=ConfusionMatrix(actual,predicted)
         self._to_dict(_cm)
-        if(self.metrics_oa and self.metrics_cls):
+        if(self.metrics_oa):
             for k,v in self.cm_dict_overall.items():
                 self.metrics_oa[k].update(**{k:v})
-
+        if(self.metrics_cls):
             for k,v in self.cm_dict_class.items():
                 if(isinstance(v,dict)):
                     self.metrics_cls[k].update(**{str(k)+'_'+str(k_1):v_1 for k_1,v_1 in v.items()})        
                 else:
                     self.metrics_cls[k].update(**{k:v})
             self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
-        else:
-            raise Exception ("Metrics have not been declared.")
         gc.collect()
