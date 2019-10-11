@@ -38,7 +38,7 @@ class traintorch:
         self.counter=0
         self.window=window
         self.custom_metrics=[]
-
+        self.test=0
         self.main_results=pd.DataFrame()
         self.custom_data=None
         self.total_plots=0
