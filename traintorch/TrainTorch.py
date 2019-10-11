@@ -298,7 +298,7 @@ class metric:
     def __getitem__(self,key):
         gc.collect()
         if(key in self.keys):
-            _data=self.frame()
+            _data=self.window()
             return(_data[key])
         else:
             return None
