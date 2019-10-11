@@ -353,13 +353,13 @@ class pycmMetrics():
             for i,key in enumerate(self.overall_metrics):
                 if(key in self._overall_metrics):
                     _key=str(key).replace(' ','_')
-                    self.metrics_oa[self.name+'_'+str(_key)]=metric(name=_key,w_size=self.w_size)
+                    self.metrics_oa[self.name+'_'+str(_key)]=metric(name=self.name+'_'+str(_key),w_size=self.w_size)
                     
         if(self.class_metrics):
             for i,key in enumerate(self.class_metrics):
                 if(key in self._class_metrics):
                     _key=str(key).replace(' ','_')
-                    self.metrics_cls[self.name+'_'+str(_key)]=metric(name=_key,w_size=self.w_size) 
+                    self.metrics_cls[self.name+'_'+str(_key)]=metric(name=self.name+'_'+str(_key),w_size=self.w_size) 
 
         gc.collect()
     def _in_list(self,target,main):
