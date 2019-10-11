@@ -18,6 +18,7 @@ setuptools.setup(
     'pandas',
     'matplotlib',
     'ipython' 
+    'pycm',
     ],
     keywords = ['training', 'visualization', 'loss','plot','live','jupyter notebook', 'matplotlib'],
     packages=setuptools.find_packages(),
