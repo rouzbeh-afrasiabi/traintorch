@@ -90,7 +90,7 @@ class traintorch:
                     
                     if(len(self.parent.custom_metrics)!=self.parent.n_custom_plots):
                         warnings.warn("Data provided does not match the number of custom plots")
-                        self.parent.n_custom_plots=len(self.parent.custom_metrics)
+                        
                     else:
                         self.parent.total_plots=self.parent.n_custom_plots
 
