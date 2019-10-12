@@ -85,10 +85,9 @@ class traintorch:
                     main_results=pd.concat([main_results, temp], axis=1,sort=False)
                 self.parent.main_results=main_results
             
-            def create(self,custom_metrics=[]): 
-                if(any([item.updated for item in custom_metrics])):
+            def create(self,): 
+                if(any([item.updated for item in self.parent.custom_metrics])):
                     
-                    self.parent.custom_metrics=custom_metrics
                     if(len(self.parent.custom_metrics)!=self.parent.n_custom_plots):
                         raise Exception ("Data provided does not match the number of custom plots")
                     else:
