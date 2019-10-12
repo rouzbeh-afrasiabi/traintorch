@@ -81,10 +81,10 @@ class traintorch:
             def concat_metrtics(self,target):
                 temp=[]
                 for item in target:
-                    if(isinstance(item,metric):
-                       temp.append(item)
+                    if(isinstance(item,metric)):
+                        temp.append(item)
                     elif(isinstance(item,pycmMetrics) or isinstance(item,collate)):
-                       temp+=item.metrics
+                        temp+=item.metrics
                 self.custom_metrics=temp
             def create(self,custom_metrics=[]): 
                 if(any([item.updated for item in custom_metrics])):
