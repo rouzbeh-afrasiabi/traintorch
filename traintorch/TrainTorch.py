@@ -225,7 +225,7 @@ class traintorch:
 #                         item.clear()
 #                     for item in self.parent._avg_axes:
 #                         item.clear()
-                    for item in custom_metrics:
+                    for item in self.parent.custom_metrics:
                         if(item.updated):
                             item.updated=False
 #                     plt.close(self.parent.figure)
