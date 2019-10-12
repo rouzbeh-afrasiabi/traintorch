@@ -91,6 +91,7 @@ class traintorch:
                     if(len(self.parent.custom_metrics)!=self.parent.n_custom_plots):
                         warnings.warn("Data provided does not match the number of custom plots")
                         self.parent.total_plots=len(self.parent.custom_metrics)
+                        self.parent.n_custom_plots=len(self.parent.custom_metrics)
                     else:
                         self.parent.total_plots=self.parent.n_custom_plots
 
@@ -158,7 +159,7 @@ class traintorch:
                                 avg=self.parent.custom_metrics[i].means
                                 self.parent._avg_axes[i].plot(avg,linestyle='--',alpha=0.6)
                         except Exception as error:
-                            print(error)
+                            print(error,"This")
                             pass
 
                     # Adds table 
