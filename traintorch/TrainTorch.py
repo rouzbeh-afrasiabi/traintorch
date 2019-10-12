@@ -367,7 +367,7 @@ class pycmMetrics():
                 if(key in self._class_metrics):
                     _key=str(key).replace(' ','_')
                     self.metrics_cls[self.name+'_'+str(_key)]=metric(name=self.name+'_'+str(_key),w_size=self.w_size) 
-
+        self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
         gc.collect()
     def _in_list(self,target,main):
         return set(target)<set(main)
