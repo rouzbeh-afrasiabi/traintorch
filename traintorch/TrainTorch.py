@@ -55,14 +55,14 @@ class traintorch:
 
         self._avg_axes=[]
         
-        def concat_metrtics(self,target):
-            temp=[]
-            for item in target:
-                if(isinstance(item,metric)):
-                    temp.append(item)
-                elif(isinstance(item,pycmMetrics) or isinstance(item,collate)):
-                    temp+=item.metrics
-            self.custom_metrics=temp
+    def concat_metrtics(self,target):
+        temp=[]
+        for item in target:
+            if(isinstance(item,metric)):
+                temp.append(item)
+            elif(isinstance(item,pycmMetrics) or isinstance(item,collate)):
+                temp+=item.metrics
+        self.custom_metrics=temp
 
         class plot:
             def __init__(self,parent,):
