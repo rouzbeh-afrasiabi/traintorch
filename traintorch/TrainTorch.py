@@ -58,7 +58,7 @@ class traintorch:
     def concat_metrtics(self,target):
         temp=[]
         for item in target:
-            if(isinstance(item,metric)):
+            if(isinstance(item,(metric,collate))):
                 temp.append(item)
             elif(isinstance(item,pycmMetrics)):
                 temp+=item.metrics
