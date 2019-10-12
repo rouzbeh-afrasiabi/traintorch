@@ -420,3 +420,39 @@ class pycmMetrics():
                     self.metrics_cls[self.name+'_'+str(k)].update(**{k:v})
         self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
         gc.collect()
+
+
+class collate():
+    def __init__(self,target_a,target_b,target_metric,name='collate'):
+        self.target=[target_a,target_b]
+        self._all_metrics=list(set(target_a._all_metrics+target_b._all_metrics))
+        if( target_metric in self._all_metrics):
+            self.target_metric=str(target_metric).replace(' ','_')
+        else:
+            raise Exception ("Metric not found or is not available.")
+        self.means=[]
+        self.updated=False
+        self.w_size=10
+        self.name=name
+    def update(self,):
+        self.updated=True
+        temp_a=[]
+        for i,item_0 in enumerate(self.target):
+            for i,item_1 in enumerate(item_0.metrics):
+                _key=item_1.name.replace(item_0.name+"_","")
+                if(_key==self.target_metric):
+                    if(item_1.means):
+                        temp_a.append(pd.concat(item_1.means, axis=1).T)
+        if(temp_a):
+            self.means=pd.concat(temp_a,axis=1)  
+        gc.collect()
+    def window(self,):
+        temp_a=[]
+        for i,item_0 in enumerate(self.target):
+            for i,item_1 in enumerate(item_0.metrics):
+                _key=item_1.name.replace(item_0.name+"_","")
+                if(_key==self.target_metric):
+                    temp_a.append(item_1.window())
+        self.update()
+        gc.collect()
+        return(pd.concat(temp_a,axis=1))    
