@@ -159,7 +159,7 @@ class traintorch:
                                 avg=self.parent.custom_metrics[i].means
                                 self.parent._avg_axes[i].plot(avg,linestyle='--',alpha=0.6)
                         except Exception as error:
-                            print(error,"This")
+                            print(error)
                             pass
 
                     # Adds table 
