@@ -13,6 +13,7 @@ import types
 import time
 import warnings
 import gc
+from pycm import *
 
 from IPython import get_ipython
 get_ipython().run_line_magic('matplotlib','inline')
@@ -38,7 +39,6 @@ class traintorch:
         self.counter=0
         self.window=window
         self.custom_metrics=[]
-
         self.main_results=pd.DataFrame()
         self.custom_data=None
         self.total_plots=0
@@ -55,7 +55,14 @@ class traintorch:
 
         self._avg_axes=[]
         
-
+    def concat_metrtics(self,target):
+        temp=[]
+        for item in target:
+            if(isinstance(item,(metric,collate))):
+                temp.append(item)
+            elif(isinstance(item,pycmMetrics)):
+                temp+=item.metrics
+        self.custom_metrics=temp
 
         class plot:
             def __init__(self,parent,):
@@ -77,13 +84,14 @@ class traintorch:
                     temp.reset_index(drop=True, inplace=True)
                     main_results=pd.concat([main_results, temp], axis=1,sort=False)
                 self.parent.main_results=main_results
-
-            def create(self,custom_metrics=[]): 
-                if(any([item.updated for item in custom_metrics])):
+            
+            def create(self,): 
+                if(any([item.updated for item in self.parent.custom_metrics])):
                     
-                    self.parent.custom_metrics=custom_metrics
                     if(len(self.parent.custom_metrics)!=self.parent.n_custom_plots):
-                        raise Exception ("Data provided does not match the number of custom plots")
+                        warnings.warn("Data provided does not match the number of custom plots")
+                        self.parent.total_plots=len(self.parent.custom_metrics)
+                        self.parent.n_custom_plots=len(self.parent.custom_metrics)
                     else:
                         self.parent.total_plots=self.parent.n_custom_plots
 
@@ -219,7 +227,7 @@ class traintorch:
 #                         item.clear()
 #                     for item in self.parent._avg_axes:
 #                         item.clear()
-                    for item in custom_metrics:
+                    for item in self.parent.custom_metrics:
                         if(item.updated):
                             item.updated=False
 #                     plt.close(self.parent.figure)
@@ -298,7 +306,7 @@ class metric:
     def __getitem__(self,key):
         gc.collect()
         if(key in self.keys):
-            _data=self.frame()
+            _data=self.window()
             return(_data[key])
         else:
             return None
@@ -308,3 +316,148 @@ class metric:
     def __call__(self,):
         gc.collect()
         return self.frame().iloc[(-1*self.w_size):,:]
+    
+class pycmMetrics():
+    def __init__(self,overall_metrics=[],class_metrics=[],name='',w_size=10):
+        
+        self._overall_metrics=['ACC Macro', 'AUNP', 'AUNU', 'Bennett S', 'CBA', 'Chi-Squared',
+                        'Chi-Squared DF', 'Conditional Entropy', 'Cramer V',
+                        'Cross Entropy', 'F1 Macro', 'F1 Micro', 'Gwet AC1',
+                        'Hamming Loss', 'Joint Entropy', 'KL Divergence', 'Kappa',
+                        'Kappa No Prevalence', 'Kappa Standard Error', 'Kappa Unbiased',
+                        'Lambda A', 'Lambda B', 'Mutual Information', 'NIR', 'Overall ACC',
+                        'Overall CEN', 'Overall MCC', 'Overall MCEN', 'Overall RACC',
+                        'Overall RACCU', 'P-Value', 'PPV Macro', 'PPV Micro', 'Pearson C',
+                        'Phi-Squared', 'RCI', 'RR', 'Reference Entropy',
+                        'Response Entropy', 'Scott PI', 'Standard Error', 'TPR Macro',
+                        'TPR Micro', 'Zero-one Loss']
+
+        self._class_metrics=['TPR', 'TNR', 'PPV', 'NPV', 'FNR', 'FPR', 'FDR', 'FOR',
+                        'ACC', 'F1', 'MCC', 'BM', 'MK', 'PLR', 'NLR', 'DOR', 'TP', 'TN', 'FP',
+                        'FN', 'POP', 'P', 'N', 'TOP', 'TON', 'PRE', 'G', 'RACC', 'F0.5', 'F2',
+                        'ERR', 'RACCU', 'J', 'IS', 'CEN', 'MCEN', 'AUC', 'sInd', 'dInd', 'DP',
+                        'Y', 'PLRI', 'DPI', 'AUCI', 'GI', 'LS', 'AM', 'BCD', 'OP', 'IBA', 'GM',
+                        'Q', 'AGM', 'NLRI', 'MCCI']
+        
+        
+        if(not name):
+            raise Exception('please provide a name for the group metrics.')
+        else:
+            self.name=name
+        self._all_metrics=self._overall_metrics+self._class_metrics
+        self.cm_dict_overall={}
+        self.cm_dict_class={}
+        self.cm_df_overall=pd.DataFrame()
+        self.cm_df_class=pd.DataFrame()
+        self.w_size=w_size
+        self.metrics={}
+        self.metrics_oa={}
+        self.metrics_cls={}
+        self.overall_metrics=[]
+        self.class_metrics=[]      
+        self.overall_metrics=overall_metrics
+        self.class_metrics=class_metrics 
+        if(self.overall_metrics):
+            for i,key in enumerate(self.overall_metrics):
+                if(key in self._overall_metrics):
+                    _key=str(key).replace(' ','_')
+                    self.metrics_oa[self.name+'_'+str(_key)]=metric(name=self.name+'_'+str(_key),w_size=self.w_size)
+                    
+        if(self.class_metrics):
+            for i,key in enumerate(self.class_metrics):
+                if(key in self._class_metrics):
+                    _key=str(key).replace(' ','_')
+                    self.metrics_cls[self.name+'_'+str(_key)]=metric(name=self.name+'_'+str(_key),w_size=self.w_size) 
+        self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
+        gc.collect()
+    def _in_list(self,target,main):
+        return set(target)<set(main)
+    def _to_list(self,target):
+        if(isinstance(target, list)):
+            pass
+        else:
+            target=[target]
+        return target
+
+    def _reform(self,target):
+        return {(outerKey, innerKey): values for outerKey, innerDict in target.items() for innerKey, values in innerDict.items()}
+    def _to_dict(self,_cm):
+        _main={}
+        _class={}
+        for key,value in _cm.__dict__['overall_stat'].items():
+            if(key in self.overall_metrics):
+                if((not isinstance(value, tuple)) and (not isinstance(value, str))):
+                    _main[str(key).replace(' ','_')]=value
+
+        for key,value in _cm.__dict__['class_stat'].items():
+            if(key in self.class_metrics):
+                _class[str(key).replace(' ','_')]=value
+
+        self.cm_dict_overall=_main
+        self.cm_dict_class=_class
+        gc.collect()
+        
+    def _to_df(self,_cm):
+        
+        _main,_class=self._to_dict(_cm)
+        self.cm_dict_overall=_main
+        self.cm_dict_class=_class
+        
+        self.cm_df_overall=pd.DataFrame(_main,index=[0])
+        self.cm_df_class=pd.DataFrame(_class,index=[0])
+        gc.collect()
+        
+    def update(self,actual,predicted):
+        _cm=ConfusionMatrix(actual,predicted)
+        self._to_dict(_cm)
+        if(self.metrics_oa):
+            for k,v in self.cm_dict_overall.items():
+                self.metrics_oa[self.name+'_'+str(k)].update(**{self.name+'_'+str(k):v})
+        if(self.metrics_cls):
+            for k,v in self.cm_dict_class.items():
+                if(isinstance(v,dict)):
+                    self.metrics_cls[self.name+'_'+str(k)].update(**{self.name+'_'+str(k)+'_'+str(k_1):v_1 for k_1,v_1 in v.items()})        
+                else:
+                    self.metrics_cls[self.name+'_'+str(k)].update(**{k:v})
+        self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
+        gc.collect()
+
+
+class collate():
+    def __init__(self,target_a,target_b,target_metric,name='collate'):
+        self.target=[target_a,target_b]
+        self._all_metrics=list(set(target_a._all_metrics+target_b._all_metrics))
+        if( target_metric in self._all_metrics):
+            self.target_metric=str(target_metric).replace(' ','_')
+        else:
+            raise Exception ("Metric not found or is not available.")
+        self.means=[]
+        self.updated=False
+        self.name=name
+        if(target_a.w_size!=target_b.w_size):
+            raise Exception ("Selected Metrics do not have the same w_size.")
+        else:
+            self.w_size=target_a.w_size
+                
+    def update(self,):
+        self.updated=True
+        temp_a=[]
+        for i,item_0 in enumerate(self.target):
+            for i,item_1 in enumerate(item_0.metrics):
+                _key=item_1.name.replace(item_0.name+"_","")
+                if(_key==self.target_metric):
+                    if(item_1.means):
+                        temp_a.append(pd.concat(item_1.means, axis=1).T)
+        if(temp_a):
+            self.means=pd.concat(temp_a,axis=1)  
+        gc.collect()
+    def window(self,):
+        temp_a=[]
+        for i,item_0 in enumerate(self.target):
+            for i,item_1 in enumerate(item_0.metrics):
+                _key=item_1.name.replace(item_0.name+"_","")
+                if(_key==self.target_metric):
+                    temp_a.append(item_1.window())
+        self.update()
+        gc.collect()
+        return(pd.concat(temp_a,axis=1))    
