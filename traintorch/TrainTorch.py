@@ -433,8 +433,12 @@ class collate():
             raise Exception ("Metric not found or is not available.")
         self.means=[]
         self.updated=False
-        self.w_size=10
         self.name=name
+        if(target_a.w_size!=target_b.w_size):
+            raise Exception ("Selected Metrics do not have the same w_size.")
+        else:
+            self.w_size=target_a.w_size
+                
     def update(self,):
         self.updated=True
         temp_a=[]
