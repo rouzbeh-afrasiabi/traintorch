@@ -60,7 +60,7 @@ class traintorch:
         for item in target:
             if(isinstance(item,metric)):
                 temp.append(item)
-            elif(isinstance(item,pycmMetrics) or isinstance(item,collate)):
+            elif(isinstance(item,pycmMetrics)):
                 temp+=item.metrics
         self.custom_metrics=temp
 
