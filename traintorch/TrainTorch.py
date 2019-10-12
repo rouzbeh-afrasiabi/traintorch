@@ -244,7 +244,7 @@ class metric:
         self.counter=0
         self.keys=[]
         self.updated=False
-        self.w_size=w_size
+        self.w_size=w_size+1
         self.last_chunk=pd.DataFrame()
         self.means=[]
         if(not name):
