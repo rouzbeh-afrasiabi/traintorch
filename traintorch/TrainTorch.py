@@ -134,13 +134,14 @@ class traintorch:
                         self.parent._avg_axes=[]
                         for i,item in enumerate(self.parent.top_axes):
                             if(i<self.parent.total_plots):
-                                ax_avg=item.twiny().twinx()
-                                self.parent._avg_axes.append(ax_avg)
+                                if(self.parent.custom_metrics[i].average):
+                                    ax_avg=item.twiny().twinx()
+                                    self.parent._avg_axes.append(ax_avg)
 
         #                 self.parent.middle_cell = self.parent.main_grid[1,0:]
         #                 self.parent.inner_grid_middle = gridspec.GridSpecFromSubplotSpec(n_splits,3, self.parent.middle_cell)
         #                 middle_axes=[]
-
+        #
         
                     #adds the main plots
                     for i in range(0,self.parent.n_custom_plots):
@@ -158,9 +159,10 @@ class traintorch:
                                     top_axes[i].set_data(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
                                 top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
                                 top_axes[i].set_title(self.parent.custom_metrics[i].name)
-                                self.parent._avg_axes[i].clear()
-                                avg=self.parent.custom_metrics[i].means
+
                                 if(self.parent.custom_metrics[i].average):
+                                    self.parent._avg_axes[i].clear()
+                                    avg=self.parent.custom_metrics[i].means
                                     self.parent._avg_axes[i].plot(avg,linestyle='--',alpha=0.6)
                         except Exception as error:
                             print(error)
@@ -199,22 +201,23 @@ class traintorch:
 
 
                     #moves legends to the bottom of the plots
-                    for i,item in enumerate(self.parent.top_axes[:self.parent.n_custom_plots]):
-                        box = item.get_position()
-                        item.set_position([box.x0, box.y0 + box.height * 0.1,box.width, box.height * 0.9])
-                        lines=item.get_lines()
-                        if(custom_data.empty):
-                            custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
+                    if(self.parent.counter==0):
+                        for i,item in enumerate(self.parent.top_axes[:self.parent.n_custom_plots]):
+                            box = item.get_position()
+                            item.set_position([box.x0, box.y0 + box.height * 0.1,box.width, box.height * 0.9])
+                            lines=item.get_lines()
+                            if(custom_data.empty):
+                                custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
 
-                        lines[0].get_xydata()
-                        item.legend(self.parent.custom_metrics[i].window().columns,loc='upper center', 
-                                    bbox_to_anchor=(0.5, -0.1),fancybox=True, shadow=True, ncol=5)                        
+                            lines[0].get_xydata()
+                            item.legend(self.parent.custom_metrics[i].window().columns,loc='upper center', 
+                                        bbox_to_anchor=(0.5, -0.1),fancybox=True, shadow=True, ncol=5)                        
 
-                        item.grid()
-                        #add scientific formatting
-    #                     item.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
-                        item.set_ylabel('')
-                        item.set_xlabel('')  
+                            item.grid()
+                            #add scientific formatting
+        #                     item.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
+                            item.set_ylabel('')
+                            item.set_xlabel('')  
 
             
                     #Removes empty plots 
