@@ -24,14 +24,41 @@ or
  ```
 
 ## Example 
+
+```python
+
+from traintorch import *
+
+#custom metric
+first=metric('Loss',w_size=10,average=False)
+
+#create an instance of traintorch
+tracker=traintorch(n_custom_plots=1,main_grid_hspace=.1, figsize=(15,10),show_table=True)
+#combine all metrics together
+tracker.concat_metrtics([first])
+
+
+range_max=1000
+for i in range(0,range_max,1):
+    
+    first.update(train=1/(i+1),test=1/(i**2+1))
+    tracker.create()
+```
+ <p align='center'>
+ <img src='./images/dash_a.png'></img>
+ 
+ </p>
+
+
 ```python
 from traintorch import *
 
-overall_selected=['ACC Macro']
+
 #custom metric
 first=metric('Loss',w_size=10,average=False)
 
 #pycm metrics
+overall_selected=['ACC Macro']
 cm_metrics_a=pycmMetrics(overall_selected,name='train',w_size=10)
 cm_metrics_b=pycmMetrics(overall_selected,name='test',w_size=10)
 
