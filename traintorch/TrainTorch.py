@@ -214,7 +214,8 @@ class traintorch:
                             item.legend(self.parent.custom_metrics[i].window().columns,loc='upper center', 
                                         bbox_to_anchor=(0.5, -0.1),fancybox=True, shadow=True, ncol=5)                        
 
-                            item.grid()
+                            if(self.parent.custom_metrics[i].show_grid):
+                                item.grid()
                             #add scientific formatting
         #                     item.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
                             item.set_ylabel('')
@@ -242,7 +243,7 @@ class traintorch:
 
 
 class metric:
-    def __init__(self,name=None,w_size=10,average=False):
+    def __init__(self,name=None,w_size=10,average=False,show_grid=False):
         self.name=name
         self.__kwargs=None
         self.counter=0
@@ -254,7 +255,7 @@ class metric:
         self.average=average
         if(not name):
             raise Exception('please provide a name for this metric.')
-
+        self.show_grid=show_grid
     def update(self,**kwargs):
         self.updated=True
         self.counter+=1
