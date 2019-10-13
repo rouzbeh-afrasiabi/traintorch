@@ -156,6 +156,8 @@ class traintorch:
                                     top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
                                 else:
                                     top_axes[i].set_data(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
+                                    self.parent.figure.canvas.draw() 
+                                    self.parent.figure.canvas.flush_events()
                                 top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
                                 top_axes[i].set_title(self.parent.custom_metrics[i].name)
                                 self.parent._avg_axes[i].clear()
