@@ -430,7 +430,7 @@ class pycmMetrics():
 
 
 class collate():
-    def __init__(self,target_a,target_b,target_metric,name='collate',average=False,show_grid=False):
+    def __init__(self,target_a,target_b,target_metric,name=None,average=False,show_grid=False):
         self.target=[target_a,target_b]
         self._all_metrics=list(set(target_a._all_metrics+target_b._all_metrics))
         if( target_metric in self._all_metrics):
@@ -439,7 +439,10 @@ class collate():
             raise Exception ("Metric not found or is not available.")
         self.means=[]
         self.updated=False
-        self.name=name
+        if(name):
+            self.name=name
+        else:
+            self.name=target_metric+' - '+target_a.name+' and '+target_b.name
         if(target_a.w_size!=target_b.w_size):
             raise Exception ("Selected Metrics do not have the same w_size.")
         else:
