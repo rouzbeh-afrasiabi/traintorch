@@ -141,7 +141,7 @@ class traintorch:
         #                 self.parent.middle_cell = self.parent.main_grid[1,0:]
         #                 self.parent.inner_grid_middle = gridspec.GridSpecFromSubplotSpec(n_splits,3, self.parent.middle_cell)
         #                 middle_axes=[]
-
+        #
         
                     #adds the main plots
                     for i in range(0,self.parent.n_custom_plots):
