@@ -44,6 +44,6 @@ for i in range(0,5000,1):
         tracker.create(custom_metrics=[first,second,third])
 ```
  <p align='center'>
- <img src='./images/dash.png'></img>
+ <img src='./images/dash_a.png'></img>
  
  </p>
