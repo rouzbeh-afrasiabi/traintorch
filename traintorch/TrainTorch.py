@@ -157,7 +157,8 @@ class traintorch:
                                 top_axes[i].set_title(self.parent.custom_metrics[i].name)
                                 self.parent._avg_axes[i].clear()
                                 avg=self.parent.custom_metrics[i].means
-                                self.parent._avg_axes[i].plot(avg,linestyle='--',alpha=0.6)
+                                if(self.parent.custom_metrics[i].average):
+                                    self.parent._avg_axes[i].plot(avg,linestyle='--',alpha=0.6)
                         except Exception as error:
                             print(error)
                             pass
@@ -223,10 +224,7 @@ class traintorch:
 
                     self.get_confusion=False
                     plt.show()
-#                     for item in self.parent.top_axes:
-#                         item.clear()
-#                     for item in self.parent._avg_axes:
-#                         item.clear()
+ 
                     for item in self.parent.custom_metrics:
                         if(item.updated):
                             item.updated=False
@@ -238,7 +236,7 @@ class traintorch:
 
 
 class metric:
-    def __init__(self,name=None,w_size=10):
+    def __init__(self,name=None,w_size=10,average=False):
         self.name=name
         self.__kwargs=None
         self.counter=0
@@ -247,6 +245,7 @@ class metric:
         self.w_size=w_size
         self.last_chunk=pd.DataFrame()
         self.means=[]
+        self.average=average
         if(not name):
             raise Exception('please provide a name for this metric.')
 
