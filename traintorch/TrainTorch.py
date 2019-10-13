@@ -229,7 +229,6 @@ class traintorch:
                         except Exception as error:
                             self.parent.top_axes[i].axis('off')
 
-                    self.get_confusion=False
                     plt.show()
  
                     for item in self.parent.custom_metrics:
