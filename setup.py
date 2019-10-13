@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="traintorch",
-    version="1.0.1",
+    version="1.0.2",
     author="Rouzbeh Afrasiabi",
     author_email="rouzbeh.afrasiabi@gmail.com",
     description="Package for live visualization of metrics during training of a machine learning model",
