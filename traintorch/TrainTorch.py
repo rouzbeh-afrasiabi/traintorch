@@ -161,7 +161,7 @@ class traintorch:
                                 top_axes[i].set_title(self.parent.custom_metrics[i].name)
 
                                 if(self.parent.custom_metrics[i].average):
-#                                     self.parent._avg_axes[i].clear()
+                                    self.parent._avg_axes[i].clear()
                                     avg=self.parent.custom_metrics[i].means
                                     self.parent._avg_axes[i].plot(avg,linestyle='--',alpha=0.6)
                         except Exception as error:
