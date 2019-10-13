@@ -30,19 +30,21 @@ or
 
 from traintorch import *
 
-#custom metric
+#custom metrics
 first=metric('Loss',w_size=10,average=False)
+second=metric('sin',w_size=10,average=False)
 
 #create an instance of traintorch
 tracker=traintorch(n_custom_plots=1,main_grid_hspace=.1, figsize=(15,10),show_table=True)
 #combine all metrics together
-tracker.concat_metrtics([first])
+tracker.concat_metrtics([first,second])
 
 
 range_max=1000
 for i in range(0,range_max,1):
     
     first.update(train=1/(i+1),test=1/(i**2+1))
+    second.update(y=np.sin((i+1)%20))
     tracker.create()
 ```
  <p align='center'>
