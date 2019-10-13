@@ -108,6 +108,7 @@ class traintorch:
 
 
                     if(self.parent.counter==0):
+                        print(self.parent.counter)
                         self.parent.figure = plt.figure(figsize=self.parent.figsize)
                         self.parent.main_grid = gridspec.GridSpec(self.parent.nrows,
                                                                   self.parent.ncols,
