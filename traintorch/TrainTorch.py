@@ -134,8 +134,9 @@ class traintorch:
                         self.parent._avg_axes=[]
                         for i,item in enumerate(self.parent.top_axes):
                             if(i<self.parent.total_plots):
-                                ax_avg=item.twiny().twinx()
-                                self.parent._avg_axes.append(ax_avg)
+                                if(self.parent.custom_metrics[i].average):
+                                    ax_avg=item.twiny().twinx()
+                                    self.parent._avg_axes.append(ax_avg)
 
         #                 self.parent.middle_cell = self.parent.main_grid[1,0:]
         #                 self.parent.inner_grid_middle = gridspec.GridSpecFromSubplotSpec(n_splits,3, self.parent.middle_cell)
@@ -158,9 +159,10 @@ class traintorch:
                                     top_axes[i].set_data(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
                                 top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
                                 top_axes[i].set_title(self.parent.custom_metrics[i].name)
-                                self.parent._avg_axes[i].clear()
-                                avg=self.parent.custom_metrics[i].means
+
                                 if(self.parent.custom_metrics[i].average):
+                                    self.parent._avg_axes[i].clear()
+                                    avg=self.parent.custom_metrics[i].means
                                     self.parent._avg_axes[i].plot(avg,linestyle='--',alpha=0.6)
                         except Exception as error:
                             print(error)
