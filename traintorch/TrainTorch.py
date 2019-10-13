@@ -430,7 +430,7 @@ class pycmMetrics():
 
 
 class collate():
-    def __init__(self,target_a,target_b,target_metric,name='collate',average=False):
+    def __init__(self,target_a,target_b,target_metric,name='collate',average=False,show_grid=False):
         self.target=[target_a,target_b]
         self._all_metrics=list(set(target_a._all_metrics+target_b._all_metrics))
         if( target_metric in self._all_metrics):
@@ -444,7 +444,8 @@ class collate():
             raise Exception ("Selected Metrics do not have the same w_size.")
         else:
             self.w_size=target_a.w_size
-        self.average=average        
+        self.average=average  
+        self.show_grid=show_grid
     def update(self,):
         self.updated=True
         temp_a=[]
