@@ -60,6 +60,6 @@ for i in range(0,range_max,1):
 
 ```
  <p align='center'>
- <img src='./images/dash_a.png'></img>
+ <img src='./images/dash.png'></img>
  
  </p>
