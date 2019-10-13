@@ -27,23 +27,39 @@ or
 ```python
 from traintorch import *
 
-first=metric('first',w_size=100)
-second=metric('second',w_size=100)
-third=metric('third',w_size=5)
+overall_selected=['ACC Macro']
+#custom metric
+first=metric('Loss',w_size=10,average=False)
 
-tracker=traintorch(n_custom_plots=3,main_grid_hspace=.1,
-              figsize=(15,15))
+#pycm metrics
+cm_metrics_a=pycmMetrics(overall_selected,name='train',w_size=10)
+cm_metrics_b=pycmMetrics(overall_selected,name='test',w_size=10)
 
-for i in range(0,5000,1):
+#compare two metrics of the same kind
+compare_a=collate(cm_metrics_a,cm_metrics_b,'ACC Macro')
 
-    first.update(x=i,b=i*100,g=i**2)
-    second.update(train=1/(i+1),test=1/(i**2+1))
+#create an instance of traintorch
+tracker=traintorch(n_custom_plots=1,main_grid_hspace=.1,figsize=(15,15),show_table=True)
+
+#combine all metrics together
+tracker.concat_metrtics([first,cm_metrics_a,cm_metrics_b,compare_a])
+
+
+range_max=1000
+for i in range(0,range_max,1):
     
-    if((i+1)%20==0 and i>0):
-        third.update(result=np.sin(i%3))
-        tracker.create(custom_metrics=[first,second,third])
+    actual_a=np.random.choice([0, 1], size=(20,), p=[1./3, 2./3])
+    predicted_a=np.random.choice([0, 1], size=(20,),p=[1-(i/range_max), i/range_max])
+    actual_b=np.random.choice([0, 1], size=(20,), p=[1./3, 2./3])
+    predicted_b=np.random.choice([0, 1], size=(20,),p=[1-(i/range_max), i/range_max])
+    cm_metrics_a.update(actual_a,predicted_a)
+    cm_metrics_b.update(actual_b,predicted_b)
+    first.update(train=1/(i+1),test=1/(i**2+1))
+    compare_a.update()
+    tracker.create()
+
 ```
  <p align='center'>
- <img src='./images/dash.png'></img>
+ <img src='./images/dash_a.png'></img>
  
  </p>
