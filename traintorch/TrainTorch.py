@@ -151,8 +151,11 @@ class traintorch:
                                     custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
                                 #This can be optimized later
                                 
-                                top_axes[i].clear()
-                                top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
+#                                 top_axes[i].clear()
+                                if(self.parent.counter==0):
+                                    top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
+                                else:
+                                    top_axes[i].set_data(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
                                 top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
                                 top_axes[i].set_title(self.parent.custom_metrics[i].name)
                                 self.parent._avg_axes[i].clear()
