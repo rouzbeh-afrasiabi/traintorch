@@ -21,11 +21,11 @@ get_ipython().run_line_magic('matplotlib','inline')
 warnings.filterwarnings("ignore")
 
 class traintorch:
-    def __init__(self,n_custom_plots=0,figsize=(15,20),table_metrics=[],
+    def __init__(self,n_custom_plots=0,figsize=(15,20),show_table=True,table_metrics=[],
                  top_rows=1,top_cols=2,plot_width=4,plot_height=4,nrows=2,ncols=1,
                 main_grid_hspace=0.5,main_grid_wspace=0.5,window=100,custom_window=[]):
 
-            
+        self.show_table=show_table    
         self.top_rows=top_rows
         self.top_cols=top_cols
         self.plot_width=plot_width
@@ -172,51 +172,53 @@ class traintorch:
                     split_df=[] 
                     bottom_axes=[]
                     self.tail()
-                    if(not self.parent.main_results.empty):
-                        for i,item in enumerate(self.chunks_df(self.parent.main_results.round(6).T,
-                                                               math.ceil(len(self.parent.main_results.columns)/2),'r')):
-                            if((i+1)%2==0 and (i>0)):
-                                loc='bottom right'
-                            else:
-                                loc='bottom'
-                            if(not item.empty):
-                                split_df.append(item)
+                    if(self.parent.show_table):
+                        if(not self.parent.main_results.empty):
+                            for i,item in enumerate(self.chunks_df(self.parent.main_results.round(6).T,
+                                                                   math.ceil(len(self.parent.main_results.columns)/2),'r')):
+                                if((i+1)%2==0 and (i>0)):
+                                    loc='bottom right'
+                                else:
+                                    loc='bottom'
+                                if(not item.empty):
+                                    split_df.append(item)
 
-                                temp=plt.subplot(self.parent.inner_grid_bottom[i])
-                                temp.axis('off')
-                                temp.axis('tight')
-                                table=temp.table(cellText=item.values,
-                                            loc=loc,
-                                           cellLoc='left',
-                                            rowLabels=item.index,
-#                                             colLabels=item.columns,
-                                            )
-                                bottom_axes.append(table)
-                                table.scale(1, 2)
+                                    temp=plt.subplot(self.parent.inner_grid_bottom[i])
+                                    temp.axis('off')
+                                    temp.axis('tight')
+                                    table=temp.table(cellText=item.values,
+                                                loc=loc,
+                                               cellLoc='left',
+                                                rowLabels=item.index,
+    #                                             colLabels=item.columns,
+                                                )
+                                    bottom_axes.append(table)
+                                    table.scale(1, 2)
 
 
 
-                        self.parent.split_df=split_df
-                        self.parent.bottom_axes=bottom_axes             
+                            self.parent.split_df=split_df
+                            self.parent.bottom_axes=bottom_axes             
 
 
                     #moves legends to the bottom of the plots
-                    for i,item in enumerate(self.parent.top_axes[:self.parent.n_custom_plots]):
-                        box = item.get_position()
-                        item.set_position([box.x0, box.y0 + box.height * 0.1,box.width, box.height * 0.9])
-                        lines=item.get_lines()
-                        if(custom_data.empty):
-                            custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
+                    if(self.parent.counter==0):
+                        for i,item in enumerate(self.parent.top_axes[:self.parent.n_custom_plots]):
+                            box = item.get_position()
+                            item.set_position([box.x0, box.y0 + box.height * 0.1,box.width, box.height * 0.9])
+                            lines=item.get_lines()
+                            if(custom_data.empty):
+                                custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
 
-                        lines[0].get_xydata()
-                        item.legend(self.parent.custom_metrics[i].window().columns,loc='upper center', 
-                                    bbox_to_anchor=(0.5, -0.1),fancybox=True, shadow=True, ncol=5)                        
+                            lines[0].get_xydata()
+                            item.legend(self.parent.custom_metrics[i].window().columns,loc='upper center', 
+                                        bbox_to_anchor=(0.5, -0.1),fancybox=True, shadow=True, ncol=5)                        
 
-                        item.grid()
-                        #add scientific formatting
-    #                     item.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
-                        item.set_ylabel('')
-                        item.set_xlabel('')  
+                            item.grid()
+                            #add scientific formatting
+        #                     item.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
+                            item.set_ylabel('')
+                            item.set_xlabel('')  
 
             
                     #Removes empty plots 
