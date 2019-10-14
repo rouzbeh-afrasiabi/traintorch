@@ -37,7 +37,7 @@ second=metric('Accuracy',w_size=10,average=False)
 #create an instance of traintorch
 tracker=traintorch(n_custom_plots=2,main_grid_hspace=.1, figsize=(15,10),show_table=True)
 #combine all metrics together
-tracker.concat_metrtics([first,second])
+tracker.append([first,second])
 
 
 range_max=1000
@@ -76,7 +76,7 @@ compare_a=collate(cm_metrics_a,cm_metrics_b,'ACC Macro')
 tracker=traintorch(n_custom_plots=1,main_grid_hspace=.1,figsize=(15,15),show_table=True)
 
 #combine all metrics together
-tracker.concat_metrtics([first,cm_metrics_a,cm_metrics_b,compare_a])
+tracker.append([first,cm_metrics_a,cm_metrics_b,compare_a])
 
 
 range_max=1000
