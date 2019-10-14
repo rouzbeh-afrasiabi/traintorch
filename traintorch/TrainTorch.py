@@ -236,7 +236,7 @@ class traintorch:
                                 lines[0].get_xydata()
                             except Exception as error:
                                 self.parent.top_axes[i].axis('off')
-
+                        self.parent.counter+=1
                     plt.show()
  
                     for item in self.parent.custom_metrics:
@@ -245,7 +245,6 @@ class traintorch:
 #                     plt.close(self.parent.figure)
                     clear_output(wait=True)
                     gc.collect()
-                    self.parent.counter+=1
         self._plot=plot(self,)
         self.create=self._plot.create
 
