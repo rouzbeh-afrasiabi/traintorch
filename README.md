@@ -38,6 +38,7 @@ ACC Macro, AUNP, AUNU, Bennett S, CBA, Chi-Squared,Chi-Squared DF, Conditional E
 <p align="justify">
 Following class metrics are also available through pycm but their use is currently not recommended.
 </p> 
+
 ```
 TPR, TNR, PPV, NPV, FNR, FPR, FDR, FOR,ACC, F1, MCC, BM, MK, PLR, NLR, DOR, TP, TN, FP,FN, POP, P, N, TOP, TON, PRE, G, RACC, F0.5, F2,ERR, RACCU, J, IS, CEN, MCEN, AUC, sInd, dInd, DP,Y, PLRI, DPI, AUCI, GI, LS, AM, BCD, OP, IBA, GM,Q, AGM, NLRI, MCCI
 ```
