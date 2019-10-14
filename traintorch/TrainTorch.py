@@ -237,7 +237,7 @@ class traintorch:
                     gc.collect()
                     self.parent.counter+=1
         self._plot=plot(self,)
-        self.create=self._plot.create
+        self.plot=self._plot.create
 
 
 class metric:
