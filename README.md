@@ -42,7 +42,10 @@ pycm==2.2
 
 
 <p align="justify">
+ 
+ 
 Following class metrics are also available through pycm but their use is currently not recommended.
+
 </p> 
 
 |    | pycm_metrics_0   | pycm_metrics_1   | pycm_metrics_2   | pycm_metrics_3   | pycm_metrics_4   |
