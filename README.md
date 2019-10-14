@@ -1,4 +1,6 @@
 # Traintorch (alpha version)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d4b74c08973343128d17532b4b84e154)](https://www.codacy.com/manual/rouzbeh-afrasiabi/traintorch?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rouzbeh-afrasiabi/traintorch&amp;utm_campaign=Badge_Grade)
+
 
 <p align="justify">
 Package for live visualization of model validation metrics during training of a machine learning model in jupyter notebooks. The package utilizes a sliding window mechanism to reduce memory usage.
