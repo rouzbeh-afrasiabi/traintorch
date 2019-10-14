@@ -43,7 +43,7 @@ tracker.concat_metrtics([first,second])
 range_max=1000
 for i in range(0,range_max,1):
     
-    first.update(train=1/(i+1),test=1/(i**2+1))
+    first.update(train_loss=1/(i+1),test_loss=1/(i**2+1))
     second.update(y=i/(i*2+1))
     tracker.create()
 ```
