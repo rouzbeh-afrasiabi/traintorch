@@ -55,7 +55,7 @@ class traintorch:
 
         self._avg_axes=[]
         
-    def concat_metrtics(self,target):
+    def append(self,target):
         temp=[]
         for item in target:
             if(isinstance(item,(metric,collate))):
