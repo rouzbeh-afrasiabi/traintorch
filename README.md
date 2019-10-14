@@ -58,8 +58,7 @@ for i in range(0,range_max,1):
 
 
 ### Using pycm metrics and doing comparison
-
-
+<br>
 ```python
 from traintorch import *
 
