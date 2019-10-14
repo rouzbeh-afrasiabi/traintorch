@@ -48,6 +48,7 @@ import sys
 import os
 import matplotlib
 import matplotlib.gridspec as gridspec
+from matplotlib.ticker import MaxNLocator
 import matplotlib.ticker as mtick
 import types
 import time
@@ -196,7 +197,7 @@ class traintorch:
                                 top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
                                 top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
                                 top_axes[i].set_title(self.parent.custom_metrics[i].name)
-
+                                top_axes[i].xaxis.set_major_locator(MaxNLocator(integer=True))
 
 
                                 if(self.parent.custom_metrics[i].average):
