@@ -49,6 +49,7 @@ import os
 import matplotlib
 import matplotlib.gridspec as gridspec
 import matplotlib.ticker as mtick
+import matplotlib.ticker as plticker
 import types
 import time
 import warnings
