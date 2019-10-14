@@ -25,42 +25,7 @@ pycm==2.2
  ```
  pip install git+https://github.com/rouzbeh-afrasiabi/traintorch.git
  ```
-### Metrics available through pycm
 
-|    | pycm_metrics_0      | pycm_metrics_1       | pycm_metrics_2     | pycm_metrics_3    | pycm_metrics_4   |
-|:---|:--------------------|:---------------------|:-------------------|:------------------|:-----------------|
-| 0  | ACC Macro           | F1 Macro             | Lambda A           | P-Value           | Standard Error   |
-| 1  | AUNP                | F1 Micro             | Lambda B           | PPV Macro         | TPR Macro        |
-| 2  | AUNU                | Gwet AC1             | Mutual Information | PPV Micro         | TPR Micro        |
-| 3  | Bennett S           | Hamming Loss         | NIR                | Pearson C         | Zero-one Loss    |
-| 4  | CBA                 | Joint Entropy        | Overall ACC        | Phi-Squared       |                  |
-| 5  | Chi-Squared         | KL Divergence        | Overall CEN        | RCI               |                  |
-| 6  | Chi-Squared DF      | Kappa                | Overall MCC        | RR                |                  |
-| 7  | Conditional Entropy | Kappa No Prevalence  | Overall MCEN       | Reference Entropy |                  |
-| 8  | Cramer V            | Kappa Standard Error | Overall RACC       | Response Entropy  |                  |
-| 9  | Cross Entropy       | Kappa Unbiased       | Overall RACCU      | Scott PI          |                  |
-
-<br>
-<p align="justify">
-Following class metrics are also available through pycm but their use is currently not recommended.
-</p> 
-<br>
-
-|    | pycm_metrics_0   | pycm_metrics_1   | pycm_metrics_2   | pycm_metrics_3   | pycm_metrics_4   |
-|:---|:-----------------|:-----------------|:-----------------|:-----------------|:-----------------|
-| 0  | TPR              | MCC              | POP              | ERR              | GM               |
-| 1  | TNR              | BM               | P                | RACCU            | Q                |
-| 2  | PPV              | MK               | N                | J                | AGM              |
-| 3  | NPV              | PLR              | TOP              | IS               | NLRI             |
-| 4  | FNR              | NLR              | TON              | CEN              | MCCI             |
-| 5  | FPR              | DOR              | PRE              | MCEN             |                  |
-| 6  | FDR              | TP               | G                | AUC              |                  |
-| 7  | FOR              | TN               | RACC             | sInd             |                  |
-| 8  | ACC              | FP               | F0.5             | dInd             |                  |
-| 9  | F1               | FN               | F2               | DP               |                  |
-
-
-For more information about these metrics please see: <a href="https://github.com/sepandhaghighi/pycm">pycm</a>
 ## Example 
 
 ### Simple Usage
@@ -134,3 +99,40 @@ for i in range(0,range_max,1):
  <p align='center'>
  <img src='./images/dash.png'></img>
  </p>
+
+### Metrics available through pycm
+
+|    | pycm_metrics_0      | pycm_metrics_1       | pycm_metrics_2     | pycm_metrics_3    | pycm_metrics_4   |
+|:---|:--------------------|:---------------------|:-------------------|:------------------|:-----------------|
+| 0  | ACC Macro           | F1 Macro             | Lambda A           | P-Value           | Standard Error   |
+| 1  | AUNP                | F1 Micro             | Lambda B           | PPV Macro         | TPR Macro        |
+| 2  | AUNU                | Gwet AC1             | Mutual Information | PPV Micro         | TPR Micro        |
+| 3  | Bennett S           | Hamming Loss         | NIR                | Pearson C         | Zero-one Loss    |
+| 4  | CBA                 | Joint Entropy        | Overall ACC        | Phi-Squared       |                  |
+| 5  | Chi-Squared         | KL Divergence        | Overall CEN        | RCI               |                  |
+| 6  | Chi-Squared DF      | Kappa                | Overall MCC        | RR                |                  |
+| 7  | Conditional Entropy | Kappa No Prevalence  | Overall MCEN       | Reference Entropy |                  |
+| 8  | Cramer V            | Kappa Standard Error | Overall RACC       | Response Entropy  |                  |
+| 9  | Cross Entropy       | Kappa Unbiased       | Overall RACCU      | Scott PI          |                  |
+
+<br>
+<p align="justify">
+Following class metrics are also available through pycm but their use is currently not recommended.
+</p> 
+<br>
+
+|    | pycm_metrics_0   | pycm_metrics_1   | pycm_metrics_2   | pycm_metrics_3   | pycm_metrics_4   |
+|:---|:-----------------|:-----------------|:-----------------|:-----------------|:-----------------|
+| 0  | TPR              | MCC              | POP              | ERR              | GM               |
+| 1  | TNR              | BM               | P                | RACCU            | Q                |
+| 2  | PPV              | MK               | N                | J                | AGM              |
+| 3  | NPV              | PLR              | TOP              | IS               | NLRI             |
+| 4  | FNR              | NLR              | TON              | CEN              | MCCI             |
+| 5  | FPR              | DOR              | PRE              | MCEN             |                  |
+| 6  | FDR              | TP               | G                | AUC              |                  |
+| 7  | FOR              | TN               | RACC             | sInd             |                  |
+| 8  | ACC              | FP               | F0.5             | dInd             |                  |
+| 9  | F1               | FN               | F2               | DP               |                  |
+
+
+For more information about these metrics please see: <a href="https://github.com/sepandhaghighi/pycm">pycm</a>
