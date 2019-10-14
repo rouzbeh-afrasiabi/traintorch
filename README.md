@@ -14,10 +14,13 @@ numpy==1.17.2
 pycm==2.2
 ```
  ## Installation:
+ 
+ ### Latest release:
  ```
  pip install traintorch
   ```
-or
+  
+### Latest Version
 
  ```
  pip install git+https://github.com/rouzbeh-afrasiabi/traintorch.git
