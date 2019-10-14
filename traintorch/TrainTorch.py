@@ -237,7 +237,6 @@ class traintorch:
 #                     plt.close(self.parent.figure)
                     clear_output(wait=True)
                     gc.collect()
-                    self.parent.counter+=1
         self._plot=plot(self,)
         self.create=self._plot.create
 
