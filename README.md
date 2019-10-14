@@ -31,8 +31,10 @@ pycm==2.2
 <p align='justify'>
   <img src='./images/pycm_overall.png'></img>
 </p>
-ACC Macro, AUNP, AUNU, Bennett S, CBA, Chi-Squared,Chi-Squared DF, Conditional Entropy, Cramer V,Cross Entropy, F1 Macro, F1 Micro, Gwet AC1,Hamming Loss, Joint Entropy, KL Divergence, Kappa,Kappa No Prevalence, Kappa Standard Error, Kappa Unbiased,Lambda A, Lambda B, Mutual Information, NIR, Overall ACC,Overall CEN, Overall MCC, Overall MCEN, Overall RACC,Overall RACCU, P-Value, PPV Macro, PPV Micro, Pearson C, Phi-Squared, RCI, RR, Reference Entropy,Response Entropy, Scott PI, Standard Error, TPR Macro,TPR Micro, Zero-one Loss
 
+```
+ACC Macro, AUNP, AUNU, Bennett S, CBA, Chi-Squared,Chi-Squared DF, Conditional Entropy, Cramer V,Cross Entropy, F1 Macro, F1 Micro, Gwet AC1,Hamming Loss, Joint Entropy, KL Divergence, Kappa,Kappa No Prevalence, Kappa Standard Error, Kappa Unbiased,Lambda A, Lambda B, Mutual Information, NIR, Overall ACC,Overall CEN, Overall MCC, Overall MCEN, Overall RACC,Overall RACCU, P-Value, PPV Macro, PPV Micro, Pearson C, Phi-Squared, RCI, RR, Reference Entropy,Response Entropy, Scott PI, Standard Error, TPR Macro,TPR Micro, Zero-one Loss
+```
 
 ## Example 
 
