@@ -85,7 +85,7 @@ class traintorch:
                     main_results=pd.concat([main_results, temp], axis=1,sort=False)
                 self.parent.main_results=main_results
             
-            def plot(self,): 
+            def create(self,): 
                 if(any([item.updated for item in self.parent.custom_metrics])):
                     
                     if(len(self.parent.custom_metrics)!=self.parent.n_custom_plots):
@@ -239,7 +239,7 @@ class traintorch:
                     clear_output(wait=True)
                     gc.collect()
         self._plot=plot(self,)
-        self.create=self._plot.create
+        self.plot=self._plot.create
 
 
 class metric:
