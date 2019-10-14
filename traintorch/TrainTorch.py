@@ -472,7 +472,7 @@ class pycmMetrics():
 
 
 class collate():
-    def __init__(self,target_a,target_b,target_metric,name=None,average=False,show_grid=False):
+    def __init__(self,target_a,target_b,target_metric,name=None,average=False,show_grid=False,xaxis_int=True):
         self.target=[target_a,target_b]
         self._all_metrics=list(set(target_a._all_metrics+target_b._all_metrics))
         if( target_metric in self._all_metrics):
@@ -491,6 +491,7 @@ class collate():
             self.w_size=target_a.w_size
         self.average=average  
         self.show_grid=show_grid
+        self.xaxis_int=xaxis_int
     def update(self,):
         self.updated=True
         temp_a=[]
