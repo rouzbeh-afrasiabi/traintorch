@@ -95,52 +95,50 @@ class traintorch:
                     else:
                         self.parent.total_plots=self.parent.n_custom_plots
 
-                    if(self.parent.counter==0):
-                        if((self.parent.top_rows)*(self.parent.top_cols)<self.parent.total_plots):
-                            warnings.warn("Total number of plots does not match the number of rows, number of rows has been increased to \
-                                          account for the difference")
-                            while(((self.parent.top_rows)*(self.parent.top_cols)<self.parent.total_plots)):
-                                self.parent.top_rows+=1                       
+                    if((self.parent.top_rows)*(self.parent.top_cols)<self.parent.total_plots):
+                        warnings.warn("Total number of plots does not match the number of rows, number of rows has been increased to \
+                                      account for the difference")
+                        while(((self.parent.top_rows)*(self.parent.top_cols)<self.parent.total_plots)):
+                            self.parent.top_rows+=1                       
 
 
                     n_splits= self.parent.n_splits
     #                 len(cm_df_overall.index)//2
 
 
-                    if(self.parent.counter==0):
-                        self.parent.figure = plt.figure(figsize=self.parent.figsize)
-                        self.parent.main_grid = gridspec.GridSpec(self.parent.nrows,
-                                                                  self.parent.ncols,
-                                                                  hspace=self.main_grid_hspace,
-                                                                  wspace=self.main_grid_wspace)
-                        self.parent.top_cell = self.parent.main_grid[0,0:] 
-                        self.parent.bottom_cell = self.parent.main_grid[1,0:]
-                        self.parent.inner_grid_top = gridspec.GridSpecFromSubplotSpec(
-                                                    (self.parent.top_rows*self.parent.plot_width)+(self.parent.top_rows-1),
-                                                    (self.parent.top_cols*self.parent.plot_height)+(self.parent.top_cols-1), 
-                                                    self.parent.top_cell,hspace=1
-                                                    )
-                        self.parent.bottom_cell = self.parent.main_grid[1,0:]
-                        self.parent.inner_grid_bottom = gridspec.GridSpecFromSubplotSpec(n_splits,3, self.parent.bottom_cell)
+                    self.parent.figure = plt.figure(figsize=self.parent.figsize)
+                    self.parent.main_grid = gridspec.GridSpec(self.parent.nrows,
+                                                              self.parent.ncols,
+                                                              hspace=self.main_grid_hspace,
+                                                              wspace=self.main_grid_wspace)
+                    self.parent.top_cell = self.parent.main_grid[0,0:] 
+                    self.parent.bottom_cell = self.parent.main_grid[1,0:]
+                    self.parent.inner_grid_top = gridspec.GridSpecFromSubplotSpec(
+                                                (self.parent.top_rows*self.parent.plot_width)+(self.parent.top_rows-1),
+                                                (self.parent.top_cols*self.parent.plot_height)+(self.parent.top_cols-1), 
+                                                self.parent.top_cell,hspace=1
+                                                )
+                    self.parent.bottom_cell = self.parent.main_grid[1,0:]
+                    self.parent.inner_grid_bottom = gridspec.GridSpecFromSubplotSpec(n_splits,3, self.parent.bottom_cell)
 
 
-                        self.parent.top_axes=[]
-                        for j,k in enumerate(range(0,self.parent.top_rows*self.parent.plot_width,self.parent.plot_width)):
-                            for l,m in enumerate(range(0,self.parent.top_cols*self.parent.plot_height,self.parent.plot_height)):
-                                temp=plt.subplot(self.parent.inner_grid_top[k+j:k+self.parent.plot_height+j,
-                                                                            l+m:(l-1)+m+self.parent.plot_width])
-                                self.parent.top_axes.append(temp)
+                    self.parent.top_axes=[]
+                    for j,k in enumerate(range(0,self.parent.top_rows*self.parent.plot_width,self.parent.plot_width)):
+                        for l,m in enumerate(range(0,self.parent.top_cols*self.parent.plot_height,self.parent.plot_height)):
+                            temp=plt.subplot(self.parent.inner_grid_top[k+j:k+self.parent.plot_height+j,
+                                                                        l+m:(l-1)+m+self.parent.plot_width])
+                            self.parent.top_axes.append(temp)
 
-                        self.parent._avg_axes=[]
-                        for i,item in enumerate(self.parent.top_axes):
-                            if(i<self.parent.total_plots):
-                                if(self.parent.custom_metrics[i].average):
-                                    ax_avg=item.twiny().twinx()
-                                    self.parent._avg_axes.append(ax_avg)
+                    self.parent._avg_axes=[]
+                    for i,item in enumerate(self.parent.top_axes):
+                        if(i<self.parent.total_plots):
+                            if(self.parent.custom_metrics[i].average):
+                                ax_avg=item.twiny().twinx()
+                                self.parent._avg_axes.append(ax_avg)
 
-        #                 self.parent.middle_cell = self.parent.main_grid[1,0:]
-        #                 self.parent.inner_grid_middle = gridspec.GridSpecFromSubplotSpec(n_splits,3, self.parent.middle_cell)
-        #                 middle_axes=[]
+    #                 self.parent.middle_cell = self.parent.main_grid[1,0:]
+    #                 self.parent.inner_grid_middle = gridspec.GridSpecFromSubplotSpec(n_splits,3, self.parent.middle_cell)
+    #                 middle_axes=[]
         #
         
                     #adds the main plots
@@ -237,6 +235,7 @@ class traintorch:
 #                     plt.close(self.parent.figure)
                     clear_output(wait=True)
                     gc.collect()
+                    self.parent.counter+=1
         self._plot=plot(self,)
         self.create=self._plot.create
 
