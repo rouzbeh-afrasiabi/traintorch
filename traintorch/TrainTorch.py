@@ -135,7 +135,7 @@ class traintorch:
                         warnings.warn("Total number of plots does not match the number of rows, number of rows has been increased to \
                                       account for the difference")
                         while(((self.parent.top_rows)*(self.parent.top_cols)<self.parent.total_plots)):
-                            self.parent.top_rows+=1                       
+                            self.parent.top_rows+=1
 
 
                     n_splits= self.parent.n_splits
@@ -147,7 +147,7 @@ class traintorch:
                                                               self.parent.ncols,
                                                               hspace=self.main_grid_hspace,
                                                               wspace=self.main_grid_wspace)
-                    self.parent.top_cell = self.parent.main_grid[0,0:] 
+                    self.parent.top_cell = self.parent.main_grid[0,0:]
                     self.parent.bottom_cell = self.parent.main_grid[1,0:]
                     self.parent.inner_grid_top = gridspec.GridSpecFromSubplotSpec(
                                                 (self.parent.top_rows*self.parent.plot_width)+(self.parent.top_rows-1),
@@ -212,7 +212,6 @@ class traintorch:
 
                         except Exception as error:
                             print(error, 'Happened while adding main plots.')
-                            pass
 
                     # Adds table
                     split_df=[]
@@ -244,7 +243,7 @@ class traintorch:
 
 
                             self.parent.split_df=split_df
-                            self.parent.bottom_axes=bottom_axes             
+                            self.parent.bottom_axes=bottom_axes
 
 
                     #moves legends to the bottom of the plots
@@ -407,9 +406,9 @@ class pycmMetrics():
         self.overall_metrics=[]
         self.class_metrics=[]      
         self.overall_metrics=overall_metrics
-        self.class_metrics=class_metrics 
+        self.class_metrics=class_metrics
         if(self.overall_metrics):
-            for i,key in enumerate(self.overall_metrics):
+            for key in self.overall_metrics:
                 if(key in self._overall_metrics):
                     _key=str(key).replace(' ','_')
                     self.metrics_oa[self.name+'_'+str(_key)]=metric(name=self.name+'_'+str(_key),w_size=self.w_size)
@@ -457,7 +456,7 @@ class pycmMetrics():
         self.cm_df_overall=pd.DataFrame(_main,index=[0])
         self.cm_df_class=pd.DataFrame(_class,index=[0])
         gc.collect()
-        
+
     def update(self,actual,predicted):
         _cm=ConfusionMatrix(actual,predicted)
         self._to_dict(_cm)
@@ -467,7 +466,7 @@ class pycmMetrics():
         if(self.metrics_cls):
             for k,v in self.cm_dict_class.items():
                 if(isinstance(v,dict)):
-                    self.metrics_cls[self.name+'_'+str(k)].update(**{self.name+'_'+str(k)+'_'+str(k_1):v_1 for k_1,v_1 in v.items()})        
+                    self.metrics_cls[self.name+'_'+str(k)].update(**{self.name+'_'+str(k)+'_'+str(k_1):v_1 for k_1,v_1 in v.items()}) 
                 else:
                     self.metrics_cls[self.name+'_'+str(k)].update(**{k:v})
         self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
@@ -492,15 +491,15 @@ class collate():
             raise Exception ("Selected Metrics do not have the same w_size.")
         else:
             self.w_size=target_a.w_size
-        self.average=average  
+        self.average=average
         self.show_grid=show_grid
         self.xaxis_int=xaxis_int
         self.n_ticks=n_ticks
     def update(self,):
         self.updated=True
         temp_a=[]
-        for i,item_0 in enumerate(self.target):
-            for i,item_1 in enumerate(item_0.metrics):
+        for item_0 in self.target:
+            for item_1 in item_0.metrics:
                 _key=item_1.name.replace(item_0.name+"_","")
                 if(_key==self.target_metric):
                     if(item_1.means):
