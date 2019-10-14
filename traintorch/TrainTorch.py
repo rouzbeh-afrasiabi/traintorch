@@ -153,14 +153,13 @@ class traintorch:
                                 #This can be optimized later
                                 
 #                                 top_axes[i].clear()
-                                if(self.parent.counter==0):
-                                    self.parent.top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
-                                    self.parent.top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
-                                    self.parent.top_axes[i].set_title(self.parent.custom_metrics[i].name)
-                                    self.parent.top_axes[i].set_ylabel('')
-                                    self.parent.top_axes[i].set_xlabel('')
-                                    if(self.parent.custom_metrics[i].show_grid):
-                                        item.grid()
+                                self.parent.top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
+                                self.parent.top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
+                                self.parent.top_axes[i].set_title(self.parent.custom_metrics[i].name)
+                                self.parent.top_axes[i].set_ylabel('')
+                                self.parent.top_axes[i].set_xlabel('')
+                                if(self.parent.custom_metrics[i].show_grid):
+                                    item.grid()
                                     
                                 else:
                                     self.parent.top_axes[i].set_data(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
@@ -168,10 +167,8 @@ class traintorch:
                                 if(self.parent.custom_metrics[i].average):
                                     self.parent._avg_axes[i].clear()
                                     avg=self.parent.custom_metrics[i].means
-                                    if(self.parent.counter==0):
-                                        self.parent._avg_axes[i].plot(avg,linestyle='--',alpha=0.6)
-                                    else:
-                                        self.parent._avg_axes[i].set_data(avg)
+                                    self.parent._avg_axes[i].plot(avg,linestyle='--',alpha=0.6)
+
                         except Exception as error:
                             print(error, 'Happened while adding main plots.')
                             pass
@@ -210,17 +207,16 @@ class traintorch:
 
 
                     #moves legends to the bottom of the plots
-                    if(self.parent.counter==0):
-                        for i,item in enumerate(self.parent.top_axes[:self.parent.n_custom_plots]):
-                            box = item.get_position()
-                            item.set_position([box.x0, box.y0 + box.height * 0.1,box.width, box.height * 0.9])
-                            lines=item.get_lines()
-                            if(custom_data.empty):
-                                custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
+                    for i,item in enumerate(self.parent.top_axes[:self.parent.n_custom_plots]):
+                        box = item.get_position()
+                        item.set_position([box.x0, box.y0 + box.height * 0.1,box.width, box.height * 0.9])
+                        lines=item.get_lines()
+                        if(custom_data.empty):
+                            custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
 
-                            lines[0].get_xydata()
-                            item.legend(self.parent.custom_metrics[i].window().columns,loc='upper center', 
-                                        bbox_to_anchor=(0.5, -0.1),fancybox=True, shadow=True, ncol=5)                        
+                        lines[0].get_xydata()
+                        item.legend(self.parent.custom_metrics[i].window().columns,loc='upper center', 
+                                    bbox_to_anchor=(0.5, -0.1),fancybox=True, shadow=True, ncol=5)                        
 
 
                             #add scientific formatting
@@ -229,13 +225,13 @@ class traintorch:
 
             
                     #Removes empty plots 
-                    if(self.parent.counter==0):
-                        for i,ax in enumerate(self.parent.top_axes):
-                            lines=ax.get_lines()
-                            try:
-                                lines[0].get_xydata()
-                            except Exception as error:
-                                self.parent.top_axes[i].axis('off')
+
+                    for i,ax in enumerate(self.parent.top_axes):
+                        lines=ax.get_lines()
+                        try:
+                            lines[0].get_xydata()
+                        except Exception as error:
+                            self.parent.top_axes[i].axis('off')
                     plt.show()
  
                     for item in self.parent.custom_metrics:
@@ -244,6 +240,7 @@ class traintorch:
 #                     plt.close(self.parent.figure)
                     clear_output(wait=True)
                     gc.collect()
+                    self.parent.counter+=1
         self._plot=plot(self,)
         self.create=self._plot.create
 
