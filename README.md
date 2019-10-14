@@ -28,7 +28,7 @@ pycm==2.2
  
 -------------
 
-## Example 
+## Examples
 
 ### Simple Usage
 ```python
