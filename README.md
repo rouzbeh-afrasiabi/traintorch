@@ -36,8 +36,11 @@ pycm==2.2
 ACC Macro, AUNP, AUNU, Bennett S, CBA, Chi-Squared,Chi-Squared DF, Conditional Entropy, Cramer V,Cross Entropy, F1 Macro, F1 Micro, Gwet AC1,Hamming Loss, Joint Entropy, KL Divergence, Kappa,Kappa No Prevalence, Kappa Standard Error, Kappa Unbiased,Lambda A, Lambda B, Mutual Information, NIR, Overall ACC,Overall CEN, Overall MCC, Overall MCEN, Overall RACC,Overall RACCU, P-Value, PPV Macro, PPV Micro, Pearson C, Phi-Squared, RCI, RR, Reference Entropy,Response Entropy, Scott PI, Standard Error, TPR Macro,TPR Micro, Zero-one Loss
 ```
 <p align="justify">
-Class metrics are also available through pycm but their use is currently not recommended.
+Following class metrics are also available through pycm but their use is currently not recommended.
 </p> 
+```
+TPR, TNR, PPV, NPV, FNR, FPR, FDR, FOR,ACC, F1, MCC, BM, MK, PLR, NLR, DOR, TP, TN, FP,FN, POP, P, N, TOP, TON, PRE, G, RACC, F0.5, F2,ERR, RACCU, J, IS, CEN, MCEN, AUC, sInd, dInd, DP,Y, PLRI, DPI, AUCI, GI, LS, AM, BCD, OP, IBA, GM,Q, AGM, NLRI, MCCI
+```
 
 ## Example 
 
