@@ -163,7 +163,7 @@ class traintorch:
                                         item.grid()
                                     
                                 else:
-                                    top_axes[i].set_ydata(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
+                                    top_axes[i].set_data(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
 
                                 if(self.parent.custom_metrics[i].average):
                                     self.parent._avg_axes[i].clear()
@@ -245,6 +245,7 @@ class traintorch:
 #                     plt.close(self.parent.figure)
                     clear_output(wait=True)
                     gc.collect()
+                    self.counter+=1
         self._plot=plot(self,)
         self.create=self._plot.create
 
