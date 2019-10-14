@@ -41,20 +41,24 @@ pycm==2.2
 | 9  | Cross Entropy       | Kappa Unbiased       | Overall RACCU      | Scott PI          |                  |
 
 
-<p align='center'>
-  <img src='./images/pycm_overall_m.png'></img>
-</p>
-
-```
-ACC Macro, AUNP, AUNU, Bennett S, CBA, Chi-Squared,Chi-Squared DF, Conditional Entropy, Cramer V,Cross Entropy, F1 Macro, F1 Micro, Gwet AC1,Hamming Loss, Joint Entropy, KL Divergence, Kappa,Kappa No Prevalence, Kappa Standard Error, Kappa Unbiased,Lambda A, Lambda B, Mutual Information, NIR, Overall ACC,Overall CEN, Overall MCC, Overall MCEN, Overall RACC,Overall RACCU, P-Value, PPV Macro, PPV Micro, Pearson C, Phi-Squared, RCI, RR, Reference Entropy,Response Entropy, Scott PI, Standard Error, TPR Macro,TPR Micro, Zero-one Loss
-```
 <p align="justify">
 Following class metrics are also available through pycm but their use is currently not recommended.
 </p> 
 
-```
-TPR, TNR, PPV, NPV, FNR, FPR, FDR, FOR,ACC, F1, MCC, BM, MK, PLR, NLR, DOR, TP, TN, FP,FN, POP, P, N, TOP, TON, PRE, G, RACC, F0.5, F2,ERR, RACCU, J, IS, CEN, MCEN, AUC, sInd, dInd, DP,Y, PLRI, DPI, AUCI, GI, LS, AM, BCD, OP, IBA, GM,Q, AGM, NLRI, MCCI
-```
+|    | pycm_metrics_0   | pycm_metrics_1   | pycm_metrics_2   | pycm_metrics_3   | pycm_metrics_4   |
+|:---|:-----------------|:-----------------|:-----------------|:-----------------|:-----------------|
+| 0  | TPR              | MCC              | POP              | ERR              | GM               |
+| 1  | TNR              | BM               | P                | RACCU            | Q                |
+| 2  | PPV              | MK               | N                | J                | AGM              |
+| 3  | NPV              | PLR              | TOP              | IS               | NLRI             |
+| 4  | FNR              | NLR              | TON              | CEN              | MCCI             |
+| 5  | FPR              | DOR              | PRE              | MCEN             |                  |
+| 6  | FDR              | TP               | G                | AUC              |                  |
+| 7  | FOR              | TN               | RACC             | sInd             |                  |
+| 8  | ACC              | FP               | F0.5             | dInd             |                  |
+| 9  | F1               | FN               | F2               | DP               |                  |
+
+
 For more information about these metrics please see: <a href="https://github.com/sepandhaghighi/pycm">pycm</a>
 ## Example 
 
