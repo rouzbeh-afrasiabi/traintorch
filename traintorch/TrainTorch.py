@@ -302,7 +302,7 @@ class metric:
         self.last_chunk=pd.DataFrame()
         self.means=[]
         self.average=average
-        self.n_ticks=.n_ticks
+        self.n_ticks=n_ticks
         self.xaxis_int=xaxis_int
         if(not name):
             raise Exception('please provide a name for this metric.')
