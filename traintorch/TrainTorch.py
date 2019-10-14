@@ -197,7 +197,7 @@ class traintorch:
                                 top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
                                 top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
                                 top_axes[i].set_title(self.parent.custom_metrics[i].name)
-                                if(self.parent.custom_metrics[i].xaxis_Int)
+                                if(self.parent.custom_metrics[i].xaxis_Int):
                                     top_axes[i].xaxis.set_major_locator(MaxNLocator(integer=True))
 
 
