@@ -29,7 +29,7 @@ pycm==2.2
  ```
 ### List of Metrics available through pycm
 <p align='center'>
-  <img src='./images/pycm_overall.png'></img>
+  <img src='./images/pycm_overall_m.png'></img>
 </p>
 
 ```
