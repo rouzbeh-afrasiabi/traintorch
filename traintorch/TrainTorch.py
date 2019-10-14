@@ -450,7 +450,6 @@ class pycmMetrics():
         _main,_class=self._to_dict(_cm)
         self.cm_dict_overall=_main
         self.cm_dict_class=_class
-        
         self.cm_df_overall=pd.DataFrame(_main,index=[0])
         self.cm_df_class=pd.DataFrame(_class,index=[0])
         gc.collect()
