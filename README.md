@@ -6,16 +6,16 @@
 Package for live visualization of model validation metrics during training of a machine learning model in jupyter notebooks. Traintorch utilizes a sliding window mechanism to reduce memory usage.
 </p> 
 
-## Requirements:
+## Requirements
 
 ```
 pandas==0.25.1
 matplotlib==3.1.1
 pycm==2.2
 ```
- ## Installation:
+ ## Installation
  
- ### Latest release:
+ ### Latest release
  ```
  pip install traintorch
   ```
@@ -104,7 +104,8 @@ for i in range(0,range_max,1):
 
 -------------
 
-### Metrics available through pycm
+## Metrics available through pycm
+
 <br>
 
 |    | pycm_metrics_0      | pycm_metrics_1       | pycm_metrics_2     | pycm_metrics_3    | pycm_metrics_4   |
