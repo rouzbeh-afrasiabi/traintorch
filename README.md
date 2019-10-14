@@ -45,7 +45,7 @@ for i in range(0,range_max,1):
     
     first.update(train_loss=1/(i+1),test_loss=1/(i**2+1))
     second.update(y=i/(i*2+1))
-    tracker.create()
+    tracker.plot()
 ```
  <p align='center'>
  <img src='./images/dash_a.png'></img>
@@ -90,7 +90,7 @@ for i in range(0,range_max,1):
     cm_metrics_b.update(actual_b,predicted_b)
     first.update(train=1/(i+1),test=1/(i**2+1))
     compare_a.update()
-    tracker.create()
+    tracker.plot()
 
 ```
  <p align='center'>
