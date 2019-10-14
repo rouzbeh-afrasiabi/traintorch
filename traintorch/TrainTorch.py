@@ -155,17 +155,25 @@ class traintorch:
 #                                 top_axes[i].clear()
                                 if(self.parent.counter==0):
                                     top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
+                                    top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
+                                    top_axes[i].set_title(self.parent.custom_metrics[i].name)
+                                    top_axes[i].set_ylabel('')
+                                    top_axes[i].set_xlabel('')
+                                    if(self.parent.custom_metrics[i].show_grid):
+                                        item.grid()
+                                    
                                 else:
                                     top_axes[i].set_data(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
-                                top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
-                                top_axes[i].set_title(self.parent.custom_metrics[i].name)
 
                                 if(self.parent.custom_metrics[i].average):
                                     self.parent._avg_axes[i].clear()
                                     avg=self.parent.custom_metrics[i].means
-                                    self.parent._avg_axes[i].plot(avg,linestyle='--',alpha=0.6)
+                                    if(self.parent.counter==0):
+                                        self.parent._avg_axes[i].plot(avg,linestyle='--',alpha=0.6)
+                                    else:
+                                        self.parent._avg_axes[i].set_data(avg)
                         except Exception as error:
-                            print(error)
+                            print(error, 'Happened while adding main plots.')
                             pass
 
                     # Adds table 
@@ -214,21 +222,20 @@ class traintorch:
                             item.legend(self.parent.custom_metrics[i].window().columns,loc='upper center', 
                                         bbox_to_anchor=(0.5, -0.1),fancybox=True, shadow=True, ncol=5)                        
 
-                            if(self.parent.custom_metrics[i].show_grid):
-                                item.grid()
+
                             #add scientific formatting
         #                     item.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
-                            item.set_ylabel('')
-                            item.set_xlabel('')  
+  
 
             
                     #Removes empty plots 
-                    for i,ax in enumerate(top_axes):
-                        lines=ax.get_lines()
-                        try:
-                            lines[0].get_xydata()
-                        except Exception as error:
-                            self.parent.top_axes[i].axis('off')
+                    if(self.parent.counter==0):
+                        for i,ax in enumerate(top_axes):
+                            lines=ax.get_lines()
+                            try:
+                                lines[0].get_xydata()
+                            except Exception as error:
+                                self.parent.top_axes[i].axis('off')
 
                     plt.show()
  
