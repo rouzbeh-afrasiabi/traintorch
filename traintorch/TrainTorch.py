@@ -124,12 +124,12 @@ class traintorch:
                         self.parent.inner_grid_bottom = gridspec.GridSpecFromSubplotSpec(n_splits,3, self.parent.bottom_cell)
 
 
-                        top_axes=[]
+                        self.parent.top_axes=[]
                         for j,k in enumerate(range(0,self.parent.top_rows*self.parent.plot_width,self.parent.plot_width)):
                             for l,m in enumerate(range(0,self.parent.top_cols*self.parent.plot_height,self.parent.plot_height)):
                                 temp=plt.subplot(self.parent.inner_grid_top[k+j:k+self.parent.plot_height+j,
                                                                             l+m:(l-1)+m+self.parent.plot_width])
-                                top_axes.append(temp)
+                                self.parent.top_axes.append(temp)
                         self.parent.top_axes=top_axes
                         self.parent._avg_axes=[]
                         for i,item in enumerate(self.parent.top_axes):
@@ -154,16 +154,16 @@ class traintorch:
                                 
 #                                 top_axes[i].clear()
                                 if(self.parent.counter==0):
-                                    top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
-                                    top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
-                                    top_axes[i].set_title(self.parent.custom_metrics[i].name)
-                                    top_axes[i].set_ylabel('')
-                                    top_axes[i].set_xlabel('')
+                                    self.parent.top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
+                                    self.parent.top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
+                                    self.parent.top_axes[i].set_title(self.parent.custom_metrics[i].name)
+                                    self.parent.top_axes[i].set_ylabel('')
+                                    self.parent.top_axes[i].set_xlabel('')
                                     if(self.parent.custom_metrics[i].show_grid):
                                         item.grid()
                                     
                                 else:
-                                    top_axes[i].set_data(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
+                                    self.parent.top_axes[i].set_data(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
 
                                 if(self.parent.custom_metrics[i].average):
                                     self.parent._avg_axes[i].clear()
@@ -229,13 +229,13 @@ class traintorch:
 
             
                     #Removes empty plots 
-#                     if(self.parent.counter==0):
-#                         for i,ax in enumerate(top_axes):
-#                             lines=ax.get_lines()
-#                             try:
-#                                 lines[0].get_xydata()
-#                             except Exception as error:
-#                                 self.parent.top_axes[i].axis('off')
+                    if(self.parent.counter==0):
+                        for i,ax in enumerate(self.parent.top_axes.):
+                            lines=ax.get_lines()
+                            try:
+                                lines[0].get_xydata()
+                            except Exception as error:
+                                self.parent.top_axes[i].axis('off')
                     plt.show()
  
                     for item in self.parent.custom_metrics:
