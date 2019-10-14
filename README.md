@@ -26,6 +26,21 @@ pycm==2.2
  pip install git+https://github.com/rouzbeh-afrasiabi/traintorch.git
  ```
 ### Metrics available through pycm
+
+|    | pycm_metrics_0      | pycm_metrics_1       | pycm_metrics_2     | pycm_metrics_3    | pycm_metrics_4   |
+|:---|:--------------------|:---------------------|:-------------------|:------------------|:-----------------|
+| 0  | ACC Macro           | F1 Macro             | Lambda A           | P-Value           | Standard Error   |
+| 1  | AUNP                | F1 Micro             | Lambda B           | PPV Macro         | TPR Macro        |
+| 2  | AUNU                | Gwet AC1             | Mutual Information | PPV Micro         | TPR Micro        |
+| 3  | Bennett S           | Hamming Loss         | NIR                | Pearson C         | Zero-one Loss    |
+| 4  | CBA                 | Joint Entropy        | Overall ACC        | Phi-Squared       |                  |
+| 5  | Chi-Squared         | KL Divergence        | Overall CEN        | RCI               |                  |
+| 6  | Chi-Squared DF      | Kappa                | Overall MCC        | RR                |                  |
+| 7  | Conditional Entropy | Kappa No Prevalence  | Overall MCEN       | Reference Entropy |                  |
+| 8  | Cramer V            | Kappa Standard Error | Overall RACC       | Response Entropy  |                  |
+| 9  | Cross Entropy       | Kappa Unbiased       | Overall RACCU      | Scott PI          |                  |
+
+
 <p align='center'>
   <img src='./images/pycm_overall_m.png'></img>
 </p>
