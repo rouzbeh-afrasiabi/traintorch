@@ -160,9 +160,6 @@ class traintorch:
                                 self.parent.top_axes[i].set_xlabel('')
                                 if(self.parent.custom_metrics[i].show_grid):
                                     item.grid()
-                                    
-                                else:
-                                    self.parent.top_axes[i].set_data(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
 
                                 if(self.parent.custom_metrics[i].average):
                                     self.parent._avg_axes[i].clear()
