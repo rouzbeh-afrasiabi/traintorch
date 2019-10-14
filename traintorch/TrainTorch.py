@@ -38,7 +38,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 
-import numpy as np
 import matplotlib.pyplot as plt
 from IPython.display import display, clear_output
 import time
@@ -46,12 +45,9 @@ import pandas as pd
 import math
 import sys
 import os
-import matplotlib
 import matplotlib.gridspec as gridspec
 from matplotlib.ticker import MaxNLocator
-import matplotlib.ticker as mtick
 import types
-import time
 import warnings
 import gc
 from pycm import *
@@ -62,7 +58,7 @@ get_ipython().run_line_magic('matplotlib','inline')
 warnings.filterwarnings("ignore")
 
 class traintorch:
-    def __init__(self,figsize=(15,20),show_table=True,table_metrics=[],n_custom_plots=2,
+    def __init__(self,figsize=(15,20),show_table=True,n_custom_plots=2,
                  top_rows=1,top_cols=2,plot_width=4,plot_height=4,nrows=2,ncols=1,
                 main_grid_hspace=0.5,main_grid_wspace=0.5,window=100,custom_window=[]):
 
@@ -126,7 +122,7 @@ class traintorch:
                     main_results=pd.concat([main_results, temp], axis=1,sort=False)
                 self.parent.main_results=main_results
             
-            def create(self,): 
+            def create(self,):
                 if(any([item.updated for item in self.parent.custom_metrics])):
                     
                     if(len(self.parent.custom_metrics)!=self.parent.n_custom_plots):
@@ -219,8 +215,8 @@ class traintorch:
                             print(error, 'Happened while adding main plots.')
                             pass
 
-                    # Adds table 
-                    split_df=[] 
+                    # Adds table
+                    split_df=[]
                     bottom_axes=[]
                     self.tail()
                     if(self.parent.show_table):
@@ -261,8 +257,8 @@ class traintorch:
                             custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
 
                         lines[0].get_xydata()
-                        item.legend(self.parent.custom_metrics[i].window().columns,loc='upper center', 
-                                    bbox_to_anchor=(0.5, -0.1),fancybox=True, shadow=True, ncol=5)                        
+                        item.legend(self.parent.custom_metrics[i].window().columns,loc='upper center',
+                                    bbox_to_anchor=(0.5, -0.1),fancybox=True, shadow=True, ncol=5)
 
 
                             #add scientific formatting
@@ -270,8 +266,7 @@ class traintorch:
   
 
             
-                    #Removes empty plots 
-
+                    #Removes empty plots
                     for i,ax in enumerate(self.parent.top_axes):
                         lines=ax.get_lines()
                         try:
@@ -424,7 +419,7 @@ class pycmMetrics():
             for i,key in enumerate(self.class_metrics):
                 if(key in self._class_metrics):
                     _key=str(key).replace(' ','_')
-                    self.metrics_cls[self.name+'_'+str(_key)]=metric(name=self.name+'_'+str(_key),w_size=self.w_size) 
+                    self.metrics_cls[self.name+'_'+str(_key)]=metric(name=self.name+'_'+str(_key),w_size=self.w_size)
         self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
         gc.collect()
     def _in_list(self,target,main):
@@ -512,12 +507,12 @@ class collate():
                     if(item_1.means):
                         temp_a.append(pd.concat(item_1.means, axis=1).T)
         if(temp_a):
-            self.means=pd.concat(temp_a,axis=1)  
+            self.means=pd.concat(temp_a,axis=1)
         gc.collect()
     def window(self,):
         temp_a=[]
-        for i,item_0 in enumerate(self.target):
-            for i,item_1 in enumerate(item_0.metrics):
+        for item_0 in self.target:
+            for item_1 in item_0.metrics:
                 _key=item_1.name.replace(item_0.name+"_","")
                 if(_key==self.target_metric):
                     temp_a.append(item_1.window())
