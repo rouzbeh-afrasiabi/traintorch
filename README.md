@@ -57,7 +57,6 @@ for i in range(0,range_max,1):
  
  </p>
 
--------------
 
 ### Using pycm metrics and doing comparison
 
