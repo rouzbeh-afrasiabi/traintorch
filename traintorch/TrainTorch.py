@@ -136,52 +136,50 @@ class traintorch:
                     else:
                         self.parent.total_plots=self.parent.n_custom_plots
 
-                    if(self.parent.counter==0):
-                        if((self.parent.top_rows)*(self.parent.top_cols)<self.parent.total_plots):
-                            warnings.warn("Total number of plots does not match the number of rows, number of rows has been increased to \
-                                          account for the difference")
-                            while(((self.parent.top_rows)*(self.parent.top_cols)<self.parent.total_plots)):
-                                self.parent.top_rows+=1                       
+                    if((self.parent.top_rows)*(self.parent.top_cols)<self.parent.total_plots):
+                        warnings.warn("Total number of plots does not match the number of rows, number of rows has been increased to \
+                                      account for the difference")
+                        while(((self.parent.top_rows)*(self.parent.top_cols)<self.parent.total_plots)):
+                            self.parent.top_rows+=1                       
 
 
                     n_splits= self.parent.n_splits
     #                 len(cm_df_overall.index)//2
 
 
-                    if(self.parent.counter==0):
-                        self.parent.figure = plt.figure(figsize=self.parent.figsize)
-                        self.parent.main_grid = gridspec.GridSpec(self.parent.nrows,
-                                                                  self.parent.ncols,
-                                                                  hspace=self.main_grid_hspace,
-                                                                  wspace=self.main_grid_wspace)
-                        self.parent.top_cell = self.parent.main_grid[0,0:] 
-                        self.parent.bottom_cell = self.parent.main_grid[1,0:]
-                        self.parent.inner_grid_top = gridspec.GridSpecFromSubplotSpec(
-                                                    (self.parent.top_rows*self.parent.plot_width)+(self.parent.top_rows-1),
-                                                    (self.parent.top_cols*self.parent.plot_height)+(self.parent.top_cols-1), 
-                                                    self.parent.top_cell,hspace=1
-                                                    )
-                        self.parent.bottom_cell = self.parent.main_grid[1,0:]
-                        self.parent.inner_grid_bottom = gridspec.GridSpecFromSubplotSpec(n_splits,3, self.parent.bottom_cell)
+                    self.parent.figure = plt.figure(figsize=self.parent.figsize)
+                    self.parent.main_grid = gridspec.GridSpec(self.parent.nrows,
+                                                              self.parent.ncols,
+                                                              hspace=self.main_grid_hspace,
+                                                              wspace=self.main_grid_wspace)
+                    self.parent.top_cell = self.parent.main_grid[0,0:] 
+                    self.parent.bottom_cell = self.parent.main_grid[1,0:]
+                    self.parent.inner_grid_top = gridspec.GridSpecFromSubplotSpec(
+                                                (self.parent.top_rows*self.parent.plot_width)+(self.parent.top_rows-1),
+                                                (self.parent.top_cols*self.parent.plot_height)+(self.parent.top_cols-1), 
+                                                self.parent.top_cell,hspace=1
+                                                )
+                    self.parent.bottom_cell = self.parent.main_grid[1,0:]
+                    self.parent.inner_grid_bottom = gridspec.GridSpecFromSubplotSpec(n_splits,3, self.parent.bottom_cell)
 
 
-                        top_axes=[]
-                        for j,k in enumerate(range(0,self.parent.top_rows*self.parent.plot_width,self.parent.plot_width)):
-                            for l,m in enumerate(range(0,self.parent.top_cols*self.parent.plot_height,self.parent.plot_height)):
-                                temp=plt.subplot(self.parent.inner_grid_top[k+j:k+self.parent.plot_height+j,
-                                                                            l+m:(l-1)+m+self.parent.plot_width])
-                                top_axes.append(temp)
-                        self.parent.top_axes=top_axes
-                        self.parent._avg_axes=[]
-                        for i,item in enumerate(self.parent.top_axes):
-                            if(i<self.parent.total_plots):
-                                if(self.parent.custom_metrics[i].average):
-                                    ax_avg=item.twiny().twinx()
-                                    self.parent._avg_axes.append(ax_avg)
+                    self.parent.top_axes=[]
+                    for j,k in enumerate(range(0,self.parent.top_rows*self.parent.plot_width,self.parent.plot_width)):
+                        for l,m in enumerate(range(0,self.parent.top_cols*self.parent.plot_height,self.parent.plot_height)):
+                            temp=plt.subplot(self.parent.inner_grid_top[k+j:k+self.parent.plot_height+j,
+                                                                        l+m:(l-1)+m+self.parent.plot_width])
+                            self.parent.top_axes.append(temp)
 
-        #                 self.parent.middle_cell = self.parent.main_grid[1,0:]
-        #                 self.parent.inner_grid_middle = gridspec.GridSpecFromSubplotSpec(n_splits,3, self.parent.middle_cell)
-        #                 middle_axes=[]
+                    self.parent._avg_axes=[]
+                    for i,item in enumerate(self.parent.top_axes):
+                        if(i<self.parent.total_plots):
+                            if(self.parent.custom_metrics[i].average):
+                                ax_avg=item.twiny().twinx()
+                                self.parent._avg_axes.append(ax_avg)
+
+    #                 self.parent.middle_cell = self.parent.main_grid[1,0:]
+    #                 self.parent.inner_grid_middle = gridspec.GridSpecFromSubplotSpec(n_splits,3, self.parent.middle_cell)
+    #                 middle_axes=[]
         #
         
                     #adds the main plots
@@ -194,19 +192,25 @@ class traintorch:
                                 #This can be optimized later
                                 
 #                                 top_axes[i].clear()
-                                top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
-                                top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
-                                top_axes[i].set_title(self.parent.custom_metrics[i].name)
+
+                                self.parent.top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
+                                self.parent.top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
+                                self.parent.top_axes[i].set_title(self.parent.custom_metrics[i].name)
+                                self.parent.top_axes[i].set_ylabel('')
+                                self.parent.top_axes[i].set_xlabel('')
                                 if(self.parent.custom_metrics[i].xaxis_int):
-                                    top_axes[i].xaxis.set_major_locator(MaxNLocator(integer=True))
+                                    self.parent.top_axes[i].xaxis.set_major_locator(MaxNLocator(integer=True))
+                                if(self.parent.custom_metrics[i].show_grid):
+                                    item.grid()
 
 
                                 if(self.parent.custom_metrics[i].average):
                                     self.parent._avg_axes[i].clear()
                                     avg=self.parent.custom_metrics[i].means
                                     self.parent._avg_axes[i].plot(avg,linestyle='--',alpha=0.6)
+
                         except Exception as error:
-                            print(error)
+                            print(error, 'Happened while adding main plots.')
                             pass
 
                     # Adds table 
@@ -243,34 +247,31 @@ class traintorch:
 
 
                     #moves legends to the bottom of the plots
-                    if(self.parent.counter==0):
-                        for i,item in enumerate(self.parent.top_axes[:self.parent.n_custom_plots]):
-                            box = item.get_position()
-                            item.set_position([box.x0, box.y0 + box.height * 0.1,box.width, box.height * 0.9])
-                            lines=item.get_lines()
-                            if(custom_data.empty):
-                                custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
+                    for i,item in enumerate(self.parent.top_axes[:self.parent.n_custom_plots]):
+                        box = item.get_position()
+                        item.set_position([box.x0, box.y0 + box.height * 0.1,box.width, box.height * 0.9])
+                        lines=item.get_lines()
+                        if(custom_data.empty):
+                            custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
 
-                            lines[0].get_xydata()
-                            item.legend(self.parent.custom_metrics[i].window().columns,loc='upper center', 
-                                        bbox_to_anchor=(0.5, -0.1),fancybox=True, shadow=True, ncol=5)                        
+                        lines[0].get_xydata()
+                        item.legend(self.parent.custom_metrics[i].window().columns,loc='upper center', 
+                                    bbox_to_anchor=(0.5, -0.1),fancybox=True, shadow=True, ncol=5)                        
 
-                            if(self.parent.custom_metrics[i].show_grid):
-                                item.grid()
+
                             #add scientific formatting
         #                     item.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
-                            item.set_ylabel('')
-                            item.set_xlabel('')  
+  
 
             
                     #Removes empty plots 
-                    for i,ax in enumerate(top_axes):
+
+                    for i,ax in enumerate(self.parent.top_axes):
                         lines=ax.get_lines()
                         try:
                             lines[0].get_xydata()
                         except Exception as error:
                             self.parent.top_axes[i].axis('off')
-
                     plt.show()
  
                     for item in self.parent.custom_metrics:
@@ -279,6 +280,7 @@ class traintorch:
 #                     plt.close(self.parent.figure)
                     clear_output(wait=True)
                     gc.collect()
+                    self.parent.counter+=1
         self._plot=plot(self,)
         self.plot=self._plot.create
 

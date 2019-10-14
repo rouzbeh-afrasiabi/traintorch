@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="traintorch",
-    version="1.0.1",
+    version="1.0.2",
     author="Rouzbeh Afrasiabi",
     author_email="rouzbeh.afrasiabi@gmail.com",
     description="Package for live visualization of metrics during training of a machine learning model",
@@ -17,7 +17,6 @@ setuptools.setup(
     'numpy>=1.17.2',
     'pandas>=0.25.1',
     'matplotlib>=3.1.1',
-    'ipython>=7.8.0', 
     'pycm>=2.2',
     ],
     keywords = ['training', 'visualization', 'loss','plot','live','jupyter notebook', 'matplotlib'],
