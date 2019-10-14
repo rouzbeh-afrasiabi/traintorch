@@ -229,14 +229,13 @@ class traintorch:
 
             
                     #Removes empty plots 
-                    if(self.parent.counter==0):
-                        for i,ax in enumerate(top_axes):
-                            lines=ax.get_lines()
-                            try:
-                                lines[0].get_xydata()
-                            except Exception as error:
-                                self.parent.top_axes[i].axis('off')
-                        self.parent.counter+=1
+#                     if(self.parent.counter==0):
+#                         for i,ax in enumerate(top_axes):
+#                             lines=ax.get_lines()
+#                             try:
+#                                 lines[0].get_xydata()
+#                             except Exception as error:
+#                                 self.parent.top_axes[i].axis('off')
                     plt.show()
  
                     for item in self.parent.custom_metrics:
