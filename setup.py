@@ -8,7 +8,7 @@ setuptools.setup(
     version="1.0.2",
     author="Rouzbeh Afrasiabi",
     author_email="rouzbeh.afrasiabi@gmail.com",
-    description="Package for live visualization of metrics during training of a machine learning model",
+    description="Package for live visualization of model validation metrics during training of a machine learning model in jupyter notebooks.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/rouzbeh-afrasiabi/traintorch",
