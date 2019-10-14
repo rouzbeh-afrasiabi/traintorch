@@ -3,7 +3,7 @@
 
 
 <p align="justify">
-Package for live visualization of model validation metrics during training of a machine learning model in jupyter notebooks. The package utilizes a sliding window mechanism to reduce memory usage.
+Package for live visualization of model validation metrics during training of a machine learning model in jupyter notebooks. Traintorch utilizes a sliding window mechanism to reduce memory usage.
 </p> 
 
 ## Requirements:
