@@ -12,7 +12,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/rouzbeh-afrasiabi/traintorch",
-    download_url="https://github.com/rouzbeh-afrasiabi/traintorch/archive/1.0.1-alpha.1.tar.gz",
+    download_url="https://github.com/rouzbeh-afrasiabi/traintorch/archive/v.1.0.2-alpha.tar.gz",
     install_requires=[
     'numpy>=1.17.2',
     'pandas>=0.25.1',
@@ -23,7 +23,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3.6",
-        "License :: OSI Approved :: MIT License",
+        "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
     ],
 )
