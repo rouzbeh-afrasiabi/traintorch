@@ -39,7 +39,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 import matplotlib.pyplot as plt
-from IPython.display import display, clear_output
+from IPython.display import clear_output
 import time
 import pandas as pd
 import math
@@ -47,7 +47,6 @@ import sys
 import os
 import matplotlib.gridspec as gridspec
 from matplotlib.ticker import MaxNLocator
-import types
 import warnings
 import gc
 from pycm import *
@@ -62,7 +61,7 @@ class traintorch:
                  top_rows=1,top_cols=2,plot_width=4,plot_height=4,nrows=2,ncols=1,
                 main_grid_hspace=0.5,main_grid_wspace=0.5,window=100,custom_window=[]):
 
-        self.show_table=show_table    
+        self.show_table=show_table
         self.top_rows=top_rows
         self.top_cols=top_cols
         self.plot_width=plot_width
@@ -152,7 +151,7 @@ class traintorch:
                     self.parent.bottom_cell = self.parent.main_grid[1,0:]
                     self.parent.inner_grid_top = gridspec.GridSpecFromSubplotSpec(
                                                 (self.parent.top_rows*self.parent.plot_width)+(self.parent.top_rows-1),
-                                                (self.parent.top_cols*self.parent.plot_height)+(self.parent.top_cols-1), 
+                                                (self.parent.top_cols*self.parent.plot_height)+(self.parent.top_cols-1),
                                                 self.parent.top_cell,hspace=1
                                                 )
                     self.parent.bottom_cell = self.parent.main_grid[1,0:]
