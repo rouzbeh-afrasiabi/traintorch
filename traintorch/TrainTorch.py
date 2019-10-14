@@ -200,6 +200,7 @@ class traintorch:
                                 self.parent.top_axes[i].set_xlabel('')
                                 if(self.parent.custom_metrics[i].xaxis_int):
                                     self.parent.top_axes[i].xaxis.set_major_locator(MaxNLocator(integer=True))
+                                self.parent.top_axes[i].set_xticks(ax.get_xticks()[::2])
                                 if(self.parent.custom_metrics[i].show_grid):
                                     item.grid()
 
