@@ -21,7 +21,7 @@ get_ipython().run_line_magic('matplotlib','inline')
 warnings.filterwarnings("ignore")
 
 class traintorch:
-    def __init__(self,n_custom_plots=0,figsize=(15,20),show_table=True,table_metrics=[],
+    def __init__(self,figsize=(15,20),show_table=True,table_metrics=[],n_custom_plots=2,
                  top_rows=1,top_cols=2,plot_width=4,plot_height=4,nrows=2,ncols=1,
                 main_grid_hspace=0.5,main_grid_wspace=0.5,window=100,custom_window=[]):
 
@@ -55,7 +55,7 @@ class traintorch:
 
         self._avg_axes=[]
         
-    def concat_metrtics(self,target):
+    def append(self,target):
         temp=[]
         for item in target:
             if(isinstance(item,(metric,collate))):
