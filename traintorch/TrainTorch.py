@@ -402,7 +402,7 @@ class pycmMetrics():
         self.metrics_oa={}
         self.metrics_cls={}
         self.overall_metrics=[]
-        self.class_metrics=[]      
+        self.class_metrics=[]
         self.overall_metrics=overall_metrics
         self.class_metrics=class_metrics
         if(self.overall_metrics):
@@ -412,7 +412,7 @@ class pycmMetrics():
                     self.metrics_oa[self.name+'_'+str(_key)]=metric(name=self.name+'_'+str(_key),w_size=self.w_size)
                     
         if(self.class_metrics):
-            for i,key in enumerate(self.class_metrics):
+            for key in self.class_metrics:
                 if(key in self._class_metrics):
                     _key=str(key).replace(' ','_')
                     self.metrics_cls[self.name+'_'+str(_key)]=metric(name=self.name+'_'+str(_key),w_size=self.w_size)
@@ -464,7 +464,7 @@ class pycmMetrics():
         if(self.metrics_cls):
             for k,v in self.cm_dict_class.items():
                 if(isinstance(v,dict)):
-                    self.metrics_cls[self.name+'_'+str(k)].update(**{self.name+'_'+str(k)+'_'+str(k_1):v_1 for k_1,v_1 in v.items()}) 
+                    self.metrics_cls[self.name+'_'+str(k)].update(**{self.name+'_'+str(k)+'_'+str(k_1):v_1 for k_1,v_1 in v.items()})
                 else:
                     self.metrics_cls[self.name+'_'+str(k)].update(**{k:v})
         self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
