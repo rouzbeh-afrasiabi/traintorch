@@ -130,7 +130,7 @@ class traintorch:
                                 temp=plt.subplot(self.parent.inner_grid_top[k+j:k+self.parent.plot_height+j,
                                                                             l+m:(l-1)+m+self.parent.plot_width])
                                 self.parent.top_axes.append(temp)
-                        self.parent.top_axes=top_axes
+
                         self.parent._avg_axes=[]
                         for i,item in enumerate(self.parent.top_axes):
                             if(i<self.parent.total_plots):
