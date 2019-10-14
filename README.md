@@ -107,7 +107,6 @@ for i in range(0,range_max,1):
 
 ## Metrics available through pycm
 
-<br>
 
 |    | pycm_metrics_0      | pycm_metrics_1       | pycm_metrics_2     | pycm_metrics_3    | pycm_metrics_4   |
 |:---|:--------------------|:---------------------|:-------------------|:------------------|:-----------------|
