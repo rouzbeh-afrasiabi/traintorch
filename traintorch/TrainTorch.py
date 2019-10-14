@@ -276,7 +276,8 @@ class traintorch:
                         if(item.updated):
                             item.updated=False
 #                     plt.close(self.parent.figure)
-                    clear_output(wait=True)
+#                     clear_output(wait=True)
+                    plt.pause(0.1)
                     gc.collect()
         self._plot=plot(self,)
         self.plot=self._plot.create
