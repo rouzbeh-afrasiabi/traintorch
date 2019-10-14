@@ -48,6 +48,7 @@ import sys
 import os
 import matplotlib
 import matplotlib.gridspec as gridspec
+from matplotlib.ticker import MaxNLocator
 import matplotlib.ticker as mtick
 import types
 import time
@@ -191,13 +192,17 @@ class traintorch:
                                 #This can be optimized later
                                 
 #                                 top_axes[i].clear()
+
                                 self.parent.top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
                                 self.parent.top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
                                 self.parent.top_axes[i].set_title(self.parent.custom_metrics[i].name)
                                 self.parent.top_axes[i].set_ylabel('')
                                 self.parent.top_axes[i].set_xlabel('')
+                                if(self.parent.custom_metrics[i].xaxis_int):
+                                    self.parent.top_axes[i].xaxis.set_major_locator(MaxNLocator(integer=True))
                                 if(self.parent.custom_metrics[i].show_grid):
                                     item.grid()
+
 
                                 if(self.parent.custom_metrics[i].average):
                                     self.parent._avg_axes[i].clear()
@@ -281,7 +286,7 @@ class traintorch:
 
 
 class metric:
-    def __init__(self,name=None,w_size=10,average=False,show_grid=False):
+    def __init__(self,name=None,w_size=10,average=False,show_grid=False,xaxis_int=True):
         self.name=name
         self.__kwargs=None
         self.counter=0
@@ -291,6 +296,7 @@ class metric:
         self.last_chunk=pd.DataFrame()
         self.means=[]
         self.average=average
+        self.xaxis_int=xaxis_int
         if(not name):
             raise Exception('please provide a name for this metric.')
         self.show_grid=show_grid
@@ -468,7 +474,7 @@ class pycmMetrics():
 
 
 class collate():
-    def __init__(self,target_a,target_b,target_metric,name=None,average=False,show_grid=False):
+    def __init__(self,target_a,target_b,target_metric,name=None,average=False,show_grid=False,xaxis_int=True):
         self.target=[target_a,target_b]
         self._all_metrics=list(set(target_a._all_metrics+target_b._all_metrics))
         if( target_metric in self._all_metrics):
@@ -487,6 +493,7 @@ class collate():
             self.w_size=target_a.w_size
         self.average=average  
         self.show_grid=show_grid
+        self.xaxis_int=xaxis_int
     def update(self,):
         self.updated=True
         temp_a=[]
