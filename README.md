@@ -35,7 +35,7 @@ second=metric('Accuracy',w_size=10,average=False)
 
 
 #create an instance of traintorch
-tracker=traintorch(n_custom_plots=1,main_grid_hspace=.1, figsize=(15,10),show_table=True)
+tracker=traintorch(n_custom_plots=2,main_grid_hspace=.1, figsize=(15,10),show_table=True)
 #combine all metrics together
 tracker.concat_metrtics([first,second])
 
