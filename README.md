@@ -40,14 +40,11 @@ pycm==2.2
 | 8  | Cramer V            | Kappa Standard Error | Overall RACC       | Response Entropy  |                  |
 | 9  | Cross Entropy       | Kappa Unbiased       | Overall RACCU      | Scott PI          |                  |
 
-
+<br><br>
 <p align="justify">
- 
- 
 Following class metrics are also available through pycm but their use is currently not recommended.
-
 </p> 
-
+<br><br>
 |    | pycm_metrics_0   | pycm_metrics_1   | pycm_metrics_2   | pycm_metrics_3   | pycm_metrics_4   |
 |:---|:-----------------|:-----------------|:-----------------|:-----------------|:-----------------|
 | 0  | TPR              | MCC              | POP              | ERR              | GM               |
