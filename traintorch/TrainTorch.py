@@ -197,7 +197,8 @@ class traintorch:
                                 top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
                                 top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
                                 top_axes[i].set_title(self.parent.custom_metrics[i].name)
-                                top_axes[i].xaxis.set_major_locator(MaxNLocator(integer=True))
+                                if(self.parent.custom_metrics[i].xaxis_Int)
+                                    top_axes[i].xaxis.set_major_locator(MaxNLocator(integer=True))
 
 
                                 if(self.parent.custom_metrics[i].average):
@@ -283,7 +284,7 @@ class traintorch:
 
 
 class metric:
-    def __init__(self,name=None,w_size=10,average=False,show_grid=False):
+    def __init__(self,name=None,w_size=10,average=False,show_grid=False,xaxis_Int=True):
         self.name=name
         self.__kwargs=None
         self.counter=0
@@ -293,6 +294,7 @@ class metric:
         self.last_chunk=pd.DataFrame()
         self.means=[]
         self.average=average
+        self.xaxis_Int=xaxis_Int
         if(not name):
             raise Exception('please provide a name for this metric.')
         self.show_grid=show_grid
