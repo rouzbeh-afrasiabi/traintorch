@@ -230,7 +230,7 @@ class traintorch:
             
                     #Removes empty plots 
                     if(self.parent.counter==0):
-                        for i,ax in enumerate(self.parent.top_axes.):
+                        for i,ax in enumerate(self.parent.top_axes):
                             lines=ax.get_lines()
                             try:
                                 lines[0].get_xydata()
