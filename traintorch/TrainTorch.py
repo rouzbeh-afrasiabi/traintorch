@@ -200,6 +200,12 @@ class traintorch:
                                 self.parent.top_axes[i].set_xlabel('')
                                 if(self.parent.custom_metrics[i].xaxis_int):
                                     self.parent.top_axes[i].xaxis.set_major_locator(MaxNLocator(integer=True))
+                                #limit the number of ticks
+                                if(self.parent.custom_metrics[i].n_ticks):
+                                    _k,_l=self.parent.custom_metrics[i].n_ticks
+                                    self.parent.top_axes[i].xaxis.set_major_locator(plt.MaxNLocator(_k))
+                                    self.parent.top_axes[i].yaxis.set_major_locator(plt.MaxNLocator(_l))
+#                                 self.parent.top_axes[i].set_xticks(self.parent.top_axes[i].get_xticks()[::2])
                                 if(self.parent.custom_metrics[i].show_grid):
                                     item.grid()
 
@@ -286,7 +292,7 @@ class traintorch:
 
 
 class metric:
-    def __init__(self,name=None,w_size=10,average=False,show_grid=False,xaxis_int=True):
+    def __init__(self,name=None,w_size=10,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3)):
         self.name=name
         self.__kwargs=None
         self.counter=0
@@ -296,6 +302,7 @@ class metric:
         self.last_chunk=pd.DataFrame()
         self.means=[]
         self.average=average
+        self.n_ticks=n_ticks
         self.xaxis_int=xaxis_int
         if(not name):
             raise Exception('please provide a name for this metric.')
@@ -474,7 +481,7 @@ class pycmMetrics():
 
 
 class collate():
-    def __init__(self,target_a,target_b,target_metric,name=None,average=False,show_grid=False,xaxis_int=True):
+    def __init__(self,target_a,target_b,target_metric,name=None,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3)):
         self.target=[target_a,target_b]
         self._all_metrics=list(set(target_a._all_metrics+target_b._all_metrics))
         if( target_metric in self._all_metrics):
@@ -494,6 +501,7 @@ class collate():
         self.average=average  
         self.show_grid=show_grid
         self.xaxis_int=xaxis_int
+        self.n_ticks=n_ticks
     def update(self,):
         self.updated=True
         temp_a=[]
