@@ -57,7 +57,6 @@ for i in range(0,range_max,1):
  
  </p>
 
-
 ### Using pycm metrics and performing comparison
 
 <br>
@@ -107,7 +106,6 @@ for i in range(0,range_max,1):
 
 ## Metrics available through pycm
 
-
 |    | pycm_metrics_0      | pycm_metrics_1       | pycm_metrics_2     | pycm_metrics_3    | pycm_metrics_4   |
 |:---|:--------------------|:---------------------|:-------------------|:------------------|:-----------------|
 | 0  | ACC Macro           | F1 Macro             | Lambda A           | P-Value           | Standard Error   |
@@ -139,6 +137,5 @@ Following class metrics are also available through pycm but their use is current
 | 7  | FOR              | TN               | RACC             | sInd             |                  |
 | 8  | ACC              | FP               | F0.5             | dInd             |                  |
 | 9  | F1               | FN               | F2               | DP               |                  |
-
 
 For more information about these metrics please see: <a href="https://github.com/sepandhaghighi/pycm">pycm</a>
