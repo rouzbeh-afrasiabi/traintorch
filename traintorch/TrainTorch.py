@@ -40,7 +40,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
 import matplotlib.pyplot as plt
 from IPython.display import clear_output
-import time
 import pandas as pd
 import math
 import sys
@@ -136,7 +135,6 @@ class traintorch:
                                       account for the difference")
                         while(((self.parent.top_rows)*(self.parent.top_cols)<self.parent.total_plots)):
                             self.parent.top_rows+=1
-
 
                     n_splits= self.parent.n_splits
     #                 len(cm_df_overall.index)//2
