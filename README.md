@@ -25,6 +25,8 @@ pycm==2.2
  ```
  pip install git+https://github.com/rouzbeh-afrasiabi/traintorch.git
  ```
+ 
+-------------
 
 ## Example 
 
@@ -55,7 +57,7 @@ for i in range(0,range_max,1):
  
  </p>
 
-
+-------------
 
 ### Using pycm metrics and doing comparison
 
@@ -100,6 +102,8 @@ for i in range(0,range_max,1):
  <p align='center'>
  <img src='./images/dash.png'></img>
  </p>
+
+-------------
 
 ### Metrics available through pycm
 <br>
