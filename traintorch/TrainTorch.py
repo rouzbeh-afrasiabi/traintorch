@@ -202,7 +202,7 @@ class traintorch:
                                     self.parent.top_axes[i].xaxis.set_major_locator(MaxNLocator(integer=True))
                                 #limit the number of ticks
                                 if(self.parent.custom_metrics[i].n_ticks):
-                                    _k,_l=n_ticks
+                                    _k,_l=self.parent.custom_metrics[i].n_ticks
                                     self.parent.top_axes[i].xaxis.set_major_locator(plt.MaxNLocator(_k))
                                     self.parent.top_axes[i].yaxis.set_major_locator(plt.MaxNLocator(_l))
 #                                 self.parent.top_axes[i].set_xticks(self.parent.top_axes[i].get_xticks()[::2])
