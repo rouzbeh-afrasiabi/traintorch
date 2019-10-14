@@ -30,10 +30,6 @@ pycm==2.2
   <img src='./images/pycm_overall_m.png'></img>
 </p>
 
-
-|  pycm_metrics_0      | pycm_metrics_1       | pycm_metrics_2     | pycm_metrics_3    | pycm_metrics_4   |\n| :--------------------|:---------------------|:-------------------|:------------------|:-----------------|\n|  ACC Macro           | F1 Macro             | Lambda A           | P-Value           | Standard Error   |\n|  AUNP                | F1 Micro             | Lambda B           | PPV Macro         | TPR Macro        |\n|  AUNU                | Gwet AC1             | Mutual Information | PPV Micro         | TPR Micro        |\n|  Bennett S           | Hamming Loss         | NIR                | Pearson C         | Zero-one Loss    |\n|  CBA                 | Joint Entropy        | Overall ACC        | Phi-Squared       |                  |\n|  Chi-Squared         | KL Divergence        | Overall CEN        | RCI               |                  |\n|  Chi-Squared DF      | Kappa                | Overall MCC        | RR                |                  |\n|  Conditional Entropy | Kappa No Prevalence  | Overall MCEN       | Reference Entropy |                  |\n|  Cramer V            | Kappa Standard Error | Overall RACC       | Response Entropy  |                  |\n|  Cross Entropy       | Kappa Unbiased       | Overall RACCU      | Scott PI          |                  |
-
-
 ```
 ACC Macro, AUNP, AUNU, Bennett S, CBA, Chi-Squared,Chi-Squared DF, Conditional Entropy, Cramer V,Cross Entropy, F1 Macro, F1 Micro, Gwet AC1,Hamming Loss, Joint Entropy, KL Divergence, Kappa,Kappa No Prevalence, Kappa Standard Error, Kappa Unbiased,Lambda A, Lambda B, Mutual Information, NIR, Overall ACC,Overall CEN, Overall MCC, Overall MCEN, Overall RACC,Overall RACCU, P-Value, PPV Macro, PPV Micro, Pearson C, Phi-Squared, RCI, RR, Reference Entropy,Response Entropy, Scott PI, Standard Error, TPR Macro,TPR Micro, Zero-one Loss
 ```
