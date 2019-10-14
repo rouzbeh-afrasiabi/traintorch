@@ -28,7 +28,9 @@ pycm==2.2
  pip install git+https://github.com/rouzbeh-afrasiabi/traintorch.git
  ```
 ### List of Metrics available through pycm
-
+<p align='center'>
+<img src='./images/pycm_overall.png'></img>
+ </p>
 
 ## Example 
 
@@ -102,5 +104,4 @@ for i in range(0,range_max,1):
 ```
  <p align='center'>
  <img src='./images/dash.png'></img>
- 
  </p>
