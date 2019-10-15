@@ -51,7 +51,10 @@ import gc
 from pycm import *
 
 from IPython import get_ipython
-get_ipython().run_line_magic('matplotlib','inline')
+
+_ipy = get_ipython()
+if _ipy is not None:
+    get_ipython().run_line_magic('matplotlib','inline')
 
 warnings.filterwarnings("ignore")
 
