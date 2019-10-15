@@ -3,6 +3,11 @@ import sys, os
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../')
 
+from IPython.testing.globalipapp import get_ipython
+ip = get_ipython()
+ip.magic('load_ext excelify')
+
+
 from traintorch import *
 
 class TestClass:
