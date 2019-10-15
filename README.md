@@ -1,9 +1,8 @@
--------------
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d4b74c08973343128d17532b4b84e154)](https://www.codacy.com/manual/rouzbeh-afrasiabi/traintorch?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rouzbeh-afrasiabi/traintorch&amp;utm_campaign=Badge_Grade)
 
-[![HitCount](http://hits.dwyl.io/rouzbeh-afrasiabi/traintorch.svg)](http://hits.dwyl.io/rouzbeh-afrasiabi/traintorch)
+|  |  |  |
+|:--------|:------|:------------|
+|[![Build status](https://dev.azure.com/rafrasia/firstProject/_apis/build/status/TrainTorch-CI)](https://dev.azure.com/rafrasia/firstProject/_build/latest?definitionId=-1)|[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d4b74c08973343128d17532b4b84e154)](https://www.codacy.com/manual/rouzbeh-afrasiabi/traintorch?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rouzbeh-afrasiabi/traintorch&amp;utm_campaign=Badge_Grade)|[![HitCount](http://hits.dwyl.io/rouzbeh-afrasiabi/traintorch.svg)](http://hits.dwyl.io/rouzbeh-afrasiabi/traintorch)|
 
--------------
 
 # TrainTorch v.1.0.2-alpha
 
