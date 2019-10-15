@@ -1,5 +1,4 @@
 import pytest
-from traintorch import *
 
 class TestClass:
     def test_one(self):
