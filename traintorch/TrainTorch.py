@@ -322,7 +322,7 @@ class metric:
             self.chunk_mean()
             for key in self.keys:
                 self.__dict__[key]=[]
-        gc.collect()
+
     def frame(self,):
         _dict={}
         for k,v in self.__dict__.items():
@@ -331,7 +331,6 @@ class metric:
         _data=pd.DataFrame(_dict)
         if('x' in _data.columns):
             _data.set_index('x',inplace=True)
-        gc.collect()
         return(_data)
     def window(self,):
         _data=pd.concat([self.last_chunk,self.frame()]).reset_index(drop=True)[(-1*self.w_size):]
@@ -343,7 +342,6 @@ class metric:
                 _data=pd.concat(self.means,axis=1).T
             else:
                 _data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
-        gc.collect()
         return _data
 
     def chunk(self,method='r'):
@@ -357,26 +355,20 @@ class metric:
             for i in range(0, _data.shape[0], n):
                 _output.append(_data.iloc[i:i + n,:])
         self.last_chunk=_output[0]
-        gc.collect()
     def chunk_mean(self,):
         self.means.append(self.last_chunk.mean(axis=0))
-        gc.collect()
     def shape(self,):
-        gc.collect()
         return self.frame().shape
     
     def __getitem__(self,key):
-        gc.collect()
         if(key in self.keys):
             _data=self.window()
             return(_data[key])
         else:
             return None
     def __len__(self,):
-        gc.collect()
         return(len(self.keys))
     def __call__(self,):
-        gc.collect()
         return self.frame().iloc[(-1*self.w_size):,:]
     
 class pycmMetrics():
