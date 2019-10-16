@@ -28,5 +28,16 @@ class TestClass:
         assert test.x==[198]
         
     def test_traintorch(self):
-        x = 1
-        assert x==1
+        tracker=traintorch(n_custom_plots=1,main_grid_hspace=.1, figsize=(15,10),show_table=True)
+        assert tracker.n_custom_plots==1
+        assert tracker.main_grid_hspace==0.1
+        assert tracker.figsize==(15,10)
+        assert tracker.show_table==True
+        assert tracker.window==100
+        assert tracker.main_grid_wspace==0.5
+        test=metric('test',w_size=10,average=False,xaxis_int=True,n_ticks=(5, 5))
+        for i in range(0,100):
+            pass
+            test.update(x=2*i,t=i,f=3*i)
+        tracker.append([test])
+        tracker.plot()
