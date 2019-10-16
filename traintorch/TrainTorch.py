@@ -187,7 +187,7 @@ class traintorch:
                                 else:
                                     if(self.parent.custom_metrics[i].means):
                                         custom_data=pd.concat(self.parent.custom_metrics[i].means,axis=1).T
-                                if(isinstance(custom_data,pd.Dataframe) and custom_data.empty):
+                                if(isinstance(custom_data,pd.DataFrame) and custom_data.empty):
                                     custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
                                 #This can be optimized later
                                 
