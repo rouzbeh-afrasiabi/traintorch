@@ -27,6 +27,6 @@ class TestClass:
                                [ 94, 282],[ 95, 285],[ 96, 288],[ 97, 291],[ 98, 294],[ 99, 297]]))
         assert test.x==[198]
         
-    def test_two(self):
+    def test_traintorch(self):
         x = 1
         assert x==1
