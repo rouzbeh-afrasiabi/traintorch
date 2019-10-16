@@ -14,6 +14,7 @@ Package for live visualization of model validation metrics during training of a 
 ## Requirements
 
 ```
+ipython==7.8.0
 pandas==0.25.1
 matplotlib==3.1.1
 pycm==2.2
