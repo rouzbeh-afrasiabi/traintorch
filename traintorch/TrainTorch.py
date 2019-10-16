@@ -286,7 +286,8 @@ class traintorch:
 
 
 class metric:
-    def __init__(self,name=None,w_size=10,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3)):
+    def __init__(self,name=None,w_size=10,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),
+                avg_only=False):
         self.name=name
         self.__kwargs=None
         self.counter=0
@@ -301,6 +302,7 @@ class metric:
         if(not name):
             raise Exception('please provide a name for this metric.')
         self.show_grid=show_grid
+        self.avg_only=avg_only
     def update(self,**kwargs):
         self.updated=True
         self.counter+=1
@@ -474,7 +476,8 @@ class pycmMetrics():
 
 
 class collate():
-    def __init__(self,target_a,target_b,target_metric,name=None,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3)):
+    def __init__(self,target_a,target_b,target_metric,name=None,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),
+                avg_only=False):
         self.target=[target_a,target_b]
         self._all_metrics=list(set(target_a._all_metrics+target_b._all_metrics))
         if( target_metric in self._all_metrics):
@@ -495,6 +498,7 @@ class collate():
         self.show_grid=show_grid
         self.xaxis_int=xaxis_int
         self.n_ticks=n_ticks
+        self.avg_only=avg_only
     def update(self,):
         self.updated=True
         temp_a=[]
