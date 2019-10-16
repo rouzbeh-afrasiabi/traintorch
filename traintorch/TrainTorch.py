@@ -188,8 +188,11 @@ class traintorch:
                                 #This can be optimized later
                                 
 #                                 top_axes[i].clear()
-
-                                self.parent.top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
+                                if(not self.parent.custom_metrics[i].avg_only): 
+                                    self.parent.top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
+                                else:
+                                     self.parent.custom_metrics[i].average=False
+                                     self.parent.top_axes[i].plot(self.parent.custom_metrics[i].means)
                                 self.parent.top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
                                 self.parent.top_axes[i].set_title(self.parent.custom_metrics[i].name)
                                 self.parent.top_axes[i].set_ylabel('')
@@ -286,7 +289,7 @@ class traintorch:
 
 
 class metric:
-    def __init__(self,name=None,w_size=10,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3)):
+    def __init__(self,name=None,w_size=10,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),avg_only=False):
         self.name=name
         self.__kwargs=None
         self.counter=0
@@ -298,6 +301,7 @@ class metric:
         self.average=average
         self.n_ticks=n_ticks
         self.xaxis_int=xaxis_int
+        self.avg_only=avg_only
         if(not name):
             raise Exception('please provide a name for this metric.')
         self.show_grid=show_grid
@@ -474,7 +478,8 @@ class pycmMetrics():
 
 
 class collate():
-    def __init__(self,target_a,target_b,target_metric,name=None,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3)):
+    def __init__(self,target_a,target_b,target_metric,name=None,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),
+                avg_only=False):
         self.target=[target_a,target_b]
         self._all_metrics=list(set(target_a._all_metrics+target_b._all_metrics))
         if( target_metric in self._all_metrics):
@@ -495,6 +500,7 @@ class collate():
         self.show_grid=show_grid
         self.xaxis_int=xaxis_int
         self.n_ticks=n_ticks
+        self.avg_only=avg_only
     def update(self,):
         self.updated=True
         temp_a=[]
