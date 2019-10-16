@@ -259,8 +259,8 @@ class traintorch:
                         item.set_position([box.x0, box.y0 + box.height * 0.1,box.width, box.height * 0.9])
                         lines=item.get_lines()
                         #***********Does not make sense, custom_data is not declared in the loop
-#                         if(custom_data.empty):
-#                             custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
+                        if(custom_data.empty):
+                            custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
 
                         lines[0].get_xydata()
                         item.legend(self.parent.custom_metrics[i].window().columns,loc='upper center',
