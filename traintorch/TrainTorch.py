@@ -182,7 +182,7 @@ class traintorch:
                     for i in range(0,self.parent.n_custom_plots):
                         try:
                             if(self.parent.custom_metrics[i].updated):
-                                if(not self.parent.custom_metrics[i].avg_only)
+                                if(not self.parent.custom_metrics[i].avg_only):
                                     custom_data=self.parent.custom_metrics[i].window()
                                 else:
                                     if(self.parent.custom_metrics[i].means):
