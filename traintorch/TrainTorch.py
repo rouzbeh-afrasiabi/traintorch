@@ -341,6 +341,8 @@ class metric:
         if(self.avg_only):
             if(self.means):
                 _data=pd.concat(self.means,axis=1).T
+            else:
+                _data=pd.DataFrame()
         gc.collect()
         return _data
 
