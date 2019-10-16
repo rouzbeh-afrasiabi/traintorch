@@ -342,7 +342,7 @@ class metric:
             if(self.means):
                 _data=pd.concat(self.means,axis=1).T
             else:
-                _data=pd.DataFrame()
+                _data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
         gc.collect()
         return _data
 
