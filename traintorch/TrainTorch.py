@@ -188,8 +188,10 @@ class traintorch:
                                 #This can be optimized later
                                 
 #                                 top_axes[i].clear()
-
-                                self.parent.top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
+                                if(not self.parent.custom_metrics[i].avg_only):
+                                    self.parent.top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
+                                else:
+                                    self.parent.top_axes[i].plot(custom_data)
                                 self.parent.top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
                                 self.parent.top_axes[i].set_title(self.parent.custom_metrics[i].name)
                                 self.parent.top_axes[i].set_ylabel('')
@@ -303,6 +305,8 @@ class metric:
             raise Exception('please provide a name for this metric.')
         self.show_grid=show_grid
         self.avg_only=avg_only
+        if(self.avg_only):
+            self.average=False
     def update(self,**kwargs):
         self.updated=True
         self.counter+=1
@@ -334,6 +338,8 @@ class metric:
         _data.index=list(range(1,self.counter+1,1))[(-1*self.w_size):]
         if('x' in _data.columns):
             _data.set_index('x',inplace=True)
+        if(self.avg_only):
+            _data=pd.concat(self.means,axis=1).T
         gc.collect()
         return _data
 
