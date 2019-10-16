@@ -423,7 +423,6 @@ class pycmMetrics():
                     _key=str(key).replace(' ','_')
                     self.metrics_cls[self.name+'_'+str(_key)]=metric(name=self.name+'_'+str(_key),w_size=self.w_size)
         self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
-        gc.collect()
     def _in_list(self,target,main):
         return set(target)<set(main)
     def _to_list(self,target):
@@ -449,7 +448,6 @@ class pycmMetrics():
 
         self.cm_dict_overall=_main
         self.cm_dict_class=_class
-        gc.collect()
         
     def _to_df(self,_cm):
         
@@ -458,7 +456,6 @@ class pycmMetrics():
         self.cm_dict_class=_class
         self.cm_df_overall=pd.DataFrame(_main,index=[0])
         self.cm_df_class=pd.DataFrame(_class,index=[0])
-        gc.collect()
 
     def update(self,actual,predicted):
         _cm=ConfusionMatrix(actual,predicted)
@@ -473,7 +470,6 @@ class pycmMetrics():
                 else:
                     self.metrics_cls[self.name+'_'+str(k)].update(**{k:v})
         self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
-        gc.collect()
 
 
 class collate():
@@ -511,7 +507,6 @@ class collate():
                         temp_a.append(pd.concat(item_1.means, axis=1).T)
         if(temp_a):
             self.means=pd.concat(temp_a,axis=1)
-        gc.collect()
     def window(self,):
         temp_a=[]
         for item_0 in self.target:
@@ -520,5 +515,4 @@ class collate():
                 if(_key==self.target_metric):
                     temp_a.append(item_1.window())
         self.update()
-        gc.collect()
         return(pd.concat(temp_a,axis=1))    
