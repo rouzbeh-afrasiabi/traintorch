@@ -1,7 +1,7 @@
 
 |  |  |  |  |
 |:--------|:------|:------------|:---------|
-|[![Build Status](https://dev.azure.com/rafrasia/firstProject/_apis/build/status/TrainTorch-CI?branchName=master)](https://dev.azure.com/rafrasia/firstProject/_build/latest?definitionId=2&branchName=master)|[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d4b74c08973343128d17532b4b84e154)](https://www.codacy.com/manual/rouzbeh-afrasiabi/traintorch?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rouzbeh-afrasiabi/traintorch&amp;utm_campaign=Badge_Grade)|[![Build Status](https://travis-ci.org/rouzbeh-afrasiabi/traintorch.svg?branch=master)](https://travis-ci.org/rouzbeh-afrasiabi/traintorch)|[![HitCount](http://hits.dwyl.io/rouzbeh-afrasiabi/traintorch.svg)](http://hits.dwyl.io/rouzbeh-afrasiabi/traintorch)|
+|[![Build Status](https://dev.azure.com/rafrasia/firstProject/_apis/build/status/TrainTorch-CI?branchName=master)](https://dev.azure.com/rafrasia/firstProject/_build/latest?definitionId=2&branchName=master)|[![Build Status](https://travis-ci.org/rouzbeh-afrasiabi/traintorch.svg?branch=master)](https://travis-ci.org/rouzbeh-afrasiabi/traintorch)|[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d4b74c08973343128d17532b4b84e154)](https://www.codacy.com/manual/rouzbeh-afrasiabi/traintorch?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rouzbeh-afrasiabi/traintorch&amp;utm_campaign=Badge_Grade)|[![HitCount](http://hits.dwyl.io/rouzbeh-afrasiabi/traintorch.svg)](http://hits.dwyl.io/rouzbeh-afrasiabi/traintorch)|
 
 
 # TrainTorch v.1.0.2-alpha
