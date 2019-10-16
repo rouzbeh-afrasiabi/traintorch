@@ -339,7 +339,7 @@ class metric:
         if('x' in _data.columns):
             _data.set_index('x',inplace=True)
         if(self.avg_only):
-            if(self.mean):
+            if(self.means):
                 _data=pd.concat(self.means,axis=1).T
         gc.collect()
         return _data
