@@ -322,7 +322,7 @@ class metric:
             self.chunk_mean()
             for key in self.keys:
                 self.__dict__[key]=[]
-                gc.collect()
+        gc.collect()
     def frame(self,):
         _dict={}
         for k,v in self.__dict__.items():
