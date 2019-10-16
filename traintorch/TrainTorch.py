@@ -182,20 +182,14 @@ class traintorch:
                     for i in range(0,self.parent.n_custom_plots):
                         try:
                             if(self.parent.custom_metrics[i].updated):
-                                if(not self.parent.custom_metrics[i].avg_only):
-                                    custom_data=self.parent.custom_metrics[i].window()
-                                else:
-                                    if(self.parent.custom_metrics[i].means):
-                                        custom_data=pd.concat(self.parent.custom_metrics[i].means,axis=1).T
-                                if(isinstance(custom_data,pd.DataFrame) and custom_data.empty):
+                                custom_data=self.parent.custom_metrics[i].window()
+                                if(custom_data.empty):
                                     custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
                                 #This can be optimized later
                                 
 #                                 top_axes[i].clear()
-                                if(not self.parent.custom_metrics[i].avg_only):
-                                    self.parent.top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
-                                else:
-                                    self.parent.top_axes[i].plot(custom_data)
+
+                                self.parent.top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
                                 self.parent.top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
                                 self.parent.top_axes[i].set_title(self.parent.custom_metrics[i].name)
                                 self.parent.top_axes[i].set_ylabel('')
@@ -258,7 +252,6 @@ class traintorch:
                         box = item.get_position()
                         item.set_position([box.x0, box.y0 + box.height * 0.1,box.width, box.height * 0.9])
                         lines=item.get_lines()
-                        #***********Does not make sense, custom_data is not declared in the loop
                         if(custom_data.empty):
                             custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
 
@@ -293,7 +286,7 @@ class traintorch:
 
 
 class metric:
-    def __init__(self,name=None,w_size=10,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),avg_only=False):
+    def __init__(self,name=None,w_size=10,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3)):
         self.name=name
         self.__kwargs=None
         self.counter=0
@@ -308,12 +301,10 @@ class metric:
         if(not name):
             raise Exception('please provide a name for this metric.')
         self.show_grid=show_grid
-        self.avg_only=avg_only
     def update(self,**kwargs):
         self.updated=True
         self.counter+=1
         self.__kwargs=kwargs
-        #************ This should be optimized
         for key in self.__kwargs.keys():
             if(key in self.__dict__ ):
                 self.__dict__[key].append(self.__kwargs[key])
@@ -483,8 +474,7 @@ class pycmMetrics():
 
 
 class collate():
-    def __init__(self,target_a,target_b,target_metric,name=None,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),
-                avg_only=False):
+    def __init__(self,target_a,target_b,target_metric,name=None,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3)):
         self.target=[target_a,target_b]
         self._all_metrics=list(set(target_a._all_metrics+target_b._all_metrics))
         if( target_metric in self._all_metrics):
@@ -505,7 +495,6 @@ class collate():
         self.show_grid=show_grid
         self.xaxis_int=xaxis_int
         self.n_ticks=n_ticks
-        self.avg_only=avg_only
     def update(self,):
         self.updated=True
         temp_a=[]
