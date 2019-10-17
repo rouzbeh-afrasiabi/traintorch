@@ -118,9 +118,10 @@ class traintorch:
             def tail(self,):
                 main_results=pd.DataFrame()
                 for metric in self.parent.custom_metrics:
-                    temp=metric.window().iloc[-1:,:]
-                    temp.reset_index(drop=True, inplace=True)
-                    main_results=pd.concat([main_results, temp], axis=1,sort=False)
+                    if(not isinstance(metric,(metric,collate)))
+                        temp=metric.window().iloc[-1:,:]
+                        temp.reset_index(drop=True, inplace=True)
+                        main_results=pd.concat([main_results, temp], axis=1,sort=False)
                 self.parent.main_results=main_results
             
             def create(self,):
@@ -228,7 +229,7 @@ class traintorch:
                                     loc='bottom right'
                                 else:
                                     loc='bottom'
-                                if(not item.empty and not isinstance(item,collate)):
+                                if(not item.empty):
                                     split_df.append(item)
 
                                     temp=plt.subplot(self.parent.inner_grid_bottom[i])
