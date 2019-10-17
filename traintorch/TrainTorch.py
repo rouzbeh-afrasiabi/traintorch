@@ -489,6 +489,8 @@ class collate():
                 self.target_metric=str(target_metric).replace(' ','_')
             else:
                 raise Exception ("Metric not found or is not available.")
+        else:
+            avg_only=True
         self.means=[]
         self.updated=False
         if(name):
@@ -507,20 +509,26 @@ class collate():
     def update(self,):
         self.updated=True
         temp_a=[]
-        for item_0 in self.target:
-            for item_1 in item_0.metrics:
-                _key=item_1.name.replace(item_0.name+"_","")
-                if(_key==self.target_metric):
-                    if(item_1.means):
-                        temp_a.append(pd.concat(item_1.means, axis=1).T)
+        if(str(target_a)=='pycmMetrics' and str(target_b)=='pycmMetrics'):
+            for item_0 in self.target:
+                for item_1 in item_0.metrics:
+                    _key=item_1.name.replace(item_0.name+"_","")
+                    if(_key==self.target_metric):
+                        if(item_1.means):
+                            temp_a.append(pd.concat(item_1.means, axis=1).T)
+        else:
+            temp_a=self.target
         if(temp_a):
             self.means=pd.concat(temp_a,axis=1)
     def window(self,):
         temp_a=[]
-        for item_0 in self.target:
-            for item_1 in item_0.metrics:
-                _key=item_1.name.replace(item_0.name+"_","")
-                if(_key==self.target_metric):
-                    temp_a.append(item_1.window())
-        self.update()
-        return(pd.concat(temp_a,axis=1))    
+        if(str(target_a)=='pycmMetrics' and str(target_b)=='pycmMetrics'):
+            for item_0 in self.target:
+                for item_1 in item_0.metrics:
+                    _key=item_1.name.replace(item_0.name+"_","")
+                    if(_key==self.target_metric):
+                        temp_a.append(item_1.window())
+            self.update()
+            return(pd.concat(temp_a,axis=1))    
+        else:
+            return
