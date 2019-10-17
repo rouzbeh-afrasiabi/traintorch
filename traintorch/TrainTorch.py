@@ -131,6 +131,10 @@ class traintorch:
                         temp=_metric.window().iloc[-1:,:]
                         temp.reset_index(drop=True, inplace=True)
                         main_results=pd.concat([main_results, temp], axis=1,sort=False)
+                for _metric in self.custom_tbl_metrics:
+                    temp=_metric.window()
+                    temp.reset_index(drop=True, inplace=True)
+                    main_results=pd.concat([main_results, temp], axis=1,sort=False)
                 self.parent.main_results=main_results
             
             def create(self,):
