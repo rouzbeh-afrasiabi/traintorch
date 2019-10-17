@@ -1,7 +1,7 @@
 
 |  |  |  |  |
 |:--------|:------|:------------|:---------|
-|[![Build status](https://dev.azure.com/rafrasia/firstProject/_apis/build/status/TrainTorch-CI)](https://dev.azure.com/rafrasia/firstProject/_build/latest?definitionId=-1)|[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d4b74c08973343128d17532b4b84e154)](https://www.codacy.com/manual/rouzbeh-afrasiabi/traintorch?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rouzbeh-afrasiabi/traintorch&amp;utm_campaign=Badge_Grade)|[![Build Status](https://travis-ci.org/rouzbeh-afrasiabi/traintorch.svg?branch=master)](https://travis-ci.org/rouzbeh-afrasiabi/traintorch)|[![HitCount](http://hits.dwyl.io/rouzbeh-afrasiabi/traintorch.svg)](http://hits.dwyl.io/rouzbeh-afrasiabi/traintorch)|
+|[![Build Status](https://dev.azure.com/rafrasia/firstProject/_apis/build/status/TrainTorch-CI?branchName=master)](https://dev.azure.com/rafrasia/firstProject/_build/latest?definitionId=2&branchName=master)|[![Build Status](https://travis-ci.org/rouzbeh-afrasiabi/traintorch.svg?branch=master)](https://travis-ci.org/rouzbeh-afrasiabi/traintorch)|[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d4b74c08973343128d17532b4b84e154)](https://www.codacy.com/manual/rouzbeh-afrasiabi/traintorch?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rouzbeh-afrasiabi/traintorch&amp;utm_campaign=Badge_Grade)|[![HitCount](http://hits.dwyl.io/rouzbeh-afrasiabi/traintorch.svg)](http://hits.dwyl.io/rouzbeh-afrasiabi/traintorch)|
 
 
 # TrainTorch v.1.0.2-alpha
@@ -14,6 +14,7 @@ Package for live visualization of model validation metrics during training of a 
 ## Requirements
 
 ```
+ipython==7.8.0
 pandas==0.25.1
 matplotlib==3.1.1
 pycm==2.2
@@ -51,11 +52,14 @@ tracker.append([first,second])
 
 
 range_max=1000
-for i in range(0,range_max,1):
-    
-    first.update(train_loss=1/(i+1),test_loss=1/(i**2+1))
-    second.update(y=i/(i*2+1))
-    tracker.plot()
+try:
+ for i in range(0,range_max,1):
+
+     first.update(train_loss=1/(i+1),test_loss=1/(i**2+1))
+     second.update(y=i/(i*2+1))
+     tracker.plot()
+except KeyboardInterrupt:
+    pass
 ```
  <p align='center'>
  <img src='./images/dash_a.png'></img>
@@ -89,18 +93,20 @@ tracker.append([first,cm_metrics_a,cm_metrics_b,compare_a])
 
 
 range_max=1000
-for i in range(0,range_max,1):
-    
-    actual_a=np.random.choice([0, 1], size=(20,), p=[1./3, 2./3])
-    predicted_a=np.random.choice([0, 1], size=(20,),p=[1-(i/range_max), i/range_max])
-    actual_b=np.random.choice([0, 1], size=(20,), p=[1./3, 2./3])
-    predicted_b=np.random.choice([0, 1], size=(20,),p=[1-(i/range_max), i/range_max])
-    cm_metrics_a.update(actual_a,predicted_a)
-    cm_metrics_b.update(actual_b,predicted_b)
-    first.update(train=1/(i+1),test=1/(i**2+1))
-    compare_a.update()
-    tracker.plot()
+try:
+ for i in range(0,range_max,1):
 
+     actual_a=np.random.choice([0, 1], size=(20,), p=[1./3, 2./3])
+     predicted_a=np.random.choice([0, 1], size=(20,),p=[1-(i/range_max), i/range_max])
+     actual_b=np.random.choice([0, 1], size=(20,), p=[1./3, 2./3])
+     predicted_b=np.random.choice([0, 1], size=(20,),p=[1-(i/range_max), i/range_max])
+     cm_metrics_a.update(actual_a,predicted_a)
+     cm_metrics_b.update(actual_b,predicted_b)
+     first.update(train=1/(i+1),test=1/(i**2+1))
+     compare_a.update()
+     tracker.plot()
+except KeyboardInterrupt:
+    pass      
 ```
  <p align='center'>
  <img src='./images/dash.png'></img>
