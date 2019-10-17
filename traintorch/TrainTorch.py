@@ -489,6 +489,8 @@ class collate():
                 self.target_metric=str(target_metric).replace(' ','_')
             else:
                 raise Exception ("Metric not found or is not available.")
+        else:
+            avg_only=True
 
         self.means=[]
         self.updated=False
@@ -518,7 +520,7 @@ class collate():
             if(temp_a):
                 self.means=pd.concat(temp_a,axis=1)
         else:
-            self.means=pd.concat([pd.concat(item.means,axis=1) for item in self.target],axis=1)
+            self.means=pd.concat([pd.concat(item.means,axis=1) for item in self.target],axis=0).T
 
     def window(self,):
         temp_a=[]
