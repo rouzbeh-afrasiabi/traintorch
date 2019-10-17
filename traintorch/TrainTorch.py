@@ -509,7 +509,7 @@ class collate():
     def update(self,):
         self.updated=True
         temp_a=[]
-        if(str(target_a)=='pycmMetrics' and str(target_b)=='pycmMetrics'):
+        if(str(self.target[0])=='pycmMetrics' and str(self.target[1])=='pycmMetrics'):
             for item_0 in self.target:
                 for item_1 in item_0.metrics:
                     _key=item_1.name.replace(item_0.name+"_","")
