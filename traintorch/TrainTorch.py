@@ -489,8 +489,7 @@ class collate():
                 self.target_metric=str(target_metric).replace(' ','_')
             else:
                 raise Exception ("Metric not found or is not available.")
-        else:
-            avg_only=True
+
         self.means=[]
         self.updated=False
         if(name):
