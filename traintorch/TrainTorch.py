@@ -503,8 +503,10 @@ class collate():
             else:
                 raise Exception ("Metric not found or is not available.")
         elif(self.type=='metric'):
-            if(not avg_only):
+            if(not target_a.avg_only or not target_a.avg_only):
                 raise Exception ("Collate is only available to class metric when avg_only is True.")
+            else:
+                avg_only=True
 
         self.means=[]
         self.updated=False
