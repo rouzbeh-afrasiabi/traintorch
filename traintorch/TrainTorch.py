@@ -513,7 +513,10 @@ class collate():
         if(name):
             self.name=name
         else:
-            self.name=target_metric+' - '+target_a.name+' and '+target_b.name
+            if(target_metric):
+                self.name=target_metric+' - '+target_a.name+' and '+target_b.name
+            else:
+                self.name=target_a.name+' and '+target_b.name
         if(target_a.w_size!=target_b.w_size):
             raise Exception ("Selected Metrics do not have the same w_size.")
         else:
