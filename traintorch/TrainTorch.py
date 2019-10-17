@@ -519,8 +519,6 @@ class collate():
                             temp_a.append(pd.concat(item_1.means, axis=1).T)
             if(temp_a):
                 self.means=pd.concat(temp_a,axis=1)
-        else:
-            self.means=pd.concat([pd.concat(item.means,axis=1) for item in self.target],axis=0).T
 
     def window(self,):
         temp_a=[]
@@ -532,9 +530,4 @@ class collate():
                         temp_a.append(item_1.window())
             self.update()
             return(pd.concat(temp_a,axis=1))    
-        else:
-            if(not self.target):
-                return pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
-            else:
-                return pd.concat([pd.concat(item.means,axis=1) for item in self.target],axis=0).T
             
