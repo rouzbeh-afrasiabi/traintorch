@@ -516,10 +516,11 @@ class collate():
                     if(_key==self.target_metric):
                         if(item_1.means):
                             temp_a.append(pd.concat(item_1.means, axis=1).T)
+            if(temp_a):
+                self.means=pd.concat(temp_a,axis=1)
         else:
-            temp_a=self.target
-        if(temp_a):
-            self.means=pd.concat(temp_a,axis=1)
+            pass
+
     def window(self,):
         temp_a=[]
         if(str(target_a)=='pycmMetrics' and str(target_b)=='pycmMetrics'):
@@ -531,4 +532,4 @@ class collate():
             self.update()
             return(pd.concat(temp_a,axis=1))    
         else:
-            return
+            return(pd.concat([temp_a.window() for item in temp_a],axis=1))  
