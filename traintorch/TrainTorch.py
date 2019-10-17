@@ -533,7 +533,7 @@ class collate():
             self.update()
             return(pd.concat(temp_a,axis=1))    
         else:
-            if(not self.target[0] and not self.target[1]):
+            if(not self.target[0].means and not self.target[1].means):
                 return pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
             else:
                 return pd.concat([pd.concat(item.means,axis=1) for item in self.target],axis=0).T
