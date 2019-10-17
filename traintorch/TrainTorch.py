@@ -532,4 +532,4 @@ class collate():
             self.update()
             return(pd.concat(temp_a,axis=1))    
         else:
-            return(pd.concat([temp_a.window() for item in self.target],axis=1))  
+            return(pd.concat([item.window() for item in self.target],axis=1))  
