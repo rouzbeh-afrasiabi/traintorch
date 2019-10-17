@@ -483,11 +483,12 @@ class collate():
     def __init__(self,target_a,target_b,target_metric,name=None,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),
                 avg_only=False):
         self.target=[target_a,target_b]
-        self._all_metrics=list(set(target_a._all_metrics+target_b._all_metrics))
-        if( target_metric in self._all_metrics):
-            self.target_metric=str(target_metric).replace(' ','_')
-        else:
-            raise Exception ("Metric not found or is not available.")
+        if(str(target_a)==str(target_b)):
+            self._all_metrics=list(set(target_a._all_metrics+target_b._all_metrics))
+            if( target_metric in self._all_metrics):
+                self.target_metric=str(target_metric).replace(' ','_')
+            else:
+                raise Exception ("Metric not found or is not available.")
         self.means=[]
         self.updated=False
         if(name):
