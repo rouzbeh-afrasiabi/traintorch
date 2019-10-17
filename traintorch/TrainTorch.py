@@ -531,7 +531,10 @@ class collate():
                     if(_key==self.target_metric):
                         if(item_1.means):
                             temp_a.append(pd.concat(item_1.means, axis=1).T)
-        self.means=pd.concat(temp_a,axis=1)
+            if(temp_a):
+                self.means=pd.concat(temp_a,axis=1)
+            else:
+                self.means=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet']
 
     def window(self,):
         temp_a=[]
