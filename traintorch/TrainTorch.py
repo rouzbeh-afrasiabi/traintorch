@@ -306,6 +306,10 @@ class metric:
         self.avg_only=avg_only
         if(self.avg_only):
             self.average=False
+            
+    def __str__(self,):
+        return self.name
+    
     def update(self,**kwargs):
         self.updated=True
         self.counter+=1
