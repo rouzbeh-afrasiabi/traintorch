@@ -308,7 +308,7 @@ class metric:
             self.average=False
             
     def __str__(self,):
-        return self.name
+        return ('metric')
     
     def update(self,**kwargs):
         self.updated=True
@@ -426,6 +426,10 @@ class pycmMetrics():
                     _key=str(key).replace(' ','_')
                     self.metrics_cls[self.name+'_'+str(_key)]=metric(name=self.name+'_'+str(_key),w_size=self.w_size)
         self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
+
+    def __str__(self,):
+        return ('pycmMetrics')
+    
     def _in_list(self,target,main):
         return set(target)<set(main)
     def _to_list(self,target):
