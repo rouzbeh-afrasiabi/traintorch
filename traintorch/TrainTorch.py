@@ -480,7 +480,7 @@ class pycmMetrics():
 
 
 class collate():
-    def __init__(self,target_a,target_b,target_metric,name=None,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),
+    def __init__(self,target_a,target_b,target_metric='',name=None,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),
                 avg_only=False):
         self.target=[target_a,target_b]
         if(str(target_a)=='pycmMetrics' and str(target_b)=='pycmMetrics'):
