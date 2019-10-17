@@ -524,7 +524,7 @@ class collate():
     def update(self,):
         self.updated=True
         temp_a=[]
-        if(str(self.target[0])=='pycmMetrics' and str(self.target[1])=='pycmMetrics'):
+        if(self.type=='pycmMetrics'):
             for item_0 in self.target:
                 for item_1 in item_0.metrics:
                     _key=item_1.name.replace(item_0.name+"_","")
@@ -533,8 +533,6 @@ class collate():
                             temp_a.append(pd.concat(item_1.means, axis=1).T)
             if(temp_a):
                 self.means=pd.concat(temp_a,axis=1)
-            else:
-                self.means=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
 
     def window(self,):
         temp_a=[]
@@ -545,6 +543,7 @@ class collate():
                     if(_key==self.target_metric):
                         temp_a.append(item_1.window())
             self.update()
+            return(pd.concat(temp_a,axis=1))
         elif(self.type=='metric'):
             if(not first.means or not second.means):
                 return pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
