@@ -534,7 +534,7 @@ class collate():
             if(temp_a):
                 self.means=pd.concat(temp_a,axis=1)
             else:
-                self.means=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet']
+                self.means=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
 
     def window(self,):
         temp_a=[]
