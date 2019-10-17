@@ -228,7 +228,7 @@ class traintorch:
                                     loc='bottom right'
                                 else:
                                     loc='bottom'
-                                if(not item.empty):
+                                if(not item.empty and not isinstance(item,collate)):
                                     split_df.append(item)
 
                                     temp=plt.subplot(self.parent.inner_grid_bottom[i])
