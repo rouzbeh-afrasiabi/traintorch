@@ -494,7 +494,7 @@ class collate():
         if(str(target_a)=='metric'):
             self.type='metric'
         else:
-            self.type='metric'    
+            self.type='pycmMetrics'    
             
         if(self.type=='pycmMetrics'):
             self._all_metrics=list(set(target_a._all_metrics+target_b._all_metrics))
