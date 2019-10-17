@@ -117,9 +117,9 @@ class traintorch:
                         yield l.iloc[i:i + n,:]
             def tail(self,):
                 main_results=pd.DataFrame()
-                for metric in self.parent.custom_metrics:
-                    if(not isinstance(metric,(metric,collate))):
-                        temp=metric.window().iloc[-1:,:]
+                for _metric in self.parent.custom_metrics:
+                    if(not isinstance(_metric,collate)):
+                        temp=_metric.window().iloc[-1:,:]
                         temp.reset_index(drop=True, inplace=True)
                         main_results=pd.concat([main_results, temp], axis=1,sort=False)
                 self.parent.main_results=main_results
