@@ -52,11 +52,14 @@ tracker.append([first,second])
 
 
 range_max=1000
-for i in range(0,range_max,1):
-    
-    first.update(train_loss=1/(i+1),test_loss=1/(i**2+1))
-    second.update(y=i/(i*2+1))
-    tracker.plot()
+try:
+ for i in range(0,range_max,1):
+
+     first.update(train_loss=1/(i+1),test_loss=1/(i**2+1))
+     second.update(y=i/(i*2+1))
+     tracker.plot()
+except KeyboardInterrupt:
+    pass
 ```
  <p align='center'>
  <img src='./images/dash_a.png'></img>
@@ -90,18 +93,20 @@ tracker.append([first,cm_metrics_a,cm_metrics_b,compare_a])
 
 
 range_max=1000
-for i in range(0,range_max,1):
-    
-    actual_a=np.random.choice([0, 1], size=(20,), p=[1./3, 2./3])
-    predicted_a=np.random.choice([0, 1], size=(20,),p=[1-(i/range_max), i/range_max])
-    actual_b=np.random.choice([0, 1], size=(20,), p=[1./3, 2./3])
-    predicted_b=np.random.choice([0, 1], size=(20,),p=[1-(i/range_max), i/range_max])
-    cm_metrics_a.update(actual_a,predicted_a)
-    cm_metrics_b.update(actual_b,predicted_b)
-    first.update(train=1/(i+1),test=1/(i**2+1))
-    compare_a.update()
-    tracker.plot()
+try:
+ for i in range(0,range_max,1):
 
+     actual_a=np.random.choice([0, 1], size=(20,), p=[1./3, 2./3])
+     predicted_a=np.random.choice([0, 1], size=(20,),p=[1-(i/range_max), i/range_max])
+     actual_b=np.random.choice([0, 1], size=(20,), p=[1./3, 2./3])
+     predicted_b=np.random.choice([0, 1], size=(20,),p=[1-(i/range_max), i/range_max])
+     cm_metrics_a.update(actual_a,predicted_a)
+     cm_metrics_b.update(actual_b,predicted_b)
+     first.update(train=1/(i+1),test=1/(i**2+1))
+     compare_a.update()
+     tracker.plot()
+except KeyboardInterrupt:
+    pass      
 ```
  <p align='center'>
  <img src='./images/dash.png'></img>
