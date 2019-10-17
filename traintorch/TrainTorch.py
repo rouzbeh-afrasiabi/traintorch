@@ -125,7 +125,7 @@ class traintorch:
             
             def create(self,):
                 if(any([item.updated for item in self.parent.custom_metrics])):
-                    
+                    gc.collect()
                     if(len(self.parent.custom_metrics)!=self.parent.n_custom_plots):
                         warnings.warn("Data provided does not match the number of custom plots")
                         self.parent.total_plots=len(self.parent.custom_metrics)
