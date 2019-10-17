@@ -428,7 +428,7 @@ class pycmMetrics():
         self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
 
     def __str__(self,):
-        return ('pycmMetrics')
+        return ('1')
     
     def _in_list(self,target,main):
         return set(target)<set(main)
