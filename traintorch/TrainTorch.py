@@ -518,7 +518,7 @@ class collate():
             if(temp_a):
                 self.means=pd.concat(temp_a,axis=1)
         else:
-            self.means=pd.concat([item.means for item in self.target],axis=1)
+            self.means=pd.concat([pd.concat(item.means,axis=1) for item in self.target],axis=1)
 
     def window(self,):
         temp_a=[]
