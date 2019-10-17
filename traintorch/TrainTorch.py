@@ -257,7 +257,7 @@ class traintorch:
                         if(custom_data.empty):
                             custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
 
-                        lines[0].get_xydata()
+#                         lines[0].get_xydata()
                         item.legend(self.parent.custom_metrics[i].window().columns,loc='upper center',
                                     bbox_to_anchor=(0.5, -0.1),fancybox=True, shadow=True, ncol=5)
 
