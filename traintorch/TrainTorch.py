@@ -254,6 +254,7 @@ class traintorch:
                         box = item.get_position()
                         item.set_position([box.x0, box.y0 + box.height * 0.1,box.width, box.height * 0.9])
                         lines=item.get_lines()
+                    #**** Following does not make sense
                         if(custom_data.empty):
                             custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
 
@@ -483,14 +484,27 @@ class collate():
     def __init__(self,target_a,target_b,target_metric='',name=None,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),
                 avg_only=False):
         self.target=[target_a,target_b]
-        if(str(target_a)=='pycmMetrics' and str(target_b)=='pycmMetrics'):
+        if(str(target_a)!=str(target_b)):
+            raise Exception ("Metric type/class mismatch.")
+        else:
+            if(not str(target_a) or not str(target_b)):
+                raise Exception ("Metrics have no type/class")
+        if(str(target_a) not in ['metric','pycmMetrics']):
+            raise Exception ("type/class not recognized, has to be of class metric or pycmMetrics")
+        if(str(target_a)=='metric'):
+            self.type='metric'
+        else:
+            self.type='metric'    
+            
+        if(self.type=='pycmMetrics'):
             self._all_metrics=list(set(target_a._all_metrics+target_b._all_metrics))
             if( target_metric in self._all_metrics):
                 self.target_metric=str(target_metric).replace(' ','_')
             else:
                 raise Exception ("Metric not found or is not available.")
-        else:
-            avg_only=True
+        elif(self.type=='metric'):
+            if(not avg_only):
+                raise Exception ("Collate is only available to class metric when avg_only is True.")
 
         self.means=[]
         self.updated=False
@@ -522,12 +536,16 @@ class collate():
 
     def window(self,):
         temp_a=[]
-        if(str(self.target[0])=='pycmMetrics' and str(self.target[1])=='pycmMetrics'):
+        if(self.type=='pycmMetrics'):
             for item_0 in self.target:
                 for item_1 in item_0.metrics:
                     _key=item_1.name.replace(item_0.name+"_","")
                     if(_key==self.target_metric):
                         temp_a.append(item_1.window())
             self.update()
-            return(pd.concat(temp_a,axis=1))    
+        elif(self.type=='metric'):
+            if(not first.means or not second.means):
+                return pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
+            else:
+                return pd.concat([pd.concat(item.means,axis=1) for item in self.target],axis=0).T                
             
