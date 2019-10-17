@@ -531,4 +531,4 @@ class collate():
             self.update()
             return(pd.concat(temp_a,axis=1))    
         else:
-            pass
+            return pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
