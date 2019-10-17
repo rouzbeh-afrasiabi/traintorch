@@ -94,20 +94,22 @@ class traintorch:
 
         self._avg_axes=[]
         
-    def append(self,plot_targets,table_targets):
-        temp=[]
-        for item in plot_targets:
-            if(isinstance(item,(metric,collate))):
-                temp.append(item)
-            elif(isinstance(item,pycmMetrics)):
-                temp+=item.metrics
-        self.custom_metrics=temp
-        
-        temp=[]
-        for item in table_targets:
-            if(isinstance(item,metricsTable)):
-                temp.append(item)
-        self.custom_tbl_metrics=temp
+    def append(self,plot_targets,table_targets=None):
+        if(plot_targets):
+            temp=[]
+            for item in plot_targets:
+                if(isinstance(item,(metric,collate))):
+                    temp.append(item)
+                elif(isinstance(item,pycmMetrics)):
+                    temp+=item.metrics
+            self.custom_metrics=temp
+            
+        if(table_targets):
+            temp=[]
+            for item in table_targets:
+                if(isinstance(item,metricsTable)):
+                    temp.append(item)
+            self.custom_tbl_metrics=temp
 
         class plot:
             def __init__(self,parent,):
