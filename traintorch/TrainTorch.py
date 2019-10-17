@@ -290,7 +290,7 @@ class traintorch:
 
 class metric:
     def __init__(self,name=None,w_size=10,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),
-                avg_only=False,table_only=False):
+                avg_only=False):
         self.name=name
         self.__kwargs=None
         self.counter=0
@@ -308,7 +308,6 @@ class metric:
         self.avg_only=avg_only
         if(self.avg_only):
             self.average=False
-        self._chunk_n_mean=True
             
     def __str__(self,):
         return ('metric')
@@ -324,9 +323,8 @@ class metric:
                 self.keys.append(key)
                 self.__dict__[key]=[self.__kwargs[key]]
         if(len(self.__dict__[key])%self.w_size==0):
-            if(self._chunk_n_mean):
-                self.chunk()
-                self.chunk_mean()
+            self.chunk()
+            self.chunk_mean()
             for key in self.keys:
                 self.__dict__[key]=[]
 
