@@ -531,8 +531,7 @@ class collate():
                     if(_key==self.target_metric):
                         if(item_1.means):
                             temp_a.append(pd.concat(item_1.means, axis=1).T)
-            if(temp_a):
-                self.means=pd.concat(temp_a,axis=1)
+        self.means=pd.concat(temp_a,axis=1)
 
     def window(self,):
         temp_a=[]
