@@ -547,7 +547,7 @@ class collate():
             self.update()
             return(pd.concat(temp_a,axis=1))
         elif(self.type=='metric'):
-            if(not first.means or not second.means):
+            if(not self.target[0].means or not self.target[1].means):
                 return pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
             else:
                 return pd.concat([pd.concat(item.means,axis=1) for item in self.target],axis=0).T                
