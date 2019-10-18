@@ -237,8 +237,8 @@ class traintorch:
                     if(self.parent.show_table):
                         if(not self.parent.main_results.empty):
                             _temp=self.parent.main_results.round(8).T
-                            _temp=.apply(lambda x:x.str.slice(0,15))
-                            for i,item in enumerate(self.chunks_df(,
+                            _temp=_temp.apply(lambda x:x.str.slice(0,15))
+                            for i,item in enumerate(self.chunks_df(_temp,
                                                                    math.ceil(len(self.parent.main_results.columns)/2),'r')):
                                 if((i+1)%2==0 and (i>0)):
                                     loc='bottom right'
