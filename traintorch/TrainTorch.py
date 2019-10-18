@@ -221,8 +221,8 @@ class traintorch:
                                 #limit the number of ticks
                                 if(self.parent.custom_metrics[i].n_ticks):
                                     _k,_l=self.parent.custom_metrics[i].n_ticks
-                                    self.parent.top_axes[i].xaxis.set_major_locator(plt.MaxNLocator(_k))
-                                    self.parent.top_axes[i].yaxis.set_major_locator(plt.MaxNLocator(_l))
+                                    self.parent.top_axes[i].xaxis.set_major_locator(plt.MaxNLocator(_k,integer=True))
+                                    self.parent.top_axes[i].yaxis.set_major_locator(plt.MaxNLocator(_l,integer=True))
 #                                 self.parent.top_axes[i].set_xticks(self.parent.top_axes[i].get_xticks()[::2])
                                 if(self.parent.custom_metrics[i].show_grid):
                                     item.grid()
@@ -236,8 +236,8 @@ class traintorch:
                                     self.parent._avg_axes[i].xaxis.set_major_locator(MaxNLocator(integer=True))                                
                                     if(self.parent.custom_metrics[i].n_ticks):
                                         _k,_l=self.parent.custom_metrics[i].n_ticks
-                                        self.parent._avg_axes[i].xaxis.set_major_locator(plt.MaxNLocator(_k))
-                                        self.parent._avg_axes[i].yaxis.set_major_locator(plt.MaxNLocator(_l))                                        
+                                        self.parent._avg_axes[i].xaxis.set_major_locator(plt.MaxNLocator(_k,integer=True))
+                                        self.parent._avg_axes[i].yaxis.set_major_locator(plt.MaxNLocator(_l,integer=True))                                        
 
                         except Exception as error:
                             print(error, 'Happened while adding main plots.')
