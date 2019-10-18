@@ -61,7 +61,8 @@ warnings.filterwarnings("ignore")
 class traintorch:
     def __init__(self,figsize=(15,20),show_table=True,n_custom_plots=2,
                  top_rows=1,top_cols=2,plot_width=4,plot_height=4,nrows=2,ncols=1,
-                main_grid_hspace=0.5,main_grid_wspace=0.5,window=100,custom_window=[]):
+                main_grid_hspace=0.5,main_grid_wspace=0.5,window=100,
+                 garbage_collection=True,custom_window=[]):
 
         self.show_table=show_table
         self.top_rows=top_rows
@@ -83,6 +84,7 @@ class traintorch:
         self.total_plots=0
         self.n_custom_plots=n_custom_plots
         self.figsize=figsize
+        self.garbage_collection=garbage_collection
         #this needs to be fixed
         if(custom_window==[] and n_custom_plots>0):
             self.custom_window=[self.window]*n_custom_plots
@@ -139,7 +141,8 @@ class traintorch:
             
             def create(self,):
                 if(any([item.updated for item in self.parent.custom_metrics])):
-                    gc.collect()
+                    if(self.parent.garbage_collection):
+                        gc.collect()
                     if(len(self.parent.custom_metrics)!=self.parent.n_custom_plots):
                         warnings.warn("Data provided does not match the number of custom plots")
                         self.parent.total_plots=len(self.parent.custom_metrics)
