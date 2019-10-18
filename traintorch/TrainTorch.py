@@ -237,7 +237,7 @@ class traintorch:
                     if(self.parent.show_table):
                         if(not self.parent.main_results.empty):
                             #round and limit the number of characters
-                            _temp=self.parent.main_results.round(8).T.apply(lambda x:x.astype(str).str.slice(0,15))
+                            _temp=self.parent.main_results.round(8).T.apply(lambda x:x.astype(str).str.slice(0,8))
                             for i,item in enumerate(self.chunks_df(_temp,
                                                                    math.ceil(len(self.parent.main_results.columns)/2),'r')):
                                 if((i+1)%2==0 and (i>0)):
