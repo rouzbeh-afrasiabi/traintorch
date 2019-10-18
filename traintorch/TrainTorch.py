@@ -142,8 +142,9 @@ class traintorch:
             def create(self,):
                 
                 #auto-update collate object
-                if(isinstance(self.parent.custom_metrics[i],collate)):
-                    self.parent.custom_metrics[i].update() 
+                for item in self.parent.custom_metrics:
+                    if(isinstance(item,collate)):
+                        self.parent.custom_metrics[i].update() 
                     
                 if(any([item.updated for item in self.parent.custom_metrics])):
                     if(self.parent.garbage_collection):
