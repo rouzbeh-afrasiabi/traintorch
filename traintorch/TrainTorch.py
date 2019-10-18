@@ -198,6 +198,8 @@ class traintorch:
                     #adds the main plots
                     for i in range(0,self.parent.n_custom_plots):
                         try:
+                            if(isinstance(self.parent.custom_metrics[i],collate):
+                               self.parent.custom_metrics[i].update()
                             if(self.parent.custom_metrics[i].updated):
                                 custom_data=self.parent.custom_metrics[i].window()
                                 if(custom_data.empty):
