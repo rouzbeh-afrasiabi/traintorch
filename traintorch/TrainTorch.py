@@ -199,7 +199,7 @@ class traintorch:
                     for i in range(0,self.parent.n_custom_plots):
                         try:
                             if(isinstance(self.parent.custom_metrics[i],collate)):
-                                if(any(all([item.updated for item in self.parent.custom_metrics[i].target]))):
+                                if(any([item.updated for item in self.parent.custom_metrics[i].target])):
                                     self.parent.custom_metrics[i].update()
                             if(self.parent.custom_metrics[i].updated):
                                 custom_data=self.parent.custom_metrics[i].window()
