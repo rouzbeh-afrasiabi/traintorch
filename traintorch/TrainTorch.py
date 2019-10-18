@@ -232,7 +232,7 @@ class traintorch:
                                     self.parent._avg_axes[i].clear()
                                     avg=self.parent.custom_metrics[i].means
                                     self.parent._avg_axes[i].plot(avg,linestyle='--',alpha=0.6)
-                                if(self.parent.custom_metrics[i].xaxis_int):
+                                if(self.parent._avg_axes[i].xaxis_int):
                                     self.parent._avg_axes[i].xaxis.set_major_locator(MaxNLocator(integer=True))                                
                                     if(self.parent.custom_metrics[i].n_ticks):
                                         _k,_l=self.parent.custom_metrics[i].n_ticks
