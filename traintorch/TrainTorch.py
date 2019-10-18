@@ -210,6 +210,10 @@ class traintorch:
                                     self.parent._avg_axes[i].clear()
                                     avg=self.parent.custom_metrics[i].means
                                     self.parent._avg_axes[i].plot(avg,linestyle='--',alpha=0.6)
+                                    if(self.parent.custom_metrics[i].n_ticks):
+                                        _k,_l=self.parent.custom_metrics[i].n_ticks
+                                        self.parent._avg_axes[i].xaxis.set_major_locator(plt.MaxNLocator(_k))
+                                        self.parent._avg_axes[i].yaxis.set_major_locator(plt.MaxNLocator(_l))                                        
 
                         except Exception as error:
                             print(error, 'Happened while adding main plots.')
