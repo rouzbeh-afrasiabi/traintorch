@@ -133,7 +133,6 @@ class traintorch:
                         main_results=pd.concat([main_results, temp], axis=1,sort=False)
                 for _metric in self.parent.custom_tbl_metrics:
                     temp=_metric.window()
-                    temp=temp.apply(lambda x:str(x).str.slice(0,15))
                     temp.reset_index(drop=True, inplace=True)
                     main_results=pd.concat([main_results, temp], axis=1,sort=False)
                 self.parent.main_results=main_results
