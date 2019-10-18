@@ -133,9 +133,11 @@ class traintorch:
                         main_results=pd.concat([main_results, temp], axis=1,sort=False)
                 for _metric in self.parent.custom_tbl_metrics:
                     temp=_metric.window()
+                    temp=temp.apply(lambda x:x.str.slice(0,15))
                     temp.reset_index(drop=True, inplace=True)
                     main_results=pd.concat([main_results, temp], axis=1,sort=False)
                 self.parent.main_results=main_results
+                del temp,main_results
             
             def create(self,):
                 if(any([item.updated for item in self.parent.custom_metrics])):
@@ -237,7 +239,6 @@ class traintorch:
                     if(self.parent.show_table):
                         if(not self.parent.main_results.empty):
                             _temp=self.parent.main_results.round(8).T
-                            _temp=_temp.apply(lambda x:x.str.slice(0,15))
                             for i,item in enumerate(self.chunks_df(_temp,
                                                                    math.ceil(len(self.parent.main_results.columns)/2),'r')):
                                 if((i+1)%2==0 and (i>0)):
