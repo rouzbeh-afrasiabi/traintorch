@@ -77,6 +77,7 @@ class traintorch:
         self.counter=0
         self.window=window
         self.custom_metrics=[]
+        self.custom_tbl_metrics=[]
         self.main_results=pd.DataFrame()
         self.custom_data=None
         self.total_plots=0
@@ -93,14 +94,22 @@ class traintorch:
 
         self._avg_axes=[]
         
-    def append(self,target):
-        temp=[]
-        for item in target:
-            if(isinstance(item,(metric,collate))):
-                temp.append(item)
-            elif(isinstance(item,pycmMetrics)):
-                temp+=item.metrics
-        self.custom_metrics=temp
+    def append(self,plot_targets,table_targets=None):
+        if(plot_targets):
+            temp=[]
+            for item in plot_targets:
+                if(isinstance(item,(metric,collate))):
+                    temp.append(item)
+                elif(isinstance(item,pycmMetrics)):
+                    temp+=item.metrics
+            self.custom_metrics=temp
+            
+        if(table_targets):
+            temp=[]
+            for item in table_targets:
+                if(isinstance(item,metricsTable)):
+                    temp.append(item)
+            self.custom_tbl_metrics=temp
 
         class plot:
             def __init__(self,parent,):
@@ -122,6 +131,10 @@ class traintorch:
                         temp=_metric.window().iloc[-1:,:]
                         temp.reset_index(drop=True, inplace=True)
                         main_results=pd.concat([main_results, temp], axis=1,sort=False)
+                for _metric in self.parent.custom_tbl_metrics:
+                    temp=_metric.window()
+                    temp.reset_index(drop=True, inplace=True)
+                    main_results=pd.concat([main_results, temp], axis=1,sort=False)
                 self.parent.main_results=main_results
             
             def create(self,):
@@ -223,7 +236,9 @@ class traintorch:
                     self.tail()
                     if(self.parent.show_table):
                         if(not self.parent.main_results.empty):
-                            for i,item in enumerate(self.chunks_df(self.parent.main_results.round(6).T,
+                            #round and limit the number of characters
+                            _temp=self.parent.main_results.round(8).T.apply(lambda x:x.astype(str).str.slice(0,15))
+                            for i,item in enumerate(self.chunks_df(_temp,
                                                                    math.ceil(len(self.parent.main_results.columns)/2),'r')):
                                 if((i+1)%2==0 and (i>0)):
                                     loc='bottom right'
@@ -554,5 +569,28 @@ class collate():
             if(not self.target[0].means or not self.target[1].means):
                 return pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
             else:
-                return pd.concat([pd.concat(item.means,axis=1) for item in self.target],axis=0).T                
-            
+                return pd.concat([pd.concat(item.means,axis=1) for item in self.target],axis=0).T   
+
+class metricsTable:
+    def __init__(self,):
+        self.counter=0
+        self.updated=False
+        self.__kwargs=None
+        self.keys=[]
+        
+    def window(self,):
+        _dict={}
+        for k,v in self.__dict__.items():
+            if(k in self.__dict__['keys']):
+                _dict[k]=v
+        _data=pd.DataFrame(_dict)
+        return(_data)
+        
+    def update(self,**kwargs):
+        self.updated=True
+        self.counter+=1
+        self.__kwargs=kwargs
+        for key in self.__kwargs.keys():
+            self.__dict__[key]=[self.__kwargs[key]]
+            if(key not in self.keys):
+                self.keys.append(key)            
