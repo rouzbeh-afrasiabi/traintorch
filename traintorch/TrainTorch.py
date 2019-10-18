@@ -236,7 +236,7 @@ class traintorch:
                     self.tail()
                     if(self.parent.show_table):
                         if(not self.parent.main_results.empty):
-                            _temp=self.parent.main_results.round(8).T
+                            _temp=self.parent.main_results.round(8).T.apply(lambda x:x.astype(str).str.slice(0,2))
                             for i,item in enumerate(self.chunks_df(_temp,
                                                                    math.ceil(len(self.parent.main_results.columns)/2),'r')):
                                 if((i+1)%2==0 and (i>0)):
