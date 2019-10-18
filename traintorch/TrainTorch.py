@@ -441,6 +441,7 @@ class pycmMetrics():
         self.class_metrics=[]
         self.overall_metrics=overall_metrics
         self.class_metrics=class_metrics
+        self.updated=False
         if(self.overall_metrics):
             for key in self.overall_metrics:
                 if(key in self._overall_metrics):
@@ -492,6 +493,7 @@ class pycmMetrics():
         self.cm_df_class=pd.DataFrame(_class,index=[0])
 
     def update(self,actual,predicted):
+        self.updated=True
         _cm=ConfusionMatrix(actual,predicted)
         self._to_dict(_cm)
         if(self.metrics_oa):
