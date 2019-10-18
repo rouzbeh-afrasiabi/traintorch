@@ -140,6 +140,11 @@ class traintorch:
                 self.parent.main_results=main_results
             
             def create(self,):
+                
+                #auto-update collate object
+                if(isinstance(self.parent.custom_metrics[i],collate)):
+                    self.parent.custom_metrics[i].update() 
+                    
                 if(any([item.updated for item in self.parent.custom_metrics])):
                     if(self.parent.garbage_collection):
                         gc.collect()
@@ -198,9 +203,6 @@ class traintorch:
                     #adds the main plots
                     for i in range(0,self.parent.n_custom_plots):
                         try:
-                            if(isinstance(self.parent.custom_metrics[i],collate)):
-                                if(any([item.updated for item in self.parent.custom_metrics[i].target])):
-                                    self.parent.custom_metrics[i].update()
                             if(self.parent.custom_metrics[i].updated):
                                 custom_data=self.parent.custom_metrics[i].window()
                                 if(custom_data.empty):
