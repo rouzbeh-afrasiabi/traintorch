@@ -61,7 +61,8 @@ warnings.filterwarnings("ignore")
 class traintorch:
     def __init__(self,figsize=(15,20),show_table=True,n_custom_plots=2,
                  top_rows=1,top_cols=2,plot_width=4,plot_height=4,nrows=2,ncols=1,
-                main_grid_hspace=0.5,main_grid_wspace=0.5,window=100,custom_window=[]):
+                main_grid_hspace=0.5,main_grid_wspace=0.5,window=100,
+                 garbage_collection=True,custom_window=[]):
 
         self.show_table=show_table
         self.top_rows=top_rows
@@ -77,11 +78,13 @@ class traintorch:
         self.counter=0
         self.window=window
         self.custom_metrics=[]
+        self.custom_tbl_metrics=[]
         self.main_results=pd.DataFrame()
         self.custom_data=None
         self.total_plots=0
         self.n_custom_plots=n_custom_plots
         self.figsize=figsize
+        self.garbage_collection=garbage_collection
         #this needs to be fixed
         if(custom_window==[] and n_custom_plots>0):
             self.custom_window=[self.window]*n_custom_plots
@@ -93,14 +96,22 @@ class traintorch:
 
         self._avg_axes=[]
         
-    def append(self,target):
-        temp=[]
-        for item in target:
-            if(isinstance(item,(metric,collate))):
-                temp.append(item)
-            elif(isinstance(item,pycmMetrics)):
-                temp+=item.metrics
-        self.custom_metrics=temp
+    def append(self,plot_targets,table_targets=None):
+        if(plot_targets):
+            temp=[]
+            for item in plot_targets:
+                if(isinstance(item,(metric,collate))):
+                    temp.append(item)
+                elif(isinstance(item,pycmMetrics)):
+                    temp+=item.metrics
+            self.custom_metrics=temp
+            
+        if(table_targets):
+            temp=[]
+            for item in table_targets:
+                if(isinstance(item,metricsTable)):
+                    temp.append(item)
+            self.custom_tbl_metrics=temp
 
         class plot:
             def __init__(self,parent,):
@@ -117,15 +128,21 @@ class traintorch:
                         yield l.iloc[i:i + n,:]
             def tail(self,):
                 main_results=pd.DataFrame()
-                for metric in self.parent.custom_metrics:
-                    temp=metric.window().iloc[-1:,:]
+                for _metric in self.parent.custom_metrics:
+                    if(not isinstance(_metric,collate)):
+                        temp=_metric.window().iloc[-1:,:]
+                        temp.reset_index(drop=True, inplace=True)
+                        main_results=pd.concat([main_results, temp], axis=1,sort=False)
+                for _metric in self.parent.custom_tbl_metrics:
+                    temp=_metric.window()
                     temp.reset_index(drop=True, inplace=True)
                     main_results=pd.concat([main_results, temp], axis=1,sort=False)
                 self.parent.main_results=main_results
             
             def create(self,):
                 if(any([item.updated for item in self.parent.custom_metrics])):
-                    
+                    if(self.parent.garbage_collection):
+                        gc.collect()
                     if(len(self.parent.custom_metrics)!=self.parent.n_custom_plots):
                         warnings.warn("Data provided does not match the number of custom plots")
                         self.parent.total_plots=len(self.parent.custom_metrics)
@@ -181,6 +198,9 @@ class traintorch:
                     #adds the main plots
                     for i in range(0,self.parent.n_custom_plots):
                         try:
+                            if(isinstance(self.parent.custom_metrics[i],collate)):
+                                if(any([item.updated for item in self.parent.custom_metrics[i].target])):
+                                    self.parent.custom_metrics[i].update()
                             if(self.parent.custom_metrics[i].updated):
                                 custom_data=self.parent.custom_metrics[i].window()
                                 if(custom_data.empty):
@@ -188,8 +208,10 @@ class traintorch:
                                 #This can be optimized later
                                 
 #                                 top_axes[i].clear()
-
-                                self.parent.top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
+                                if(not self.parent.custom_metrics[i].avg_only):
+                                    self.parent.top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
+                                else:
+                                    self.parent.top_axes[i].plot(custom_data)
                                 self.parent.top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
                                 self.parent.top_axes[i].set_title(self.parent.custom_metrics[i].name)
                                 self.parent.top_axes[i].set_ylabel('')
@@ -224,7 +246,9 @@ class traintorch:
                     self.tail()
                     if(self.parent.show_table):
                         if(not self.parent.main_results.empty):
-                            for i,item in enumerate(self.chunks_df(self.parent.main_results.round(6).T,
+                            #round and limit the number of characters
+                            _temp=self.parent.main_results.round(8).T.apply(lambda x:x.astype(str).str.slice(0,8))
+                            for i,item in enumerate(self.chunks_df(_temp,
                                                                    math.ceil(len(self.parent.main_results.columns)/2),'r')):
                                 if((i+1)%2==0 and (i>0)):
                                     loc='bottom right'
@@ -256,10 +280,11 @@ class traintorch:
                         box = item.get_position()
                         item.set_position([box.x0, box.y0 + box.height * 0.1,box.width, box.height * 0.9])
                         lines=item.get_lines()
+                    #**** Following does not make sense
                         if(custom_data.empty):
                             custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
 
-                        lines[0].get_xydata()
+#                         lines[0].get_xydata()
                         item.legend(self.parent.custom_metrics[i].window().columns,loc='upper center',
                                     bbox_to_anchor=(0.5, -0.1),fancybox=True, shadow=True, ncol=5)
 
@@ -283,14 +308,14 @@ class traintorch:
                             item.updated=False
 #                     plt.close(self.parent.figure)
                     clear_output(wait=True)
-                    gc.collect()
                     self.parent.counter+=1
         self._plot=plot(self,)
         self.plot=self._plot.create
 
 
 class metric:
-    def __init__(self,name=None,w_size=10,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3)):
+    def __init__(self,name=None,w_size=10,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),
+                avg_only=False):
         self.name=name
         self.__kwargs=None
         self.counter=0
@@ -305,6 +330,13 @@ class metric:
         if(not name):
             raise Exception('please provide a name for this metric.')
         self.show_grid=show_grid
+        self.avg_only=avg_only
+        if(self.avg_only):
+            self.average=False
+            
+    def __str__(self,):
+        return ('metric')
+    
     def update(self,**kwargs):
         self.updated=True
         self.counter+=1
@@ -320,7 +352,7 @@ class metric:
             self.chunk_mean()
             for key in self.keys:
                 self.__dict__[key]=[]
-                gc.collect()
+
     def frame(self,):
         _dict={}
         for k,v in self.__dict__.items():
@@ -329,14 +361,17 @@ class metric:
         _data=pd.DataFrame(_dict)
         if('x' in _data.columns):
             _data.set_index('x',inplace=True)
-        gc.collect()
         return(_data)
     def window(self,):
         _data=pd.concat([self.last_chunk,self.frame()]).reset_index(drop=True)[(-1*self.w_size):]
         _data.index=list(range(1,self.counter+1,1))[(-1*self.w_size):]
         if('x' in _data.columns):
             _data.set_index('x',inplace=True)
-        gc.collect()
+        if(self.avg_only):
+            if(self.means):
+                _data=pd.concat(self.means,axis=1).T
+            else:
+                _data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
         return _data
 
     def chunk(self,method='r'):
@@ -350,26 +385,20 @@ class metric:
             for i in range(0, _data.shape[0], n):
                 _output.append(_data.iloc[i:i + n,:])
         self.last_chunk=_output[0]
-        gc.collect()
     def chunk_mean(self,):
         self.means.append(self.last_chunk.mean(axis=0))
-        gc.collect()
     def shape(self,):
-        gc.collect()
         return self.frame().shape
     
     def __getitem__(self,key):
-        gc.collect()
         if(key in self.keys):
             _data=self.window()
             return(_data[key])
         else:
             return None
     def __len__(self,):
-        gc.collect()
         return(len(self.keys))
     def __call__(self,):
-        gc.collect()
         return self.frame().iloc[(-1*self.w_size):,:]
     
 class pycmMetrics():
@@ -424,7 +453,10 @@ class pycmMetrics():
                     _key=str(key).replace(' ','_')
                     self.metrics_cls[self.name+'_'+str(_key)]=metric(name=self.name+'_'+str(_key),w_size=self.w_size)
         self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
-        gc.collect()
+
+    def __str__(self,):
+        return ('pycmMetrics')
+    
     def _in_list(self,target,main):
         return set(target)<set(main)
     def _to_list(self,target):
@@ -450,7 +482,6 @@ class pycmMetrics():
 
         self.cm_dict_overall=_main
         self.cm_dict_class=_class
-        gc.collect()
         
     def _to_df(self,_cm):
         
@@ -459,7 +490,6 @@ class pycmMetrics():
         self.cm_dict_class=_class
         self.cm_df_overall=pd.DataFrame(_main,index=[0])
         self.cm_df_class=pd.DataFrame(_class,index=[0])
-        gc.collect()
 
     def update(self,actual,predicted):
         _cm=ConfusionMatrix(actual,predicted)
@@ -474,23 +504,45 @@ class pycmMetrics():
                 else:
                     self.metrics_cls[self.name+'_'+str(k)].update(**{k:v})
         self.metrics=list({**self.metrics_oa,**self.metrics_cls}.values())
-        gc.collect()
 
 
 class collate():
-    def __init__(self,target_a,target_b,target_metric,name=None,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3)):
+    def __init__(self,target_a,target_b,target_metric='',name=None,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),
+                avg_only=False):
         self.target=[target_a,target_b]
-        self._all_metrics=list(set(target_a._all_metrics+target_b._all_metrics))
-        if( target_metric in self._all_metrics):
-            self.target_metric=str(target_metric).replace(' ','_')
+        if(str(target_a)!=str(target_b)):
+            raise Exception ("Metric type/class mismatch.")
         else:
-            raise Exception ("Metric not found or is not available.")
+            if(not str(target_a) or not str(target_b)):
+                raise Exception ("Metrics have no type/class")
+        if(str(target_a) not in ['metric','pycmMetrics']):
+            raise Exception ("type/class not recognized, has to be of class metric or pycmMetrics")
+        if(str(target_a)=='metric'):
+            self.type='metric'
+        else:
+            self.type='pycmMetrics'    
+            
+        if(self.type=='pycmMetrics'):
+            self._all_metrics=list(set(target_a._all_metrics+target_b._all_metrics))
+            if( target_metric in self._all_metrics):
+                self.target_metric=str(target_metric).replace(' ','_')
+            else:
+                raise Exception ("Metric not found or is not available.")
+        elif(self.type=='metric'):
+            if(not target_a.avg_only or not target_a.avg_only):
+                raise Exception ("Collate is only available to class metric when avg_only is True.")
+            else:
+                avg_only=True
+
         self.means=[]
         self.updated=False
         if(name):
             self.name=name
         else:
-            self.name=target_metric+' - '+target_a.name+' and '+target_b.name
+            if(target_metric):
+                self.name=target_metric+' - '+target_a.name+' and '+target_b.name
+            else:
+                self.name=target_a.name+' and '+target_b.name
         if(target_a.w_size!=target_b.w_size):
             raise Exception ("Selected Metrics do not have the same w_size.")
         else:
@@ -499,25 +551,56 @@ class collate():
         self.show_grid=show_grid
         self.xaxis_int=xaxis_int
         self.n_ticks=n_ticks
+        self.avg_only=avg_only
     def update(self,):
         self.updated=True
         temp_a=[]
-        for item_0 in self.target:
-            for item_1 in item_0.metrics:
-                _key=item_1.name.replace(item_0.name+"_","")
-                if(_key==self.target_metric):
-                    if(item_1.means):
-                        temp_a.append(pd.concat(item_1.means, axis=1).T)
-        if(temp_a):
-            self.means=pd.concat(temp_a,axis=1)
-        gc.collect()
+        if(self.type=='pycmMetrics'):
+            for item_0 in self.target:
+                for item_1 in item_0.metrics:
+                    _key=item_1.name.replace(item_0.name+"_","")
+                    if(_key==self.target_metric):
+                        if(item_1.means):
+                            temp_a.append(pd.concat(item_1.means, axis=1).T)
+            if(temp_a):
+                self.means=pd.concat(temp_a,axis=1)
+
     def window(self,):
         temp_a=[]
-        for item_0 in self.target:
-            for item_1 in item_0.metrics:
-                _key=item_1.name.replace(item_0.name+"_","")
-                if(_key==self.target_metric):
-                    temp_a.append(item_1.window())
-        self.update()
-        gc.collect()
-        return(pd.concat(temp_a,axis=1))    
+        if(self.type=='pycmMetrics'):
+            for item_0 in self.target:
+                for item_1 in item_0.metrics:
+                    _key=item_1.name.replace(item_0.name+"_","")
+                    if(_key==self.target_metric):
+                        temp_a.append(item_1.window())
+            self.update()
+            return(pd.concat(temp_a,axis=1))
+        elif(self.type=='metric'):
+            if(not self.target[0].means or not self.target[1].means):
+                return pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
+            else:
+                return pd.concat([pd.concat(item.means,axis=1) for item in self.target],axis=0).T   
+
+class metricsTable:
+    def __init__(self,):
+        self.counter=0
+        self.updated=False
+        self.__kwargs=None
+        self.keys=[]
+        
+    def window(self,):
+        _dict={}
+        for k,v in self.__dict__.items():
+            if(k in self.__dict__['keys']):
+                _dict[k]=v
+        _data=pd.DataFrame(_dict)
+        return(_data)
+        
+    def update(self,**kwargs):
+        self.updated=True
+        self.counter+=1
+        self.__kwargs=kwargs
+        for key in self.__kwargs.keys():
+            self.__dict__[key]=[self.__kwargs[key]]
+            if(key not in self.keys):
+                self.keys.append(key)            
