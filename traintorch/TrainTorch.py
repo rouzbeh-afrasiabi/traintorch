@@ -62,7 +62,7 @@ class traintorch:
     def __init__(self,figsize=(15,20),show_table=True,n_custom_plots=2,
                  top_rows=1,top_cols=2,plot_width=4,plot_height=4,nrows=2,ncols=1,
                 main_grid_hspace=0.5,main_grid_wspace=0.5,window=100,
-                 garbage_collection=True,garbage_collection=True,garbage_collection=True,custom_window=[]):
+                 garbage_collection=True,custom_window=[]):
 
         self.show_table=show_table
         self.top_rows=top_rows
