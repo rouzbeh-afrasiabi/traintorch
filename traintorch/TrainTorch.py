@@ -315,7 +315,7 @@ class traintorch:
                         save_folder=os.path.join(cwd,'save')
                         image_folder=os.path.join(save_folder,'images')
                         video_folder=os.path.join(save_folder,'videos')
-                        create_folders([save_folder,images_folder,video_folder])
+                        create_folders([save_folder,image_folder,video_folder])
                         
                         self.parent.figure.savefig(os.path.join(image_folder,'image_'+str(i)+'.png'), 
                                                    bbox_inches = 'tight',pad_inches = .5,
