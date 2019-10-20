@@ -1,3 +1,10 @@
+import sys
+import os
+
+
+cwd = str(os.getcwd())
+sys.path.append(cwd)
+sys.path.insert(0, cwd)
 
 
 def check_file(filename,location=cwd):    

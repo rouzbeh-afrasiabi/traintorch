@@ -54,10 +54,6 @@ from IPython import get_ipython
 import cv2
 import re
 
-cwd = str(os.getcwd())
-sys.path.append(cwd)
-sys.path.insert(0, cwd)
-
 
 _ipy = get_ipython()
 if _ipy is not None:
