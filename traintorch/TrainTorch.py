@@ -37,7 +37,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 
-from utils import *
+from traintorch.utils import *
 import matplotlib.pyplot as plt
 from IPython.display import clear_output
 import pandas as pd
