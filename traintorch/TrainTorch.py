@@ -37,7 +37,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 
-
+from utils impoprt *
 import matplotlib.pyplot as plt
 from IPython.display import clear_output
 import pandas as pd
@@ -51,12 +51,20 @@ import gc
 from pycm import *
 
 from IPython import get_ipython
+import cv2
+import re
+
+cwd = str(os.getcwd())
+sys.path.append(cwd)
+sys.path.insert(0, cwd)
+
 
 _ipy = get_ipython()
 if _ipy is not None:
     get_ipython().run_line_magic('matplotlib','inline')
 
 warnings.filterwarnings("ignore")
+
 
 class traintorch:
     def __init__(self,figsize=(15,20),show_table=True,n_custom_plots=2,
