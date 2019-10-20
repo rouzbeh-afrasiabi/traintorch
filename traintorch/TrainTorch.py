@@ -317,7 +317,7 @@ class traintorch:
                         video_folder=os.path.join(save_folder,'videos')
                         create_folders([save_folder,image_folder,video_folder])
                         
-                        self.parent.figure.savefig(os.path.join(image_folder,'image_'+str(i)+'.png'), 
+                        self.parent.figure.savefig(os.path.join(image_folder,'image_'+str(self.parent.counter)+'.png'), 
                                                    bbox_inches = 'tight',pad_inches = .5,
                                                   )
                     for item in self.parent.custom_metrics:
