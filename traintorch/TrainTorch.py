@@ -66,7 +66,7 @@ class traintorch:
     def __init__(self,figsize=(15,20),show_table=True,n_custom_plots=2,
                  top_rows=1,top_cols=2,plot_width=4,plot_height=4,nrows=2,ncols=1,
                 main_grid_hspace=0.5,main_grid_wspace=0.5,window=100,
-                 garbage_collection=True,custom_window=[]):
+                 garbage_collection=True,save_plots=False,custom_window=[]):
 
         self.show_table=show_table
         self.top_rows=top_rows
@@ -89,6 +89,7 @@ class traintorch:
         self.n_custom_plots=n_custom_plots
         self.figsize=figsize
         self.garbage_collection=garbage_collection
+        self.save_plots=save_plots
         #this needs to be fixed
         if(custom_window==[] and n_custom_plots>0):
             self.custom_window=[self.window]*n_custom_plots
@@ -310,7 +311,15 @@ class traintorch:
                         except Exception as error:
                             self.parent.top_axes[i].axis('off')
                     plt.show()
- 
+                    if(self.parent.save_plots):
+                        save_folder=os.path.join(cwd,'save')
+                        image_folder=os.path.join(save_folder,'images')
+                        video_folder=os.path.join(save_folder,'videos')
+                        create_folders([save_folder,images_folder,video_folder])
+                        
+                        self.parent.figure.savefig(os.path.join(image_folder,'image_'+str(i)+'.png'), 
+                                                   bbox_inches = 'tight',pad_inches = .5,
+                                                  )
                     for item in self.parent.custom_metrics:
                         if(item.updated):
                             item.updated=False
