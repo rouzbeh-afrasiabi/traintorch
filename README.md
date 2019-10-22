@@ -7,7 +7,7 @@
 # TrainTorch v.1.0.2-alpha
 <br>
 <b>
-# This project is under heavy development and is not ready for production use.
+This project is under heavy development and is not ready for production use.
 </b>
 <br>
  
