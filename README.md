@@ -6,7 +6,9 @@
 
 # TrainTorch v.1.0.2-alpha
 
-
+<b>
+ This project is under heavy development and is not ready for production use.
+ </b>
 <p align="justify">
 Package for live visualization of model validation metrics during training of a machine learning model in jupyter notebooks. TrainTorch utilizes a sliding window mechanism to reduce memory usage.
 </p> 
