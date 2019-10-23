@@ -116,6 +116,26 @@ class traintorch:
         create_folders([self.save_folder,self.main_folder,
                         self.timestamp_folder,self.image_folder,
                         self.video_folder,self.data_folder])  
+    def to_video(self,name=''):
+        if(name):
+            video_name =os.path.join(self.video_folder,name+'.avi')
+        else:
+            video_name =os.path.join(self.video_folder,self.uid+'-'+self.timestamp+'avi') 
+        images = [img for img in os.listdir(self.image_folder) if img.endswith(".png")]
+        images_lit=[(int(re.findall(r'\d+', image)[0]),image) for image in images]
+        images_lit_sorted=sorted(images_lit, key=lambda image: image[0])
+        images_list_sorted=[item[1] for item in images_lit_sorted]
+        if(images_list_sorted):
+            frame = cv2.imread(os.path.join(self.image_folder, images_list_sorted[0]))
+            height, width, layers = frame.shape
+            video = cv2.VideoWriter(video_name, 0, 10, (width,height))
+            for image in images_list_sorted:
+                video.write(cv2.imread(os.path.join(self.image_folder, image)))
+
+            cv2.destroyAllWindows()
+            video.release()
+        else:
+            raise Exception('No images found to convert to video.')
         
     def append(self,plot_targets,table_targets=None):
         if(plot_targets):
