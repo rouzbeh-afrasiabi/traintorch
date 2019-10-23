@@ -121,7 +121,7 @@ class traintorch:
         #write to logfile line by line
         self.log_loc=os.path.join(self.save_folder,log_filename)
         with open(self.log_loc, 'a') as f:
-            _log={'main_folder':self.main_folder,'timestamp':self.timestamp,'model_config': model_config}
+            _log={'uid':self.uid,'timestamp':self.timestamp,'model_config': model_config}
             if(os.stat(self.log_loc).st_size != 0):
                 f.write('\n'+json.dumps(_log))
             else:
