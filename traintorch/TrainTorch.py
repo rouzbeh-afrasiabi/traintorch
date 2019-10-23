@@ -69,7 +69,8 @@ class traintorch:
     def __init__(self,figsize=(15,20),show_table=True,n_custom_plots=2,
                  top_rows=1,top_cols=2,plot_width=4,plot_height=4,nrows=2,ncols=1,
                 main_grid_hspace=0.5,main_grid_wspace=0.5,window=100,
-                 garbage_collection=True,save_plots=False,custom_window=[]):
+                 garbage_collection=True,save_plots=False,log_filename='main.log',
+                 model_config={},custom_window=[]):
 
         self.show_table=show_table
         self.top_rows=top_rows
@@ -112,10 +113,20 @@ class traintorch:
         self.image_folder=os.path.join(self.timestamp_folder,'images')
         self.video_folder=os.path.join(self.timestamp_folder,'videos')
         self.data_folder=os.path.join(self.timestamp_folder,'data')
-        
+        self.model_config=model_config
         create_folders([self.save_folder,self.main_folder,
                         self.timestamp_folder,self.image_folder,
-                        self.video_folder,self.data_folder])  
+                        self.video_folder,self.data_folder]) 
+        
+        #write to logfile line by line
+        self.log_loc=os.path.join(self.save_folder,log_filename)
+        with open(self.log_loc, 'a') as f:
+            _log={'main_folder':self.main_folder,'timestamp':self.timestamp,'model_config': model_config}
+            if(os.stat(self.log_loc).st_size != 0):
+                f.write('\n'+json.dumps(_log))
+            else:
+                f.write(json.dumps(_log))        
+ 
     def to_video(self,name=''):
         if(name):
             video_name =os.path.join(self.video_folder,name+'.avi')
