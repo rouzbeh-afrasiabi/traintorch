@@ -49,7 +49,7 @@ from matplotlib.ticker import MaxNLocator
 import warnings
 import gc
 from pycm import *
-import simplejson as json
+
 
 from IPython import get_ipython
 import cv2
@@ -116,16 +116,12 @@ class traintorch:
         self.model_config=model_config
         create_folders([self.save_folder,self.main_folder,
                         self.timestamp_folder,self.image_folder,
-                        self.video_folder,self.data_folder]) 
-        
-        #write to logfile line by line
-        self.log_loc=os.path.join(self.save_folder,log_filename)
-        with open(self.log_loc, 'a') as f:
-            _log={'uid':self.uid,'timestamp':self.timestamp,'model_config': model_config}
-            if(os.stat(self.log_loc).st_size != 0):
-                f.write('\n'+json.dumps(_log))
-            else:
-                f.write(json.dumps(_log))        
+                        self.video_folder,self.data_folder])
+
+        #write to logfile line by line        
+        self.log_filename=log_filename
+        _log={'uid':self.uid,'timestamp':self.timestamp,'model_config': model_config}
+        to_log(self.save_folder,self.log_filename,_log)     
  
     def to_video(self,name=''):
         if(name):
@@ -157,6 +153,7 @@ class traintorch:
                     temp.append(item)
                 elif(isinstance(item,pycmMetrics)):
                     temp+=item.metrics
+                item.data_folder=self.data_folder
             self.custom_metrics=temp
             
         if(table_targets):
@@ -375,7 +372,12 @@ class traintorch:
 class metric:
     def __init__(self,name=None,w_size=10,average=False,save_data=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),
                 avg_only=False):
-        self.name=name
+        if(name):
+            self.name=name
+        else:
+            raise Exception ('please provide a name for this metric.')
+        self.data_folder=''
+        self.save_data=save_data
         self.__kwargs=None
         self.counter=0
         self.keys=[]
@@ -393,6 +395,7 @@ class metric:
         if(self.avg_only):
             self.average=False
         self.save_data=save_data
+        self.log_filename=''
             
     def __str__(self,):
         return ('metric')
@@ -401,6 +404,9 @@ class metric:
         self.updated=True
         self.counter+=1
         self.__kwargs=kwargs
+        if(self.save_data):
+            self.log_filename=self.name+'.log'
+            to_log(self.data_folder,self.log_filename,self.__kwargs) 
         for key in self.__kwargs.keys():
             if(key in self.__dict__ ):
                 self.__dict__[key].append(self.__kwargs[key])
@@ -462,7 +468,7 @@ class metric:
         return self.frame().iloc[(-1*self.w_size):,:]
     
 class pycmMetrics():
-    def __init__(self,overall_metrics=[],class_metrics=[],name='',w_size=10):
+    def __init__(self,overall_metrics=[],class_metrics=[],name='',w_size=10,save_data=False):
         
         self._overall_metrics=['ACC Macro', 'AUNP', 'AUNU', 'Bennett S', 'CBA', 'Chi-Squared',
                         'Chi-Squared DF', 'Conditional Entropy', 'Cramer V',
@@ -488,6 +494,8 @@ class pycmMetrics():
             raise Exception('please provide a name for the group metrics.')
         else:
             self.name=name
+        self.save_data=save_data
+        self.data_folder=''
         self._all_metrics=self._overall_metrics+self._class_metrics
         self.cm_dict_overall={}
         self.cm_dict_class={}
@@ -556,6 +564,10 @@ class pycmMetrics():
         self.updated=True
         _cm=ConfusionMatrix(actual,predicted)
         self._to_dict(_cm)
+        if(self.save_data):
+            self.log_filename=self.name+'.log'
+            _log={'overall_stat':_cm.__dict__['overall_stat'],'class_stat':_cm.__dict__['class_stat']}
+            to_log(self.data_folder,self.log_filename,_log) 
         if(self.metrics_oa):
             for k,v in self.cm_dict_overall.items():
                 self.metrics_oa[self.name+'_'+str(k)].update(**{self.name+'_'+str(k):v})

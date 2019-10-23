@@ -1,6 +1,6 @@
 import sys
 import os
-
+import simplejson as json
 
 cwd = str(os.getcwd())
 sys.path.append(cwd)
@@ -21,3 +21,10 @@ def create_folders(folders):
             pass
         else:
             os.mkdir(folder)
+def to_log(location,log_filename,content):
+        log_loc=os.path.join(location,log_filename)
+        with open(log_loc, 'a') as f:
+            if(os.stat(log_loc).st_size != 0):
+                f.write('\n'+json.dumps(content))
+            else:
+                f.write(json.dumps(content))     
