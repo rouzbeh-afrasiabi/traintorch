@@ -128,6 +128,7 @@ class traintorch:
         if(images_list_sorted):
             frame = cv2.imread(os.path.join(self.image_folder, images_list_sorted[0]))
             height, width, layers = frame.shape
+            #you can set fps here
             video = cv2.VideoWriter(video_name, 0, 10, (width,height))
             for image in images_list_sorted:
                 video.write(cv2.imread(os.path.join(self.image_folder, image)))
