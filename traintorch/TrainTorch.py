@@ -49,10 +49,13 @@ from matplotlib.ticker import MaxNLocator
 import warnings
 import gc
 from pycm import *
+import simplejson as json
 
 from IPython import get_ipython
 import cv2
 import re
+import uuid
+from datetime import datetime
 
 
 _ipy = get_ipython()
@@ -100,6 +103,19 @@ class traintorch:
                 self.custom_window=[custom_window]
 
         self._avg_axes=[]
+        self.save_folder=os.path.join(cwd,'save')
+        self.timestamp=datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')
+        self.uid=uuid.uuid4().hex
+
+        self.main_folder=os.path.join(self.save_folder,self.uid)
+        self.timestamp_folder=os.path.join(self.main_folder,self.timestamp)
+        self.image_folder=os.path.join(self.timestamp_folder,'images')
+        self.video_folder=os.path.join(self.timestamp_folder,'videos')
+        self.data_folder=os.path.join(self.timestamp_folder,'data')
+        
+        create_folders([self.save_folder,self.main_folder,
+                        self.timestamp_folder,self.image_folder,
+                        self.video_folder,self.data_folder])  
         
     def append(self,plot_targets,table_targets=None):
         if(plot_targets):
@@ -145,7 +161,6 @@ class traintorch:
                 self.parent.main_results=main_results
             
             def create(self,):
-                
                 #auto-update collate object
                 for item in self.parent.custom_metrics:
                     if(isinstance(item,collate)):
@@ -312,12 +327,7 @@ class traintorch:
                             self.parent.top_axes[i].axis('off')
                     plt.show()
                     if(self.parent.save_plots):
-                        save_folder=os.path.join(cwd,'save')
-                        image_folder=os.path.join(save_folder,'images')
-                        video_folder=os.path.join(save_folder,'videos')
-                        create_folders([save_folder,image_folder,video_folder])
-                        
-                        self.parent.figure.savefig(os.path.join(image_folder,'image_'+str(self.parent.counter)+'.png'), 
+                        self.parent.figure.savefig(os.path.join(self.parent.image_folder,'image_'+str(self.parent.counter)+'.png'), 
                                                    bbox_inches = 'tight',pad_inches = .5,
                                                   )
                     for item in self.parent.custom_metrics:
@@ -331,7 +341,7 @@ class traintorch:
 
 
 class metric:
-    def __init__(self,name=None,w_size=10,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),
+    def __init__(self,name=None,w_size=10,average=False,save_data=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),
                 avg_only=False):
         self.name=name
         self.__kwargs=None
@@ -350,6 +360,7 @@ class metric:
         self.avg_only=avg_only
         if(self.avg_only):
             self.average=False
+        self.save_data=save_data
             
     def __str__(self,):
         return ('metric')
