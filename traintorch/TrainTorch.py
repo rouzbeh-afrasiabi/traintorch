@@ -123,11 +123,11 @@ class traintorch:
         _log={'uid':self.uid,'timestamp':self.timestamp,'model_config': model_config}
         to_log(self.save_folder,self.log_filename,_log)     
  
-    def to_video(self,name=''):
+    def to_video(self,name='',frame_rate=5):
         if(name):
-            video_name =os.path.join(self.video_folder,name+'.avi')
+            video_loc =os.path.join(self.video_folder,name+'.avi')
         else:
-            video_name =os.path.join(self.video_folder,self.uid+'.avi') 
+            video_loc =os.path.join(self.video_folder,self.uid+'.avi') 
         images = [img for img in os.listdir(self.image_folder) if img.endswith(".png")]
         images_lit=[(int(re.findall(r'\d+', image)[0]),image) for image in images]
         images_lit_sorted=sorted(images_lit, key=lambda image: image[0])
@@ -136,10 +136,11 @@ class traintorch:
             frame = cv2.imread(os.path.join(self.image_folder, images_list_sorted[0]))
             height, width, layers = frame.shape
             #you can set fps here
-            video = cv2.VideoWriter(video_name, 0, 10, (width,height))
+            video = cv2.VideoWriter(video_loc, 0, frame_rate, (width,height),True)
             for image in images_list_sorted:
-                video.write(cv2.imread(os.path.join(self.image_folder, image)))
-
+                im=cv2.imread(os.path.join(self.image_folder, image),cv2.IMREAD_COLOR)
+                video.write(cv2.resize(im,(width,height)))
+                
             cv2.destroyAllWindows()
             video.release()
         else:
