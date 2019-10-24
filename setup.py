@@ -14,11 +14,16 @@ setuptools.setup(
     url="https://github.com/rouzbeh-afrasiabi/traintorch",
     download_url="https://github.com/rouzbeh-afrasiabi/traintorch/archive/v.1.0.2-alpha.tar.gz",
     install_requires=[
-    'numpy>=1.17.2',
-    'pandas>=0.25.1',
-    'matplotlib>=3.1.1',
-    'pycm>=2.2',
-     'ipython==7.8.0'
+    'pandas==0.25.1',
+    'pytest==5.2.1',
+    'pycm==2.2',
+    'setuptools==41.0.1',
+    'matplotlib==3.1.1',
+    'opencv_python==4.1.1.26',
+    'simplejson==3.16.0',
+    'ipython==7.8.0',
+    'numpy==1.17.3',
+     'imageio==2.5.0'
     ],
     keywords = ['training', 'visualization', 'loss','plot','live','jupyter notebook', 'matplotlib'],
     packages=setuptools.find_packages(),
