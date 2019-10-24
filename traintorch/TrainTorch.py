@@ -37,7 +37,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 
-
+from traintorch.utils import *
 import matplotlib.pyplot as plt
 from IPython.display import clear_output
 import pandas as pd
@@ -50,7 +50,13 @@ import warnings
 import gc
 from pycm import *
 
+
 from IPython import get_ipython
+import cv2
+import re
+import uuid
+from datetime import datetime
+import imageio
 
 _ipy = get_ipython()
 if _ipy is not None:
@@ -58,11 +64,13 @@ if _ipy is not None:
 
 warnings.filterwarnings("ignore")
 
+
 class traintorch:
     def __init__(self,figsize=(15,20),show_table=True,n_custom_plots=2,
                  top_rows=1,top_cols=2,plot_width=4,plot_height=4,nrows=2,ncols=1,
                 main_grid_hspace=0.5,main_grid_wspace=0.5,window=100,
-                 garbage_collection=True,custom_window=[]):
+                 garbage_collection=True,save_plots=False,log_filename='main.log',
+                 model_config={},custom_window=[]):
 
         self.show_table=show_table
         self.top_rows=top_rows
@@ -85,6 +93,7 @@ class traintorch:
         self.n_custom_plots=n_custom_plots
         self.figsize=figsize
         self.garbage_collection=garbage_collection
+        self.save_plots=save_plots
         #this needs to be fixed
         if(custom_window==[] and n_custom_plots>0):
             self.custom_window=[self.window]*n_custom_plots
@@ -95,6 +104,69 @@ class traintorch:
                 self.custom_window=[custom_window]
 
         self._avg_axes=[]
+        self.save_folder=os.path.join(cwd,'save')
+        self.timestamp=datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')
+        self.uid=uuid.uuid4().hex
+
+        self.main_folder=os.path.join(self.save_folder,self.uid)
+        self.timestamp_folder=os.path.join(self.main_folder,self.timestamp)
+        self.image_folder=os.path.join(self.timestamp_folder,'images')
+        self.video_folder=os.path.join(self.timestamp_folder,'videos')
+        self.data_folder=os.path.join(self.timestamp_folder,'data')
+        self.model_config=model_config
+        create_folders([self.save_folder,self.main_folder,
+                        self.timestamp_folder,self.image_folder,
+                        self.video_folder,self.data_folder])
+
+        #write to logfile line by line        
+        self.log_filename=log_filename
+        _log={'uid':self.uid,'timestamp':self.timestamp,'model_config': model_config}
+        to_log(self.save_folder,self.log_filename,_log) 
+        
+    def to_gif(self,name='',frame_rate=5):
+        if(name):
+            video_loc =os.path.join(self.video_folder,name+'.gif')
+        else:
+            video_loc =os.path.join(self.video_folder,self.uid+'.gif') 
+        images = [img for img in os.listdir(self.image_folder) if img.endswith(".png")]
+        images_lit=[(int(re.findall(r'\d+', image)[0]),image) for image in images]
+        images_lit_sorted=sorted(images_lit, key=lambda image: image[0])
+        images_list_sorted=[item[1] for item in images_lit_sorted]
+        frame = imageio.imread(os.path.join(self.image_folder, images_list_sorted[0]))
+        height, width, layers = frame.shape
+        ims=[]
+        if(images_list_sorted):
+            for image in images_list_sorted:
+                im=imageio.imread(os.path.join(self.image_folder, image))
+                cv2.resize(im,(width,height))
+                ims.append(im)
+                
+            imageio.mimsave(video_loc, ims,fps=frame_rate)
+        else:
+            raise Exception('No images found to convert to video.')
+         
+    def to_video(self,name='',frame_rate=5):
+        if(name):
+            video_loc =os.path.join(self.video_folder,name+'.avi')
+        else:
+            video_loc =os.path.join(self.video_folder,self.uid+'.avi') 
+        images = [img for img in os.listdir(self.image_folder) if img.endswith(".png")]
+        images_lit=[(int(re.findall(r'\d+', image)[0]),image) for image in images]
+        images_lit_sorted=sorted(images_lit, key=lambda image: image[0])
+        images_list_sorted=[item[1] for item in images_lit_sorted]
+        if(images_list_sorted):
+            frame = cv2.imread(os.path.join(self.image_folder, images_list_sorted[0]))
+            height, width, layers = frame.shape
+            #you can set fps here
+            video = cv2.VideoWriter(video_loc, 0, frame_rate, (width,height),True)
+            for image in images_list_sorted:
+                im=cv2.imread(os.path.join(self.image_folder, image),cv2.IMREAD_COLOR)
+                video.write(cv2.resize(im,(width,height)))
+                
+            cv2.destroyAllWindows()
+            video.release()
+        else:
+            raise Exception('No images found to convert to video.')
         
     def append(self,plot_targets,table_targets=None):
         if(plot_targets):
@@ -104,6 +176,7 @@ class traintorch:
                     temp.append(item)
                 elif(isinstance(item,pycmMetrics)):
                     temp+=item.metrics
+                item.data_folder=self.data_folder
             self.custom_metrics=temp
             
         if(table_targets):
@@ -140,7 +213,6 @@ class traintorch:
                 self.parent.main_results=main_results
             
             def create(self,):
-                
                 #auto-update collate object
                 for item in self.parent.custom_metrics:
                     if(isinstance(item,collate)):
@@ -306,7 +378,10 @@ class traintorch:
                         except Exception as error:
                             self.parent.top_axes[i].axis('off')
                     plt.show()
- 
+                    if(self.parent.save_plots):
+                        self.parent.figure.savefig(os.path.join(self.parent.image_folder,'image_'+str(self.parent.counter)+'.png'), 
+                                                   bbox_inches = 'tight',pad_inches = .5,
+                                                  )
                     for item in self.parent.custom_metrics:
                         if(item.updated):
                             item.updated=False
@@ -318,9 +393,14 @@ class traintorch:
 
 
 class metric:
-    def __init__(self,name=None,w_size=10,average=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),
+    def __init__(self,name=None,w_size=10,average=False,save_data=False,show_grid=False,xaxis_int=True,n_ticks=(3,3),
                 avg_only=False):
-        self.name=name
+        if(name):
+            self.name=name
+        else:
+            raise Exception ('please provide a name for this metric.')
+        self.data_folder=''
+        self.save_data=save_data
         self.__kwargs=None
         self.counter=0
         self.keys=[]
@@ -337,6 +417,8 @@ class metric:
         self.avg_only=avg_only
         if(self.avg_only):
             self.average=False
+        self.save_data=save_data
+        self.log_filename=''
             
     def __str__(self,):
         return ('metric')
@@ -345,6 +427,9 @@ class metric:
         self.updated=True
         self.counter+=1
         self.__kwargs=kwargs
+        if(self.save_data):
+            self.log_filename=self.name+'.log'
+            to_log(self.data_folder,self.log_filename,self.__kwargs) 
         for key in self.__kwargs.keys():
             if(key in self.__dict__ ):
                 self.__dict__[key].append(self.__kwargs[key])
@@ -406,7 +491,7 @@ class metric:
         return self.frame().iloc[(-1*self.w_size):,:]
     
 class pycmMetrics():
-    def __init__(self,overall_metrics=[],class_metrics=[],name='',w_size=10):
+    def __init__(self,overall_metrics=[],class_metrics=[],name='',w_size=10,save_data=False):
         
         self._overall_metrics=['ACC Macro', 'AUNP', 'AUNU', 'Bennett S', 'CBA', 'Chi-Squared',
                         'Chi-Squared DF', 'Conditional Entropy', 'Cramer V',
@@ -432,6 +517,8 @@ class pycmMetrics():
             raise Exception('please provide a name for the group metrics.')
         else:
             self.name=name
+        self.save_data=save_data
+        self.data_folder=''
         self._all_metrics=self._overall_metrics+self._class_metrics
         self.cm_dict_overall={}
         self.cm_dict_class={}
@@ -500,6 +587,10 @@ class pycmMetrics():
         self.updated=True
         _cm=ConfusionMatrix(actual,predicted)
         self._to_dict(_cm)
+        if(self.save_data):
+            self.log_filename=self.name+'.log'
+            _log={'overall_stat':_cm.__dict__['overall_stat'],'class_stat':_cm.__dict__['class_stat']}
+            to_log(self.data_folder,self.log_filename,_log) 
         if(self.metrics_oa):
             for k,v in self.cm_dict_overall.items():
                 self.metrics_oa[self.name+'_'+str(k)].update(**{self.name+'_'+str(k):v})
