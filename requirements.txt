@@ -7,3 +7,4 @@ opencv_python==4.1.1.26
 simplejson==3.16.0
 ipython==7.8.0
 numpy==1.17.3
+imageio==2.5.0
