@@ -56,7 +56,7 @@ import cv2
 import re
 import uuid
 from datetime import datetime
-
+import imageio
 
 _ipy = get_ipython()
 if _ipy is not None:
@@ -121,8 +121,30 @@ class traintorch:
         #write to logfile line by line        
         self.log_filename=log_filename
         _log={'uid':self.uid,'timestamp':self.timestamp,'model_config': model_config}
-        to_log(self.save_folder,self.log_filename,_log)     
- 
+        to_log(self.save_folder,self.log_filename,_log) 
+        
+    def to_gif(self,name='',frame_rate=5):
+        if(name):
+            video_loc =os.path.join(self.video_folder,name+'.gif')
+        else:
+            video_loc =os.path.join(self.video_folder,self.uid+'.gif') 
+        images = [img for img in os.listdir(self.image_folder) if img.endswith(".png")]
+        images_lit=[(int(re.findall(r'\d+', image)[0]),image) for image in images]
+        images_lit_sorted=sorted(images_lit, key=lambda image: image[0])
+        images_list_sorted=[item[1] for item in images_lit_sorted]
+        frame = imageio.imread(os.path.join(self.image_folder, images_list_sorted[0]))
+        height, width, layers = frame.shape
+        ims=[]
+        if(images_list_sorted):
+            for image in images_list_sorted:
+                im=imageio.imread(os.path.join(self.image_folder, image))
+                cv2.resize(im,(width,height))
+                ims.append(im)
+                
+            imageio.mimsave(video_loc, ims,fps=frame_rate)
+        else:
+            raise Exception('No images found to convert to video.')
+         
     def to_video(self,name='',frame_rate=5):
         if(name):
             video_loc =os.path.join(self.video_folder,name+'.avi')
