@@ -112,11 +112,14 @@ class traintorch:
         self.timestamp_folder=os.path.join(self.main_folder,self.timestamp)
         self.image_folder=os.path.join(self.timestamp_folder,'images')
         self.video_folder=os.path.join(self.timestamp_folder,'videos')
+        self.checkpoint_folder=os.path.join(self.timestamp_folder,'checkpoints')
         self.data_folder=os.path.join(self.timestamp_folder,'data')
         self.model_config=model_config
         create_folders([self.save_folder,self.main_folder,
                         self.timestamp_folder,self.image_folder,
-                        self.video_folder,self.data_folder])
+                        self.video_folder,self.data_folder,
+                        self.checkpoint_folder,
+                       ])
 
         #write to logfile line by line        
         self.log_filename=log_filename
