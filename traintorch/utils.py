@@ -21,10 +21,31 @@ def create_folders(folders):
             pass
         else:
             os.mkdir(folder)
+def test_json(content):
+    try:
+        json.dumps(content)
+        return True
+    except:
+        return False
+    
 def to_log(location,log_filename,content):
         log_loc=os.path.join(location,log_filename)
-        with open(log_loc, 'a') as f:
-            if(os.stat(log_loc).st_size != 0):
-                f.write('\n'+json.dumps(content))
-            else:
-                f.write(json.dumps(content))     
+        if(test_json(content)):
+            with open(log_loc, 'a') as f:
+                if(os.stat(log_loc).st_size != 0):
+                    f.write('\n'+json.dumps(content))
+                else:
+                    f.write(json.dumps(content))
+        else:
+            raise Exception('Content not json serializable.') 
+            
+def find_checkpoints(folder,ext='.pth'):
+    checkpoint_files=[]
+    for root, dirs, files in os.walk(folder):
+        for dir in dirs:
+            for child_root, child_dirs, child_files in os.walk(dir):
+                for filename in child_files:
+                    if(filename.endswith(ext)):
+                        if (os.path.join(folder,dir, filename) not in checkpoint_files):
+                            checkpoint_files.append(os.path.join(folder,dir, filename))
+    return(checkpoint_files)
