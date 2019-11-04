@@ -21,7 +21,7 @@ def create_folders(folders):
             pass
         else:
             os.mkdir(folder)
-def test_json(content):
+def test_json(content={}):
     try:
         json.dumps(content)
         return True
