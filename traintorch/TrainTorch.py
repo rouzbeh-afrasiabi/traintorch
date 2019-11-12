@@ -105,17 +105,18 @@ class traintorch:
 
         self._avg_axes=[]
         self.save_folder=os.path.join(cwd,'save')
+        self.run_folder=os.path.join(self.save_folder,'runs')
         self.timestamp=datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')
         self.uid=uuid.uuid4().hex
 
-        self.main_folder=os.path.join(self.save_folder,self.uid)
+        self.main_folder=os.path.join(self.run_folder,self.uid)
         self.timestamp_folder=os.path.join(self.main_folder,self.timestamp)
         self.image_folder=os.path.join(self.timestamp_folder,'images')
         self.video_folder=os.path.join(self.timestamp_folder,'videos')
         self.checkpoint_folder=os.path.join(self.timestamp_folder,'checkpoints')
         self.data_folder=os.path.join(self.timestamp_folder,'data')
         self.model_config=model_config
-        create_folders([self.save_folder,self.main_folder,
+        create_folders([self.save_folder,self.run_folder,self.main_folder,
                         self.timestamp_folder,self.image_folder,
                         self.video_folder,self.data_folder,
                         self.checkpoint_folder,
