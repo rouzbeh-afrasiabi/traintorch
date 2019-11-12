@@ -123,7 +123,7 @@ class traintorch:
 
         #write to logfile line by line        
         self.log_filename=log_filename
-        _log={'uid':self.uid,'timestamp':self.timestamp,'model_config': model_config}
+        _log={'uid':self.uid,'timestamp':self.timestamp,'model_config': self.model_config}
         to_log(self.save_folder,self.log_filename,_log) 
         
     def to_gif(self,name='',frame_rate=5):
