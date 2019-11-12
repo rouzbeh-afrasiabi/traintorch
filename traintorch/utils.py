@@ -29,7 +29,7 @@ def test_json(content={}):
         return False
     
 def to_log(location,log_filename,content):
-        log_loc=os.path.join(location,log_filename)
+        log_loc=os.path.join(location,log_filename+'.log')
         if(test_json(content)):
             with open(log_loc, 'a') as f:
                 if(os.stat(log_loc).st_size != 0):
