@@ -69,7 +69,7 @@ class traintorch:
     def __init__(self,figsize=(15,20),show_table=True,n_custom_plots=2,
                  top_rows=1,top_cols=2,plot_width=4,plot_height=4,nrows=2,ncols=1,
                 main_grid_hspace=0.5,main_grid_wspace=0.5,window=100,
-                 garbage_collection=True,save_plots=False,log_filename='main.log',
+                 garbage_collection=True,save_plots=False,log_filename='main',
                  model_config={},custom_window=[]):
 
         self.show_table=show_table
@@ -432,7 +432,7 @@ class metric:
         self.counter+=1
         self.__kwargs=kwargs
         if(self.save_data):
-            self.log_filename=self.name+'.log'
+            self.log_filename=self.name
             to_log(self.data_folder,self.log_filename,self.__kwargs) 
         for key in self.__kwargs.keys():
             if(key in self.__dict__ ):
@@ -592,7 +592,7 @@ class pycmMetrics():
         _cm=ConfusionMatrix(actual,predicted)
         self._to_dict(_cm)
         if(self.save_data):
-            self.log_filename=self.name+'.log'
+            self.log_filename=self.name
             _log={'overall_stat':_cm.__dict__['overall_stat'],'class_stat':_cm.__dict__['class_stat']}
             to_log(self.data_folder,self.log_filename,_log) 
         if(self.metrics_oa):
