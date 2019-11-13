@@ -1,6 +1,8 @@
 import sys
 import os
 import simplejson as json
+import uuid
+from uuid import UUID
 
 cwd = str(os.getcwd())
 sys.path.append(cwd)
@@ -28,7 +30,12 @@ def test_json(content={}):
     except:
         return False
     
-def to_log(location,log_filename,content):
+def to_log(location,content,log_filename='',custom_name=False):
+        try:
+            temp=UUID(hex=log_filename,version=4)
+        except:
+            if(not custom_name):
+                log_filename=uuid.uuid4().hex
         log_loc=os.path.join(location,log_filename+'.log')
         if(test_json(content)):
             with open(log_loc, 'a') as f:
