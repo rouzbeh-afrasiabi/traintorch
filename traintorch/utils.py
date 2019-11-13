@@ -30,7 +30,7 @@ def test_json(content={}):
     except:
         return False
     
-def to_log(location,content,log_filename='',custom_name=False):
+def log__(location,content,log_filename='',custom_name=False):
         try:
             temp=UUID(hex=log_filename,version=4)
         except:

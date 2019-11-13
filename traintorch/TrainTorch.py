@@ -125,7 +125,7 @@ class traintorch:
         #write to logfile line by line        
         self.log_filename=log_filename
         _log={'uid':self.uid,'timestamp':self.timestamp,'model_config': self.model_config}
-        to_log(self.save_folder,_log,self.log_filename,custom_name=True) 
+        log__(self.save_folder,_log,self.log_filename,custom_name=True) 
         
     def to_gif(self,name='',frame_rate=5):
         if(name):
@@ -171,6 +171,9 @@ class traintorch:
             video.release()
         else:
             raise Exception('No images found to convert to video.')
+    def log(self,**kwargs):
+        log_filename='user'
+        log__(self.data_folder,kwargs,log_filename,custom_name=True) 
         
     def append(self,plot_targets,table_targets=None):
         if(plot_targets):
@@ -434,7 +437,7 @@ class metric:
         self.__kwargs=kwargs
         if(self.save_data):
             self.log_filename=self.uid
-            to_log(self.data_folder,{self.name:self.__kwargs},self.log_filename) 
+            log__(self.data_folder,{self.name:self.__kwargs},self.log_filename) 
         for key in self.__kwargs.keys():
             if(key in self.__dict__ ):
                 self.__dict__[key].append(self.__kwargs[key])
@@ -596,7 +599,7 @@ class pycmMetrics():
         if(self.save_data):
             self.log_filename=self.uid
             _log={self.name:{'overall_stat':_cm.__dict__['overall_stat'],'class_stat':_cm.__dict__['class_stat']}}
-            to_log(self.data_folder,_log,self.log_filename,) 
+            log__(self.data_folder,_log,self.log_filename,) 
         if(self.metrics_oa):
             for k,v in self.cm_dict_overall.items():
                 self.metrics_oa[self.name+'_'+str(k)].update(**{self.name+'_'+str(k):v})
