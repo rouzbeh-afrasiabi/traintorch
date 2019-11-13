@@ -433,7 +433,7 @@ class metric:
         self.__kwargs=kwargs
         if(self.save_data):
             self.log_filename=self.name+'_metric'
-            to_log(self.data_folder,self.log_filename,self.__kwargs) 
+            to_log(self.data_folder,self.log_filename,{self.name:self.__kwargs}) 
         for key in self.__kwargs.keys():
             if(key in self.__dict__ ):
                 self.__dict__[key].append(self.__kwargs[key])
@@ -593,7 +593,7 @@ class pycmMetrics():
         self._to_dict(_cm)
         if(self.save_data):
             self.log_filename=self.name+'_metric'
-            _log={'overall_stat':_cm.__dict__['overall_stat'],'class_stat':_cm.__dict__['class_stat']}
+            _log={self.name:{'overall_stat':_cm.__dict__['overall_stat'],'class_stat':_cm.__dict__['class_stat']}}
             to_log(self.data_folder,self.log_filename,_log) 
         if(self.metrics_oa):
             for k,v in self.cm_dict_overall.items():
