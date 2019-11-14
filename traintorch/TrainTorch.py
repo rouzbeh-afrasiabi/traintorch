@@ -66,12 +66,15 @@ warnings.filterwarnings("ignore")
 
 
 class traintorch:
-    def __init__(self,figsize=(15,20),show_table=True,n_custom_plots=2,
+    def __init__(self,name='',figsize=(15,20),show_table=True,n_custom_plots=2,
                  top_rows=1,top_cols=2,plot_width=4,plot_height=4,nrows=2,ncols=1,
                 main_grid_hspace=0.5,main_grid_wspace=0.5,window=100,
                  garbage_collection=True,save_plots=False,log_filename='main',
                  model_config={},custom_window=[]):
-
+        if(name):
+            self.name=name
+        else:
+            raise Exception ('please provide a name for traintorch instance.')     
         self.show_table=show_table
         self.top_rows=top_rows
         self.top_cols=top_cols
@@ -105,7 +108,8 @@ class traintorch:
 
         self._avg_axes=[]
         self.save_folder=os.path.join(cwd,'save')
-        self.run_folder=os.path.join(self.save_folder,'runs')
+        self.project_folder=os.path.join(self.save_folder,self.name)
+        self.run_folder=os.path.join(self.project_folder,'runs')
         self.timestamp=datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')
         self.uid=uuid.uuid4().hex
 
@@ -116,8 +120,8 @@ class traintorch:
         self.checkpoint_folder=os.path.join(self.timestamp_folder,'checkpoints')
         self.data_folder=os.path.join(self.timestamp_folder,'data')
         self.model_config=model_config
-        create_folders([self.save_folder,self.run_folder,self.main_folder,
-                        self.timestamp_folder,self.image_folder,
+        create_folders([self.save_folder,self.project_folder,self.run_folder,
+                        self.main_folder,self.timestamp_folder,self.image_folder,
                         self.video_folder,self.data_folder,
                         self.checkpoint_folder,
                        ])
