@@ -28,7 +28,7 @@ class TestClass:
         assert test.x==[198]
         
     def test_traintorch(self):
-        tracker=traintorch(n_custom_plots=1,main_grid_hspace=.1, figsize=(15,10),show_table=True)
+        tracker=traintorch(name='test_it',n_custom_plots=1,main_grid_hspace=.1, figsize=(15,10),show_table=True)
         assert tracker.n_custom_plots==1
         assert tracker.main_grid_hspace==0.1
         assert tracker.figsize==(15,10)
