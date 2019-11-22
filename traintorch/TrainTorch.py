@@ -128,8 +128,8 @@ class traintorch:
 
         #write to logfile line by line        
         self.log_filename=log_filename
-        _log={'uid':self.uid,'timestamp':self.timestamp,'model_config': self.model_config}
-        log__(self.save_folder,_log,self.log_filename,custom_name=True) 
+        _log={'name':self.name,'uid':self.uid,'timestamp':self.timestamp,'model_config': self.model_config}
+        log__(self.project_folder,_log,self.log_filename,custom_name=True) 
         
     def to_gif(self,name='',frame_rate=5):
         if(name):
