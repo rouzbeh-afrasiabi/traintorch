@@ -119,6 +119,8 @@ class traintorch:
         self.video_folder=os.path.join(self.timestamp_folder,'videos')
         self.checkpoint_folder=os.path.join(self.timestamp_folder,'checkpoints')
         self.data_folder=os.path.join(self.timestamp_folder,'data')
+        self.data_folder=os.path.join(self.timestamp_folder,'snapshot')
+
         self.model_config=model_config
         create_folders([self.save_folder,self.project_folder,self.run_folder,
                         self.main_folder,self.timestamp_folder,self.image_folder,
