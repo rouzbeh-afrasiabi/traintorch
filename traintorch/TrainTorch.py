@@ -69,7 +69,7 @@ class traintorch:
     def __init__(self,name='',figsize=(15,20),show_table=True,n_custom_plots=2,
                  top_rows=1,top_cols=2,plot_width=4,plot_height=4,nrows=2,ncols=1,
                 main_grid_hspace=0.5,main_grid_wspace=0.5,window=100,
-                 garbage_collection=True,save_plots=False,log_filename='main',
+                 garbage_collection=True,save_plots=False,save_snapshot=True,log_filename='main',
                  model_config={},custom_window=[]):
         if(name):
             self.name=name
@@ -97,6 +97,7 @@ class traintorch:
         self.figsize=figsize
         self.garbage_collection=garbage_collection
         self.save_plots=save_plots
+        self.save_snapshot=save_snapshot
         #this needs to be fixed
         if(custom_window==[] and n_custom_plots>0):
             self.custom_window=[self.window]*n_custom_plots
@@ -119,7 +120,7 @@ class traintorch:
         self.video_folder=os.path.join(self.timestamp_folder,'videos')
         self.checkpoint_folder=os.path.join(self.timestamp_folder,'checkpoints')
         self.data_folder=os.path.join(self.timestamp_folder,'data')
-        self.snapshot=os.path.join(self.timestamp_folder,'snapshot')
+        self.snapshot_folder=os.path.join(self.timestamp_folder,'snapshot')
 
         self.model_config=model_config
         create_folders([self.save_folder,self.project_folder,self.run_folder,
@@ -134,7 +135,8 @@ class traintorch:
         log__(self.project_folder,_log,self.log_filename,custom_name=True) 
         
         #create a snapshot
-        snap__(self.snapshot)
+        if(self.save_snapshot):
+            snap__(self.snapshot_folder)
         
     def to_gif(self,name='',frame_rate=5):
         if(name):

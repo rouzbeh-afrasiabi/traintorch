@@ -6,6 +6,7 @@ import simplejson as json
 from uuid import UUID
 import shutil 
 import numpy as np
+from hashlib import md5
 
 cwd = str(os.getcwd())
 sys.path.append(cwd)
@@ -62,12 +63,22 @@ def find_checkpoints(folder,ext='.pth'):
 
 def snap__(destination='',default_extensions=[".py",".ipynb"]):
     
+    global hashes
+    hashes=[]
     ignore_dot=[item  for item in os.listdir(cwd) if(bool(re.match('^\.',item)))]
     ignore_underscore=[item  for item in os.listdir(cwd) if(bool(re.match('^\_',item)))]
     ignore_save=['save']
     defaultIgnore_folders=ignore_dot+ignore_underscore+ignore_save
     defaultIgnore_paths=[os.path.join(cwd,item) for item in defaultIgnore_folders]
-
+    
+    def make_archive(source, destination):
+            base = os.path.basename(destination)
+            name = base.split('.')[0]
+            format = base.split('.')[1]
+            archive_from = os.path.dirname(source)
+            archive_to = os.path.basename(source.strip(os.sep))
+            shutil.make_archive(name, format, archive_from, archive_to)
+            shutil.move('%s.%s'%(name,format), destination)    
 
     def get_ignored(path,filenames):
         to_ignore=[]
@@ -101,5 +112,13 @@ def snap__(destination='',default_extensions=[".py",".ipynb"]):
 
     try:
         _temp=shutil.copytree(cwd,destination,ignore=get_ignored)
+        base_name=os.path.dirname(os.path.normpath(destination))
+        zip_file=os.path.join(base_name,'archive.zip')
+        make_archive(destination,zip_file)
+#         m = md5()
+#         with open(os.path.join(destination,'archive.zip'), "rb") as f:
+#             data = f.read()
+#             m.update(data)
+#             hashes.append(m.hexdigest())
     except:
         raise Exception ("Failed to create snapshot")   
