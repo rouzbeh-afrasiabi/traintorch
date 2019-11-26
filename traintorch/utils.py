@@ -1,8 +1,11 @@
 import sys
 import os
-import simplejson as json
 import uuid
+import re
+import simplejson as json
 from uuid import UUID
+import shutil 
+import numpy as np
 
 cwd = str(os.getcwd())
 sys.path.append(cwd)
@@ -56,3 +59,47 @@ def find_checkpoints(folder,ext='.pth'):
                         if (os.path.join(folder,dir, filename) not in checkpoint_files):
                             checkpoint_files.append(os.path.join(folder,dir, filename))
     return(checkpoint_files)
+
+def snap__(destination='',default_extensions=[".py",".ipynb"]):
+    
+    ignore_dot=[item  for item in os.listdir(cwd) if(bool(re.match('^\.',item)))]
+    ignore_underscore=[item  for item in os.listdir(cwd) if(bool(re.match('^\_',item)))]
+    ignore_save=['save']
+    defaultIgnore_folders=ignore_dot+ignore_underscore+ignore_save
+    defaultIgnore_paths=[os.path.join(cwd,item) for item in defaultIgnore_folders]
+
+
+    def get_ignored(path,filenames):
+        to_ignore=[]
+
+        ignore_file='ttignore.txt'
+        ttignore=[]
+        if(os.path.exists(os.path.join(path,ignore_file))):
+            with open(os.path.join(path,ignore_file),"r") as F:
+                for k,line in enumerate(F):
+                    ttignore.append(os.path.join(path,line.splitlines()[0]))
+            if(ttignore):
+                ttignore=list(np.hstack(np.array(ttignore))) 
+        ignore_paths=defaultIgnore_paths+ttignore
+
+        for filename in filenames:
+            if(path in ignore_paths):
+                to_ignore.append(filename)
+            elif(any([filename.endswith(ext) for ext in default_extensions])):
+                if(os.path.join(path,filename) in ignore_paths):
+                    to_ignore.append(filename)
+                else:
+                    continue
+            else:
+                if(not os.path.isdir(filename)):
+                    to_ignore.append(filename)
+                else:
+                    if(os.path.join(path,filename) in ignore_paths):
+                        to_ignore.append(filename)
+        return list(set(to_ignore))
+
+
+    try:
+        _temp=shutil.copytree(cwd,destination,ignore=get_ignored)
+    except:
+        raise Exception ("Failed to create snapshot")   

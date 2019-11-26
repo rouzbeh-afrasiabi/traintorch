@@ -119,7 +119,7 @@ class traintorch:
         self.video_folder=os.path.join(self.timestamp_folder,'videos')
         self.checkpoint_folder=os.path.join(self.timestamp_folder,'checkpoints')
         self.data_folder=os.path.join(self.timestamp_folder,'data')
-        self.data_folder=os.path.join(self.timestamp_folder,'snapshot')
+        self.snapshot=os.path.join(self.timestamp_folder,'snapshot')
 
         self.model_config=model_config
         create_folders([self.save_folder,self.project_folder,self.run_folder,
@@ -132,6 +132,9 @@ class traintorch:
         self.log_filename=log_filename
         _log={'name':self.name,'uid':self.uid,'timestamp':self.timestamp,'model_config': self.model_config}
         log__(self.project_folder,_log,self.log_filename,custom_name=True) 
+        
+        #create a snapshot
+        snap__(self.snapshot)
         
     def to_gif(self,name='',frame_rate=5):
         if(name):
