@@ -118,6 +118,5 @@ def archive__(source, destination,filename):
             archive_to = os.path.basename(source.strip(os.sep))
             shutil.make_archive(name, format, archive_from, archive_to)
             shutil.move('%s.%s'%(name,format), destination)   
-    base_name=os.path.dirname(os.path.normpath(destination))
-    zip_file=os.path.join(base_name,filename+'.zip')
-    make_archive(destination,zip_file)
+    zip_file=os.path.join(destination,filename+'.zip')
+    make_archive(source,zip_file)

@@ -108,6 +108,7 @@ class traintorch:
                 self.custom_window=[custom_window]
         
         self._avg_axes=[]
+        self.root_folder=cwd
         self.save_folder=os.path.join(cwd,'save')
         self.project_folder=os.path.join(self.save_folder,self.name)
         self.run_folder=os.path.join(self.project_folder,'runs')
