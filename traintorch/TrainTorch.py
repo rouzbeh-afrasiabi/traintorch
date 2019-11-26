@@ -106,7 +106,7 @@ class traintorch:
                 self.custom_window=custom_window
             else:
                 self.custom_window=[custom_window]
-
+        
         self._avg_axes=[]
         self.save_folder=os.path.join(cwd,'save')
         self.project_folder=os.path.join(self.save_folder,self.name)
@@ -128,15 +128,16 @@ class traintorch:
                         self.video_folder,self.data_folder,
                         self.checkpoint_folder,
                        ])
-
-        #write to logfile line by line        
-        self.log_filename=log_filename
-        _log={'name':self.name,'uid':self.uid,'timestamp':self.timestamp,'model_config': self.model_config}
-        log__(self.project_folder,_log,self.log_filename,custom_name=True) 
-        
+        self.checksum=None
         #create a snapshot
         if(self.save_snapshot):
-            snap__(self.snapshot_folder)
+            self.checksum=snap__(self.snapshot_folder)
+            
+        #write to logfile line by line        
+        self.log_filename=log_filename
+        _log={'name':self.name,'checksum':self.checksum,'uid':self.uid,'timestamp':self.timestamp,'model_config': self.model_config}
+        log__(self.project_folder,_log,self.log_filename,custom_name=True) 
+        
         
     def to_gif(self,name='',frame_rate=5):
         if(name):
