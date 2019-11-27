@@ -161,15 +161,14 @@ class traintorch:
             imageio.mimsave(video_loc, ims,fps=frame_rate)
         else:
             raise Exception('No images found to convert to video.')
-    def to_zip(destination,filename='',source=''):
-        if(not filename):
-            filename='archive'
+    def to_zip(self,source='',filename='archive'):
+        filename=filename+'_'+self.timestamp
         if(source=='current_project'):
-            archive__(slef.project_folder,tracker.root_folder,filename)
+            archive__(self.project_folder,self.root_folder,filename)
         if(source=='all_projects'):
-            archive__(slef.save_folder,tracker.root_folder,filename)
-        if(source and (source in [f.name for f in os.scandir(tracker.project_folder) if f.is_dir() ])):
-            archive__(os.path.join(self.save_folder,source),tracker.root_folder,filename)
+            archive__(self.save_folder,self.root_folder,filename)
+        if(source and (source in [f.name for f in os.scandir(self.project_folder) if f.is_dir() ])):
+            archive__(os.path.join(self.save_folder,source),self.root_folder,source+'_'+filename)
             
     def to_video(self,name='',frame_rate=5):
         if(name):
