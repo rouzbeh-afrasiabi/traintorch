@@ -9,6 +9,10 @@ import numpy as np
 from hashlib import md5
 from checksumdir import dirhash
 
+import nbformat
+from nbconvert import HTMLExporter, PythonExporter
+from nbconvert.writers import FilesWriter
+
 cwd = str(os.getcwd())
 sys.path.append(cwd)
 sys.path.insert(0, cwd)
@@ -51,16 +55,28 @@ def log__(location,content,log_filename='',custom_name=False):
         else:
             raise Exception('Content not json serializable.') 
             
-def find_checkpoints(folder,ext='.pth'):
+def listall_ext(folder,ext='.pth'):
     checkpoint_files=[]
     for root, dirs, files in os.walk(folder):
-        for dir in dirs:
-            for child_root, child_dirs, child_files in os.walk(dir):
-                for filename in child_files:
-                    if(filename.endswith(ext)):
-                        if (os.path.join(folder,dir, filename) not in checkpoint_files):
-                            checkpoint_files.append(os.path.join(folder,dir, filename))
-    return(checkpoint_files)
+        for filename in files:
+            if(filename.endswith(ext)):
+                checkpoint_files.append(os.path.join(root, filename))
+    return(list(set(checkpoint_files)))
+
+def ipynb_to_py(target_folder):
+    files=listall_ext(target_folder,'.ipynb')
+    for file in files:
+        file_name=os.path.join(os.path.dirname(file),os.path.basename(os.path.splitext(file)[0]))
+        notebook_node=nbformat.read(file, as_version=4)
+        exporter=PythonExporter()
+        (body, resources) = exporter.from_notebook_node(notebook_node)
+        write_file = FilesWriter()
+        write_file.write(
+            output=body,
+            resources=resources,
+            notebook_name=file_name
+        )
+        os.remove(file)
 
 def snap__(destination='',default_extensions=[".py",".ipynb"]):
     
@@ -103,6 +119,7 @@ def snap__(destination='',default_extensions=[".py",".ipynb"]):
 
     try:
         _temp=shutil.copytree(cwd,destination,ignore=get_ignored)
+        ipynb_to_py(os.path.join(cwd,destination))
         checksum=dirhash(destination,'md5')
         return (checksum)
     except:
