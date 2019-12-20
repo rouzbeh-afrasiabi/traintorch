@@ -13,6 +13,8 @@ import nbformat
 from nbconvert import HTMLExporter, PythonExporter
 from nbconvert.writers import FilesWriter
 
+import pandas as pd
+
 cwd = str(os.getcwd())
 sys.path.append(cwd)
 sys.path.insert(0, cwd)
@@ -54,6 +56,19 @@ def log__(location,content,log_filename='',custom_name=False):
                     f.write(json.dumps(content))
         else:
             raise Exception('Content not json serializable.') 
+def getlog__(log_file):
+    content=[]
+    with open(log_file,"r") as F:
+        for k,line in enumerate(F):
+            content.append(json.loads(line))
+    return content
+
+def getlognorm__(log_file):
+    content=[]
+    with open(log_file,"r") as F:
+        for k,line in enumerate(F):
+            content.append(json.loads(line))
+    return pd.io.json.json_normalize(content)
             
 def listall_ext(folder,ext='.pth'):
     checkpoint_files=[]
