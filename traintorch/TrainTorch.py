@@ -194,7 +194,17 @@ class traintorch:
             raise Exception('No images found to convert to video.')
     def log(self,**kwargs):
         log_filename='user'
-        log__(self.data_folder,kwargs,log_filename,custom_name=True) 
+        log__(self.data_folder,kwargs,log_filename,custom_name=True)
+    def checkpoint(self,checkpoint_filename='',**kwargs):
+        log_filename='checkpoints'
+        kwargs['log_type']='checkpoint'
+        kwargs['time_stamp']=datetime.now().strftime('%Y-%m-%d-%H-%M-%S-%f')
+        kwargs['checkpoint_uid']=uuid.uuid4().hex
+        if(checkpoint_filename):
+            kwargs['checkpoint_filename']=checkpoint_filename   
+        else:
+            kwargs['checkpoint_filename']='' 
+        log__(self.checkpoint_folder,kwargs,log_filename,custom_name=True) 
         
     def append(self,plot_targets,table_targets=None):
         if(plot_targets):
