@@ -206,7 +206,7 @@ class traintorch:
             kwargs['checkpoint_filename']='' 
         log__(self.checkpoint_folder,kwargs,log_filename,custom_name=True) 
         
-    def append(self,plot_targets,table_targets=None):
+    def follow(self,plot_targets,table_targets=None):
         if(plot_targets):
             temp=[]
             for item in plot_targets:
