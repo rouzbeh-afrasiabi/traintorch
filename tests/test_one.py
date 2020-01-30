@@ -39,5 +39,5 @@ class TestClass:
         for i in range(0,100):
             pass
             test.update(x=2*i,t=i,f=3*i)
-        tracker.append([test])
+        tracker.follow([test])
         tracker.plot()
