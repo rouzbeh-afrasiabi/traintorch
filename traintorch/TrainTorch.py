@@ -207,7 +207,7 @@ class traintorch:
         if(checkpoint_location):
             kwargs['checkpoint_location']=checkpoint_location   
         else:
-            kwargs['checkpoint_filename']='' 
+            kwargs['checkpoint_location']='' 
         log__(self.checkpoint_folder,kwargs,log_filename,custom_name=True) 
         
     def follow(self,plot_targets,table_targets=None):
