@@ -38,6 +38,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 from traintorch.utils import *
+from traintorch.results import *
 import matplotlib.pyplot as plt
 from IPython.display import clear_output
 import pandas as pd
@@ -192,6 +193,11 @@ class traintorch:
             video.release()
         else:
             raise Exception('No images found to convert to video.')
+
+    def get_results(self,):
+        results=Results(self.name)
+        return results
+
     def log(self,**kwargs):
         log_filename='user'
         log__(self.data_folder,kwargs,log_filename,custom_name=True)
@@ -318,10 +324,13 @@ class traintorch:
                     #adds the main plots
                     for i in range(0,self.parent.n_custom_plots):
                         try:
+                            if(not self.parent.custom_metrics[i].updated):
+                                self.parent.custom_metrics[i].updated=True
+                                custom_data=pd.DataFrame([0,0,0,0],columns=['Waiting for Data ...'])
                             if(self.parent.custom_metrics[i].updated):
                                 custom_data=self.parent.custom_metrics[i].window()
                                 if(custom_data.empty):
-                                    custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
+                                    custom_data=pd.DataFrame([0,0,0,0],columns=['Waiting for Data ...'])
                                 #This can be optimized later
                                 
 #                                 top_axes[i].clear()
@@ -329,7 +338,11 @@ class traintorch:
                                     self.parent.top_axes[i].plot(custom_data.iloc[-1*self.parent.custom_metrics[i].w_size:,:])
                                 else:
                                     self.parent.top_axes[i].plot(custom_data)
-                                self.parent.top_axes[i].legend(self.parent.custom_metrics[i].window().columns)
+                                legends=[col if (col) else 'Waiting for Data ...'\
+                                         for col in self.parent.custom_metrics[i].window().columns]
+                                if(not legends):
+                                    legends=['Waiting for Data ...'] 
+                                self.parent.top_axes[i].legend(legends)
                                 self.parent.top_axes[i].set_title(self.parent.custom_metrics[i].name)
                                 self.parent.top_axes[i].set_ylabel('')
                                 self.parent.top_axes[i].set_xlabel('')
@@ -353,7 +366,7 @@ class traintorch:
                                     if(self.parent.custom_metrics[i].n_ticks):
                                         _k,_l=self.parent.custom_metrics[i].n_ticks
                                         self.parent._avg_axes[i].xaxis.set_major_locator(plt.MaxNLocator(_k,integer=True))
-                                        self.parent._avg_axes[i].yaxis.set_major_locator(plt.MaxNLocator(_l,integer=True))                                        
+                                        self.parent._avg_axes[i].yaxis.set_major_locator(plt.MaxNLocator(_l,integer=True))  
 
                         except Exception as error:
                             print(error, 'Happened while adding main plots.')
@@ -400,10 +413,12 @@ class traintorch:
                         lines=item.get_lines()
                     #**** Following does not make sense
                         if(custom_data.empty):
-                            custom_data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
-
-#                         lines[0].get_xydata()
-                        item.legend(self.parent.custom_metrics[i].window().columns,loc='upper center',
+                            custom_data=pd.DataFrame([0,0,0,0],columns=['Waiting for Data ...'])
+                        
+                        legends=[col if (col) else 'Waiting for Data ...' for col in self.parent.custom_metrics[i].window().columns]
+                        if(not legends):
+                            legends=['Waiting for Data ...']   
+                        item.legend(legends,loc='upper center',
                                     bbox_to_anchor=(0.5, -0.1),fancybox=True, shadow=True, ncol=5)
 
 
@@ -503,7 +518,7 @@ class metric:
             if(self.means):
                 _data=pd.concat(self.means,axis=1).T
             else:
-                _data=pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
+                _data=pd.DataFrame([0,0,0,0],columns=['Waiting for Data ...'])
         return _data
 
     def chunk(self,method='r'):
@@ -718,7 +733,7 @@ class collate():
             return(pd.concat(temp_a,axis=1))
         elif(self.type=='metric'):
             if(not self.target[0].means or not self.target[1].means):
-                return pd.DataFrame([0,0,0,0],columns=['No Data Available Yet'])
+                return pd.DataFrame([0,0,0,0],columns=['Waiting for Data ...'])
             else:
                 return pd.concat([pd.concat(item.means,axis=1) for item in self.target],axis=0).T   
 
