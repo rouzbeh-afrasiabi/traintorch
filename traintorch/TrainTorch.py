@@ -47,6 +47,7 @@ import sys
 import os
 import matplotlib.gridspec as gridspec
 from matplotlib.ticker import MaxNLocator
+import matplotlib as mpl
 import warnings
 import gc
 from pycm import *
@@ -65,6 +66,14 @@ if _ipy is not None:
 
 warnings.filterwarnings("ignore")
 
+
+import matplotlib.style as mplstyle
+mplstyle.use('fast')
+
+mpl.rcParams['path.simplify'] = True
+mpl.rcParams['path.simplify_threshold'] = 1
+
+# plt.rcParams['figure.dpi'] = 40
 
 class traintorch:
     def __init__(self,name='',figsize=(15,20),show_table=True,n_custom_plots=2,
